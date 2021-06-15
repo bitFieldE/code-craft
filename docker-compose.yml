@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:13.2-alpine
+    environment:
+      TZ: UTC
+      PGTZ: UTC
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    volumes:
+      - ./backend/tmp/db:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      args:
+        WORKDIR: $WORKDIR
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      FRONTEND_DOMAIN: "localhost:$FRONTEND_PORT"   
+    volumes:
+      - ./backend:/$WORKDIR
+    depends_on:
+      - db
+    ports:
+      - "$BACKEND_PORT:$CONTAINER_PORT"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        WORKDIR: $WORKDIR
+        CONTAINER_PORT: $CONTAINER_PORT
+        BACKEND_URL: "http://localhost:$BACKEND_PORT"
+    command: yarn run dev
+    volumes:
+      - ./frontend:/$WORKDIR
+    ports:
+      - "$FRONTEND_PORT:$CONTAINER_PORT"
+    depends_on:
+      - backend
