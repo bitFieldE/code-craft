@@ -1,0 +1,48 @@
+ja:
+  activerecord:
+    attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        description: 自己紹介
+        password: パスワード
+        activated: アクティブフラグ
+        admin: 管理者フラグ
+    datetime:
+      prompts:
+        second: 秒
+        minute: 分
+        hour: 時
+        day: 日
+        month: 月
+        year: 年
+      periods:
+        second: 秒
+        minute: 分
+        hour: 時間
+        day: 日
+        week: 週間
+        month: ヶ月
+        year: 年
+    errors:
+      messages:
+        record_invalid: 'バリデーションに失敗しました: %{errors}'
+        restrict_dependent_destroy:
+          has_one: "%{record}が存在しているので削除できません"
+          has_many: "%{record}が存在しているので削除できません"
+        invalid_password: は半角英数字•ﾊｲﾌﾝ•ｱﾝﾀﾞｰﾊﾞｰが使えます
+        accepted: を受諾してください
+        wrong: "%{record}が間違っています"
+        too_long: は%{count}文字以内で入力してください
+  date:
+    abbr_day_names:
+    - 日
+    - 月
+    - 火
+    - 水
+    - 木
+    - 金
+    - 土
+    abbr_month_names:
+    - 
+  

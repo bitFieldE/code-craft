@@ -1,0 +1,52 @@
+# Offense count: 2
+# Configuration parameters: AllowComments, AllowEmptyLambdas.
+# Lint/EmptyBlock:
+#  Exclude:
+#    - 'spec/factories/posts.rb'
+
+# Offense count: 1
+# Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
+# IgnoredMethods: refine
+Metrics/BlockLength:
+  Max: 50
+
+# trueかfalseを設定しないと警告が出る
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+
+# Style
+
+# 日本語のコメントを許可する
+Style/AsciiComments:
+  Enabled: false
+
+# ドキュメントの無いpublic classを許可する
+Style/Documentation:
+  Enabled: false
+
+# !! のイディオムを許可
+Style/DoubleNegation:
+  Enabled: false
+
+# 文字列をfreezeするか
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# selfが無くても良い時に省略するか。model内において、ローカル変数とメソッド呼び出しの区別をつけた方が分かりやすい場合が多い
+Style/RedundantSelf:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 27
+
+# Offense count: 3
+# Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
+Metrics/MethodLength:
+  Max: 27
+
+Layout/LineLength:
+  Max: 150

@@ -1,0 +1,15 @@
+{
+  "menus": {
+    "home": "ホーム",
+    "about": "CodeCraftとは"
+  },
+  "pages": {
+    "signup": "会員登録",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "users": {
+      "edit": "アカウント設定",
+      "password": "パスワード変更"
+    }
+  }
+}
