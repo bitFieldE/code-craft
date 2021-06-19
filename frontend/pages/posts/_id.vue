@@ -36,8 +36,23 @@
       <!-- eslint-disable vue/no-v-html -->
       <v-card-text v-html="$md.render(post.content)" />
       <!-- eslint-enable -->
+      <v-card-text>
+        <CommentArea />
+      </v-card-text>
       <v-card-text v-if="post.tags">
-        {{ post.tags }}
+        <v-chip-group
+          active-class="primary--text"
+          column
+        >
+          <v-chip
+            v-for="tag in post.tags"
+            :key="tag"
+            color="info"
+            outlined
+          >
+            {{ tag.name }}
+          </v-chip>
+        </v-chip-group>
       </v-card-text>
       <v-card-text>
         <TwitterBtn
@@ -51,15 +66,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import TwitterBtn from '~/components/atoms/posts/TwitterBtn'
+import CommentArea from '~/components/organisms/posts/CommentArea'
 
 export default {
   components: {
-    TwitterBtn
+    TwitterBtn,
+    CommentArea
   },
   async fetch ({ $axios, params, store }) {
     await $axios.get(`api/v1/posts/${params.id}`)
       .then((response) => {
-        console.log(response.data)
         store.commit('posts/setPost', response.data, { root: true })
       })
       .catch((error) => {

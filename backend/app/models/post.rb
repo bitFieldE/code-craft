@@ -3,6 +3,7 @@ class Post < ApplicationRecord
   has_many_attached :images
   has_many :post_tag_maps, dependent: :destroy
   has_many :tags, through: :post_tag_maps
+  has_many :comments
 
   def images_data
     url_list = []

@@ -30,6 +30,9 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <v-icon>
+      mdi-guy-fawkes-mask
+    </v-icon>
     <v-toolbar-title>
       CodeCraft
     </v-toolbar-title>
@@ -49,6 +52,7 @@
       <login-button />
     </template>
     <template v-else>
+      <Notification />
       <LoginBar />
     </template>
   </v-app-bar>
@@ -56,14 +60,16 @@
 
 <script>
 import LoginBar from '~/components/molecles/top/LoginBar'
-import LoginButton from '~/components/atoms/top/LoginButton.vue'
-import SignupButton from '~/components/atoms/top/SignupButton.vue'
+import Notification from '~/components/molecles/top/Notification'
+import LoginButton from '~/components/atoms/top/LoginButton'
+import SignupButton from '~/components/atoms/top/SignupButton'
 
 export default {
   components: {
     LoginBar,
     LoginButton,
-    SignupButton
+    SignupButton,
+    Notification
   },
   data () {
     return {

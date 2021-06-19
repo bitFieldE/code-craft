@@ -31,44 +31,48 @@
       </v-row>
     </v-img>
     <div>
-      <pre class="prettyprint linenums">
-        mounted () {
-          // https://github.com/google/code-prettify/issues/578
-          const prettyPrint = require('code-prettify')
-          this.$nextTick(function () {
-            prettyPrint.prettyPrint()
-          })
-        }
-        mounted () {
-          // https://github.com/google/code-prettify/issues/578
-          const prettyPrint = require('code-prettify')
-          this.$nextTick(function () {
-            prettyPrint.prettyPrint()
-          })
-        }
-      </pre>
+      <v-sheet
+        class="mx-auto"
+      >
+        <v-slide-group
+          v-model="model"
+          class="pa-4"
+          multiple
+          show-arrows
+        >
+          <v-slide-item
+            v-for="n in 15"
+            :key="n"
+            v-slot="{ active, toggle }"
+          >
+            <v-card
+              :color="active ? 'primary' : 'grey lighten-1'"
+              class="ma-4"
+              height="200"
+              width="150"
+              @click="toggle"
+            >
+              <v-row
+                class="fill-height"
+                align="center"
+                justify="center"
+              >
+                <v-scale-transition>
+                  <v-icon
+                    v-if="active"
+                    color="white"
+                    size="48"
+                    v-text="'mdi-close-circle-outline'"
+                  ></v-icon>
+                </v-scale-transition>
+              </v-row>
+            </v-card>
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>
     </div>
     <div>
       {{ $auth.user }}
-      <pre class="prettyprint linenums" />
-    </div>
-    <div>
-      <pre class="prettyprint linenums">
-        mounted () {
-          // https://github.com/google/code-prettify/issues/578
-          const prettyPrint = require('code-prettify')
-          this.$nextTick(function () {
-            prettyPrint.prettyPrint()
-          })
-        }
-        mounted () {
-          // https://github.com/google/code-prettify/issues/578
-          const prettyPrint = require('code-prettify')
-          this.$nextTick(function () {
-            prettyPrint.prettyPrint()
-          })
-        }
-      </pre>
     </div>
   </div>
 </template>
@@ -77,14 +81,8 @@
 export default {
   data () {
     return {
+      model: [],
       imgHeight: 300
-    }
-  },
-  head () {
-    return {
-      script: [
-        { src: 'https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=doxy' }
-      ]
     }
   }
 }

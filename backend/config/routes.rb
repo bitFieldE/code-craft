@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resource :passwords, only: [:update]
       resources :relationships, param: 'follow_id', only: %i[create destroy]
       resources :posts, except: [:new]
+      resources :comments, only: %i[create destroy]
       resources :users, except: [:edit] do
         get :current_user, action: :login_user, on: :collection
       end
