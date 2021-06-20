@@ -104,7 +104,7 @@
           </v-card>
         </v-tab-item>
         <v-tab-item>
-          {{ $auth.user }}
+          {{ user.posts }}
         </v-tab-item>
         <v-tab-item>
           talkroom

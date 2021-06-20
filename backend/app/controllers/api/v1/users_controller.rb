@@ -4,7 +4,7 @@ module Api
       before_action :authenticate_user, only: %i[update destroy]
 
       def login_user
-        render json: current_user.as_json(include: %i[tags followings followers], methods: [:image_url]), status: :ok
+        render json: current_user.as_json(include: [{posts: { methods: :images_data }}, :tags, :followings, :followers], methods: [:image_url]), status: :ok
       end
 
       def index; end
@@ -34,7 +34,7 @@ module Api
 
         if user.update(user_params)
           user.save_tags(tag_list)
-          render json: user.as_json(include: %i[tags followings followers], methods: [:image_url]), status: :ok
+          render json: user.as_json(include: %i[posts tags followings followers], methods: [:image_url]), status: :ok
         else
           render json: user.errors, status: :unprocessable_entity
         end

@@ -36,6 +36,7 @@ import editUser from '~/components/template/users/editUser'
 import editPassword from '~/components/template/users/editPassword'
 
 export default {
+  middleware: 'authenticated',
   components: {
     editUser,
     editPassword

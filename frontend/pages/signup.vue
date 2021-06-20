@@ -59,6 +59,7 @@ export default {
     formTemplate,
     TextFieldWithValidation
   },
+  middleware: 'authenticated',
   data ({ $route }) {
     return {
       show: false,

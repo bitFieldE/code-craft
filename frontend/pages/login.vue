@@ -56,6 +56,7 @@ export default {
     formTemplate,
     TextFieldWithValidation
   },
+  middleware: 'authenticated',
   data () {
     return {
       show: false,
