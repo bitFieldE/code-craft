@@ -1,6 +1,7 @@
 module Api
   module V1
     class RelationshipsController < ApplicationController
+      before_action :authenticate_user
       before_action :set_user
 
       def create

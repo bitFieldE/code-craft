@@ -62,6 +62,20 @@
         コメント一覧
       </v-card-title>
       <v-divider />
+      <v-container v-if="comments">
+        <v-row justify="center">
+          <v-col
+            v-for="comment in comments"
+            :key="comment.id"
+            cols="10"
+          >
+            <v-card>
+              {{ comment }}
+              {{ comment.user.name }}
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
       <v-card-text
         v-if="$auth.isAuthenticated()"
       >
@@ -105,6 +119,7 @@ export default {
     await $axios.get(`api/v1/posts/${params.id}`)
       .then((response) => {
         store.commit('posts/setPost', response.data, { root: true })
+        store.commit('comments/setComments', response.data.comments, { root: true })
       })
       .catch((error) => {
         console.log(error)
@@ -113,7 +128,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      post: 'posts/post'
+      post: 'posts/post',
+      comments: 'comments/comments'
     })
   }
 }

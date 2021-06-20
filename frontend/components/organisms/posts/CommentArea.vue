@@ -95,6 +95,10 @@ export default {
     post: {
       type: Object,
       default: null
+    },
+    comments: {
+      type: Array,
+      default: null
     }
   },
   data () {
@@ -124,7 +128,6 @@ export default {
             (response) => {
               this.content = ''
               this.$refs.form.reset()
-              console.log(response)
             },
             (error) => {
               return error

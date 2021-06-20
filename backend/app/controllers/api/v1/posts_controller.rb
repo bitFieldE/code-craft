@@ -7,7 +7,8 @@ module Api
       def index; end
 
       def show
-        render json: @post.as_json(include: [:tags, { user: { methods: :image_url } }], methods: [:images_data])
+        render json: @post.as_json(include: [{ user: { methods: :image_url } }, { comments: { include: {user: {methods: :image_url} } } }, :tags],
+                                   methods: [:images_data])
       end
 
       def create
@@ -21,7 +22,7 @@ module Api
 
         if post.save
           post.save_tags(tag_list)
-          render json: { post: post.as_json(include: [{ user: { methods: :image_url } }, :tags], methods: [:images_data]),
+          render json: { post: post.as_json(include: [{ user: { methods: :image_url } }, :tags, :comments], methods: [:images_data]),
                          message: '投稿を作成しました', status: :created }
         else
           render json: post.errors, status: :unprocessable_entity
