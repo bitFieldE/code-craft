@@ -10,7 +10,6 @@
         <v-rating
           v-model="inputValue"
           v-bind="$attrs"
-          background-color="grey darken-1"
           color="yellow darken-3"
           v-on="$listeners"
           dense

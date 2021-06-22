@@ -108,7 +108,7 @@
         </v-tab-item>
         <v-tab-item>
           <v-container>
-            <template v-if="user.posts.count > 0">
+            <template v-if="user.posts.length > 0">
               <v-card
                 v-for="post in user.posts"
                 :key="post.id"
@@ -121,7 +121,7 @@
                   <v-card-title style="font-size: 15px;">
                     {{ post.title }}
                   </v-card-title>
-                  <v-card-text>
+                  <v-card-actions>
                     <v-rating
                       :value="post.rate"
                       color="yellow darken-3"
@@ -131,10 +131,10 @@
                       dense
                       small
                     />
-                    <span class="font-weight-bold">
-                      {{ post.rate }}
+                    <span class="font-weight-bold pl-1">
+                      ( {{ post.rate }} )
                     </span>
-                  </v-card-text>
+                  </v-card-actions>
                 </nuxt-link>
                 <v-card-text v-if="post.tags">
                   <v-chip-group

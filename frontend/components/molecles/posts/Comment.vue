@@ -1,20 +1,24 @@
 <template>
   <v-card>
     <v-container>
-      <v-avatar color="black" size="40" class="mr-1">
-        <v-img
-          v-if="comment.user.image_url"
-          :src="comment.user.image_url"
-        />
-        <v-icon
-          v-else
-          color="white"
-          size="40"
-        >
-          mdi-account-circle
-        </v-icon>
-      </v-avatar>
-      {{ comment.user.name }}
+      <v-card-actions>
+        <v-avatar color="black" size="40" class="mr-1">
+          <v-img
+            v-if="comment.user.image_url"
+            :src="comment.user.image_url"
+          />
+          <v-icon
+            v-else
+            color="white"
+            size="40"
+          >
+            mdi-account-circle
+          </v-icon>
+        </v-avatar>
+        <span class="pl-2">
+          {{ comment.user.name }}
+        </span>
+      </v-card-actions>
       <v-card-text v-html="$md.render(comment.content)" />
       <v-card-subtitle class="pb-0">
         {{ comment.created_date }}
