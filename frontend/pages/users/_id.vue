@@ -79,11 +79,14 @@
     <v-container>
       <v-tabs-items v-model="tabTitle">
         <v-tab-item>
-          <v-card class="mx-1 my-10">
+          <v-card
+            class="mx-1 my-10"
+            color="greyLight4"
+          >
             <v-card-title>自己紹介</v-card-title>
             <v-divider />
             <v-card-text>
-              <p>{{ user.description }}</p>
+              {{ user.description }}
             </v-card-text>
             <v-card-subtitle>登録したタグ</v-card-subtitle>
             <v-card-text>
@@ -104,13 +107,61 @@
           </v-card>
         </v-tab-item>
         <v-tab-item>
-          {{ user.posts }}
+          <v-container>
+            <v-card
+              v-for="post in user.posts"
+              :key="post.id"
+              class="mb-8"
+            >
+              <nuxt-link
+                :to="{ path: `/posts/${post.id}` }"
+                style="color: inherit; text-decoration: none;"
+              >
+                <v-card-title style="font-size: 15px;">
+                  {{ post.title }}
+                </v-card-title>
+                <v-card-text>
+                  <v-rating
+                    :value="post.rate"
+                    color="yellow darken-3"
+                    background-color="grey darken-1"
+                    readonly
+                    half-increments
+                    small
+                  />
+                  <span class="font-weight-bold">
+                    {{ post.rate }}
+                  </span>
+                </v-card-text>
+              </nuxt-link>
+              <v-card-text v-if="post.tags">
+                <v-chip-group
+                  active-class="primary--text"
+                  column
+                >
+                  <v-chip
+                    v-for="tag in post.tags"
+                    :key="tag"
+                    color="info"
+                    outlined
+                    small
+                  >
+                    {{ tag.name }}
+                  </v-chip>
+                </v-chip-group>
+              </v-card-text>
+            </v-card>
+          </v-container>
         </v-tab-item>
         <v-tab-item>
           talkroom
         </v-tab-item>
         <v-tab-item>
-          consult
+          <v-container>
+            <v-btn color="warning">
+              イベントを作成する
+            </v-btn>
+          </v-container>
         </v-tab-item>
       </v-tabs-items>
     </v-container>
@@ -176,7 +227,7 @@ export default {
             this.$store.dispatch(
               'flash/showMessage',
               {
-                message: 'フォローできませんでした',
+                message: error,
                 color: 'error',
                 status: true
               },

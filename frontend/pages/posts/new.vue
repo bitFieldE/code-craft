@@ -55,7 +55,6 @@ import InputContent from '~/components/atoms/input/InputContent'
 import InputTags from '~/components/atoms/input/InputTags'
 
 export default {
-  middleware: 'authenticated',
   components: {
     TextFieldWithValidation,
     InputImages,
@@ -63,6 +62,7 @@ export default {
     InputContent,
     InputTags
   },
+  middleware: 'loginAuth',
   data () {
     return {
       title: '',

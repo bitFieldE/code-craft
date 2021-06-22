@@ -7,21 +7,18 @@ module Api
       def index; end
 
       def show
-        render json: @post.as_json(include: [{ user: { methods: :image_url } }, { comments: { include: {user: {methods: :image_url} } } }, :tags],
-                                   methods: [:images_data])
+        render json: @post.as_json(include: [{ user: { methods: :image_url } }, { comments: { include: {user: {methods: :image_url} }, methods: :created_date } }, :tags],
+                                   methods: [:images_data, :created_date])
       end
 
       def create
         post = Post.new(post_params)
         post.user = current_user
-        tag_list = []
         # 投稿した画像の保存
         params[:images].each { |image| post.images.attach(image) } if params[:images].present?
-        # 記事のタグの保存
-        tags_params[:tags].each { |post_tag| tag_list.push(post_tag) } if tags_params[:tags].present?
 
         if post.save
-          post.save_tags(tag_list)
+          post.save_tags(tags_params[:tags])
           render json: { post: post.as_json(include: [{ user: { methods: :image_url } }, :tags, :comments], methods: [:images_data]),
                          message: '投稿を作成しました', status: :created }
         else

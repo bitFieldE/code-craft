@@ -12,9 +12,9 @@ module Api
 
       def show
         user = User.includes({ image_attachment: :blob },
-                             { posts: [{ images_attachments: :blob }, { user: { image_attachment: :blob } }] },
+                             { posts: [{ images_attachments: :blob }, { user: { image_attachment: :blob } }, :tags] },
                              :followings, :followers, :tags).find(params[:id])
-        render json: user.as_json(include: [:followings, :followers, :tags, { posts: { methods: :images_data } }],
+        render json: user.as_json(include: [:followings, :followers, :tags, { posts: {include: [:tags], methods: :images_data }}],
                                   methods: :image_url)
       end
 
@@ -44,7 +44,7 @@ module Api
       def destroy
         user = User.find(params[:id])
         if user.destroy
-          render json: user, status: :ok
+          render json: { message: "退会しました", status: :ok }
         else
           render json: user.errors, status: :unprocessable_entity
         end

@@ -18,7 +18,6 @@
         コメントを投稿する
       </v-btn>
     </template>
-
     <v-card>
       <v-card-actions>
         <v-spacer />
@@ -95,10 +94,6 @@ export default {
     post: {
       type: Object,
       default: null
-    },
-    comments: {
-      type: Array,
-      default: null
     }
   },
   data () {
@@ -126,6 +121,7 @@ export default {
         await this.$axios.$post('/api/v1/comments', formData)
           .then(
             (response) => {
+              this.$store.commit('comments/addComments', response, { root: true })
               this.content = ''
               this.$refs.form.reset()
             },

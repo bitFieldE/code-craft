@@ -20,7 +20,6 @@
           />
         </client-only>
       </div>
-      <div v-html="$md.render(inputValue)" />
     </ValidationProvider>
   </v-card-text>
 </template>

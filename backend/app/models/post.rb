@@ -11,6 +11,10 @@ class Post < ApplicationRecord
     url_list
   end
 
+  def created_date
+    self.created_at&.strftime("%Y/%m/%d")
+  end
+
   def save_tags(tags)
     current_tags = self.tags.pluck(:name) unless self.tags.nil?
     old_tags = current_tags - tags

@@ -9,5 +9,8 @@ export const getters = {
 export const mutations = {
   setComments (state, comments) {
     state.comments = comments
+  },
+  addComments (state, comment) {
+    state.comments.push(comment)
   }
 }

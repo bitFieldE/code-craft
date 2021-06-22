@@ -1,62 +1,82 @@
 <template>
-  <v-container class="col-xs-12 col-sm-10 col-md-10">
-    <v-card>
-      <v-card-title>
-        {{ post.title }}
-      </v-card-title>
-      <v-carousel
-        v-if="post.images_data.length > 0"
-        :continuous="false"
-        :cycle="cycle"
-        :show-arrows="false"
-        hide-delimiter-background
-        delimiter-icon="mdi-minus"
-        height="300"
+  <v-container>
+    <v-row>
+      <v-col
+        cols="12"
       >
-        <v-carousel-item
-          v-for="(image, i) in post.images_data"
-          :key="i"
-          :src="image.url"
-        />
-      </v-carousel>
-      <v-card-text class="text-center">
-        <v-rating
-          :value="post.rate"
-          color="yellow darken-3"
-          background-color="grey darken-1"
-          readonly
-          half-increments
-          small
-        />
-        <span class="font-weight-bold">
-          {{ post.rate }}
-        </span>
-      </v-card-text>
-      <v-divider />
-      <!-- eslint-disable vue/no-v-html -->
-      <v-card-text v-html="$md.render(post.content)" />
-      <!-- eslint-enable -->
-      <v-card-text v-if="post.tags">
-        <v-chip-group
-          active-class="primary--text"
-          column
-        >
-          <v-chip
-            v-for="tag in post.tags"
-            :key="tag"
-            color="info"
-            outlined
+        <v-card>
+          <v-card-subtitle>
+            {{ post.created_date }}
+          </v-card-subtitle>
+          <v-card-title>
+            <h4>{{ post.title }}</h4>
+          </v-card-title>
+          <v-carousel
+            v-if="post.images_data.length > 0"
+            :continuous="false"
+            :cycle="cycle"
+            :show-arrows="false"
+            hide-delimiter-background
+            delimiter-icon="mdi-minus"
+            height="300"
           >
-            {{ tag.name }}
-          </v-chip>
-        </v-chip-group>
-      </v-card-text>
-      <v-card-text>
-        <TwitterBtn
-          :post="post"
-        />
-      </v-card-text>
-    </v-card>
+            <v-carousel-item
+              v-for="(image, i) in post.images_data"
+              :key="i"
+              :src="image.url"
+            />
+          </v-carousel>
+          <v-card-text class="text-center">
+            <v-rating
+              :value="post.rate"
+              color="yellow darken-3"
+              background-color="grey darken-1"
+              readonly
+              half-increments
+              small
+            />
+            <span class="font-weight-bold">
+              {{ post.rate }}
+            </span>
+          </v-card-text>
+          <v-divider />
+          <!-- eslint-disable vue/no-v-html -->
+          <v-card-text v-html="$md.render(post.content)" />
+          <!-- eslint-enable -->
+          <v-card-text v-if="post.tags">
+            <v-chip-group
+              active-class="primary--text"
+              column
+            >
+              <v-chip
+                v-for="tag in post.tags"
+                :key="tag"
+                color="info"
+                outlined
+                small
+              >
+                {{ tag.name }}
+              </v-chip>
+            </v-chip-group>
+          </v-card-text>
+          <v-card-text>
+            <TwitterBtn
+              :post="post"
+            />
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+      >
+        <v-card>
+          <v-container>
+            {{ post.user.name }}
+            {{ post.user.description }}
+          </v-container>
+        </v-card>
+      </v-col>
+    </v-row>
     <v-card class="mt-10">
       <v-card-title>
         コメント一覧
@@ -65,42 +85,51 @@
       <v-container v-if="comments">
         <v-row justify="center">
           <v-col
-            v-for="comment in comments"
-            :key="comment.id"
-            cols="10"
+            cols="12"
+            sm="12"
+            lg="10"
           >
-            <v-card>
-              {{ comment }}
-              {{ comment.user.name }}
-            </v-card>
+            <Comment
+              v-for="comment in comments"
+              :key="comment.id"
+              class="mt-4"
+              :comment="comment"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="12"
+            lg="10"
+          >
+            <v-card-text
+              v-if="$auth.isAuthenticated()"
+              class="px-0"
+            >
+              <CommentArea
+                :post="post"
+              />
+            </v-card-text>
+            <template
+              v-else
+            >
+              <v-card-text class="pb-0">
+                <v-btn
+                  to="/signup"
+                  color="warning"
+                >
+                  会員登録
+                </v-btn>
+              </v-card-text>
+              <v-card-text>
+                <span>すでにアカウントをお持ちですか？</span>
+                <nuxt-link to="/login">
+                  ログインに移動
+                </nuxt-link>
+              </v-card-text>
+            </template>
           </v-col>
         </v-row>
       </v-container>
-      <v-card-text
-        v-if="$auth.isAuthenticated()"
-      >
-        <CommentArea
-          :post="post"
-        />
-      </v-card-text>
-      <template
-        v-else
-      >
-        <v-card-text class="pb-0">
-          <v-btn
-            to="/signup"
-            color="warning"
-          >
-            会員登録
-          </v-btn>
-        </v-card-text>
-        <v-card-text>
-          <span>すでにアカウントをお持ちですか？</span>
-          <nuxt-link to="/login">
-            ログインに移動
-          </nuxt-link>
-        </v-card-text>
-      </template>
     </v-card>
   </v-container>
 </template>
@@ -108,12 +137,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import TwitterBtn from '~/components/atoms/posts/TwitterBtn'
-import CommentArea from '~/components/organisms/posts/CommentArea'
+import Comment from '~/components/molecles/posts/Comment'
+import CommentArea from '~/components/molecles/posts/CommentArea'
 
 export default {
   components: {
     TwitterBtn,
-    CommentArea
+    CommentArea,
+    Comment
   },
   async fetch ({ $axios, params, store }) {
     await $axios.get(`api/v1/posts/${params.id}`)
