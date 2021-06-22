@@ -116,7 +116,6 @@ export default {
       if (isValid) {
         formData.append('comment[user_id]', this.$auth.user.id)
         formData.append('comment[post_id]', this.post.id)
-        console.log(this.post.id)
         formData.append('comment[content]', this.content)
         await this.$axios.$post('/api/v1/comments', formData)
           .then(

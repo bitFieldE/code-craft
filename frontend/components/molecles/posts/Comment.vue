@@ -22,7 +22,10 @@
           v-if="comment.user.id == $auth.user.id"
           icon
         >
-          <v-icon size="20">
+          <v-icon
+            size="20"
+            @click="deleteComment(comment.id)"
+          >
             mdi-trash-can-outline
           </v-icon>
         </v-btn>
@@ -37,6 +40,19 @@ export default {
     comment: {
       type: Object,
       default: () => {}
+    }
+  },
+  methods: {
+    async deleteComment (commentId) {
+      await this.$axios.$delete(`/api/v1/comments/${commentId}`)
+        .then(
+          (response) => {
+            this.$store.commit('comments/deleteComment', commentId, { root: true })
+          },
+          (error) => {
+            return error
+          }
+        )
     }
   }
 }

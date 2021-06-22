@@ -108,49 +108,69 @@
         </v-tab-item>
         <v-tab-item>
           <v-container>
-            <v-card
-              v-for="post in user.posts"
-              :key="post.id"
-              class="mb-8"
-            >
-              <nuxt-link
-                :to="{ path: `/posts/${post.id}` }"
-                style="color: inherit; text-decoration: none;"
+            <template v-if="user.posts.count > 0">
+              <v-card
+                v-for="post in user.posts"
+                :key="post.id"
+                class="mb-8"
               >
-                <v-card-title style="font-size: 15px;">
-                  {{ post.title }}
-                </v-card-title>
-                <v-card-text>
-                  <v-rating
-                    :value="post.rate"
-                    color="yellow darken-3"
-                    background-color="grey darken-1"
-                    readonly
-                    half-increments
-                    small
-                  />
-                  <span class="font-weight-bold">
-                    {{ post.rate }}
-                  </span>
-                </v-card-text>
-              </nuxt-link>
-              <v-card-text v-if="post.tags">
-                <v-chip-group
-                  active-class="primary--text"
-                  column
+                <nuxt-link
+                  :to="{ path: `/posts/${post.id}` }"
+                  style="color: inherit; text-decoration: none;"
                 >
-                  <v-chip
-                    v-for="tag in post.tags"
-                    :key="tag"
-                    color="info"
-                    outlined
-                    small
+                  <v-card-title style="font-size: 15px;">
+                    {{ post.title }}
+                  </v-card-title>
+                  <v-card-text>
+                    <v-rating
+                      :value="post.rate"
+                      color="yellow darken-3"
+                      background-color="grey darken-1"
+                      readonly
+                      half-increments
+                      dense
+                      small
+                    />
+                    <span class="font-weight-bold">
+                      {{ post.rate }}
+                    </span>
+                  </v-card-text>
+                </nuxt-link>
+                <v-card-text v-if="post.tags">
+                  <v-chip-group
+                    active-class="primary--text"
+                    column
                   >
-                    {{ tag.name }}
-                  </v-chip>
-                </v-chip-group>
-              </v-card-text>
-            </v-card>
+                    <v-chip
+                      v-for="tag in post.tags"
+                      :key="tag"
+                      color="info"
+                      outlined
+                      small
+                    >
+                      {{ tag.name }}
+                    </v-chip>
+                  </v-chip-group>
+                </v-card-text>
+              </v-card>
+            </template>
+            <template v-else>
+              <v-card>
+                <v-card-text>
+                  投稿記事がありません
+                </v-card-text>
+                <div v-if="user.id==$auth.user.id">
+                  <v-divider />
+                  <v-card-text>
+                    <v-btn
+                      to="/posts/new"
+                    >
+                      投稿/レビューを行う
+                    </v-btn>
+                  </v-card-text>
+                </div>
+              </v-card>
+            </template>
           </v-container>
         </v-tab-item>
         <v-tab-item>

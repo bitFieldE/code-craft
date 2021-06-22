@@ -13,6 +13,7 @@
           background-color="grey darken-1"
           color="yellow darken-3"
           v-on="$listeners"
+          dense
         />
         <span class="font-weight-bold">
           {{ inputValue }}

@@ -26,7 +26,8 @@ export default {
   },
   data () {
     return {
-      errormessage: ''
+      errormessage: '',
+      search: ''
     }
   },
   computed: {

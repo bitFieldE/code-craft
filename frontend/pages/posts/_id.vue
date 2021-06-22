@@ -27,17 +27,18 @@
             />
           </v-carousel>
           <v-card-text class="text-center">
+            <span class="font-weight-bold">
+              ({{ post.rate }})
+            </span>
             <v-rating
               :value="post.rate"
               color="yellow darken-3"
               background-color="grey darken-1"
               readonly
               half-increments
+              dense
               small
             />
-            <span class="font-weight-bold">
-              {{ post.rate }}
-            </span>
           </v-card-text>
           <v-divider />
           <!-- eslint-disable vue/no-v-html -->
