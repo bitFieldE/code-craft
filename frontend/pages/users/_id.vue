@@ -7,17 +7,23 @@
       <v-row align="center" justify="center" no-gutters>
         <v-col xs="12" sm="10" md="8" lg="6">
           <v-layout class="py-3 pl-13" align-content-center>
-            <v-avatar v-if="user.image_url" color="white" size="65">
-              <v-img :src="user.image_url" />
-            </v-avatar>
-            <v-avatar v-else color="black" size="65">
-              <v-icon color="white" size="80">
-                mdi-account-circle
-              </v-icon>
-            </v-avatar>
+            <v-card-actions>
+              <v-avatar color="white" size="65">
+                <v-img
+                  v-if="user.image_url"
+                  :src="user.image_url"
+                />
+                <v-icon
+                  v-else
+                  size="80"
+                >
+                  mdi-account-circle
+                </v-icon>
+              </v-avatar>
+              <span class="pl-2">{{ user.name }}</span>
+            </v-card-actions>
             <v-list color="greyLight4">
               <v-list-item class="py-0 form-inline">
-                {{ user.name }}
                 <div v-if="$auth.loggedIn && user.id !== $auth.user.id">
                   <v-btn
                     v-if="is_followed"
@@ -109,50 +115,12 @@
         <v-tab-item>
           <v-container>
             <template v-if="user.posts.length > 0">
-              <v-card
+              <UserPosts
                 v-for="post in user.posts"
                 :key="post.id"
+                :post="post"
                 class="mb-8"
-              >
-                <nuxt-link
-                  :to="{ path: `/posts/${post.id}` }"
-                  style="color: inherit; text-decoration: none;"
-                >
-                  <v-card-title style="font-size: 15px;">
-                    {{ post.title }}
-                  </v-card-title>
-                  <v-card-actions>
-                    <v-rating
-                      :value="post.rate"
-                      color="yellow darken-3"
-                      background-color="grey darken-1"
-                      readonly
-                      half-increments
-                      dense
-                      small
-                    />
-                    <span class="font-weight-bold pl-1">
-                      ( {{ post.rate }} )
-                    </span>
-                  </v-card-actions>
-                </nuxt-link>
-                <v-card-text v-if="post.tags">
-                  <v-chip-group
-                    active-class="primary--text"
-                    column
-                  >
-                    <v-chip
-                      v-for="tag in post.tags"
-                      :key="tag"
-                      color="info"
-                      outlined
-                      small
-                    >
-                      {{ tag.name }}
-                    </v-chip>
-                  </v-chip-group>
-                </v-card-text>
-              </v-card>
+              />
             </template>
             <template v-else>
               <v-card>
@@ -191,9 +159,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import BarChart from '~/components/organisms/users/BarChart'
+import UserPosts from '~/components/organisms/users/UserPosts'
 
 export default {
   components: {
+    UserPosts,
     BarChart
   },
   data () {

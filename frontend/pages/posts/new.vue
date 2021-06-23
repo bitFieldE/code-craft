@@ -1,54 +1,56 @@
 <template>
   <v-container>
-    <v-card>
-      <ValidationObserver ref="form" v-slot="{ invalid }" immediate>
-        <v-form
-          ref="form"
-        >
-          <v-container>
-            <v-card-title>記事の詳細</v-card-title>
-            <TextFieldWithValidation
-              v-model="title"
-              label="タイトル"
-              placeholder="記事のタイトル"
-              :counter="50"
-              rules="max:50|required"
-            />
-            <InputRate
-              v-model="rate"
-              rules="required|min_value:0.5"
-              half-increments
-              hover
-              large
-            />
-            <InputImages
-              v-model="images"
-            />
-            <InputContent
-              v-model="content"
-              label="本文"
-              rules="required"
-            />
-            <v-card-subtitle>タグを入力</v-card-subtitle>
-            <InputTags
-              v-model="tags"
-            />
-            <v-card-text class="px-0">
-              <v-btn
-                color="warning"
-                class="white--text"
-                :disabled="invalid || loading"
-                :loading="loading"
-                block
-                @click="createPost"
-              >
-                作成する
-              </v-btn>
-            </v-card-text>
-          </v-container>
-        </v-form>
-      </ValidationObserver>
-    </v-card>
+    <v-row justify="center">
+      <v-col cols="11" xs="12" sm="12" md="11">
+        <v-card>
+          <ValidationObserver ref="form" v-slot="{ invalid }" immediate>
+            <v-form ref="form">
+              <v-container>
+                <v-card-title>記事の詳細</v-card-title>
+                <TextFieldWithValidation
+                  v-model="title"
+                  label="タイトル"
+                  placeholder="記事のタイトル"
+                  :counter="50"
+                  rules="max:50|required"
+                />
+                <InputRate
+                  v-model="rate"
+                  rules="required|min_value:0.5"
+                  half-increments
+                  hover
+                  large
+                />
+                <InputImages
+                  v-model="images"
+                />
+                <InputContent
+                  v-model="content"
+                  label="本文"
+                  rules="required"
+                />
+                <v-card-subtitle>タグを入力</v-card-subtitle>
+                <InputTags
+                  v-model="tags"
+                />
+                <v-card-text class="px-0">
+                  <v-btn
+                    color="warning"
+                    class="white--text"
+                    :disabled="invalid || loading"
+                    :loading="loading"
+                    block
+                    @click="createPost"
+                  >
+                    作成する
+                  </v-btn>
+                </v-card-text>
+              </v-container>
+            </v-form>
+          </ValidationObserver>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

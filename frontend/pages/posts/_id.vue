@@ -30,11 +30,10 @@
             <v-rating
               :value="post.rate"
               color="yellow darken-3"
-              background-color="grey darken-1"
+              background-color="darken-1"
               readonly
               half-increments
               dense
-              small
             />
             <span class="font-weight-bold">
               ({{ post.rate }})
