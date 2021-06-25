@@ -50,7 +50,7 @@
             >
               <v-chip
                 v-for="tag in post.tags"
-                :key="tag"
+                :key="tag.id"
                 color="info"
                 outlined
                 small

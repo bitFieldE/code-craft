@@ -19,10 +19,6 @@ export default {
     Header,
     Flash,
     Footer
-  },
-  data () {
-    return {
-    }
   }
 }
 </script>

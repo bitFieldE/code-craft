@@ -87,7 +87,6 @@
         <v-tab-item>
           <v-card
             class="mx-1 my-10"
-            color="greyLight4"
           >
             <v-card-title>自己紹介</v-card-title>
             <v-divider />
@@ -145,11 +144,7 @@
           talkroom
         </v-tab-item>
         <v-tab-item>
-          <v-container>
-            <v-btn color="warning">
-              イベントを作成する
-            </v-btn>
-          </v-container>
+          <v-container></v-container>
         </v-tab-item>
       </v-tabs-items>
     </v-container>
@@ -191,7 +186,7 @@ export default {
   computed: {
     ...mapGetters({ user: 'user/user' })
   },
-  created () {
+  mounted () {
     if (this.user.followers.find(v => v.id === this.$auth.user.id)) { this.is_followed = true }
   },
   methods: {
@@ -233,6 +228,7 @@ export default {
           (response) => {
             this.is_followed = false
             this.$store.commit('user/setUser', response.user, { root: true })
+            console.log(response.user)
             this.$store.dispatch(
               'flash/showMessage',
               {

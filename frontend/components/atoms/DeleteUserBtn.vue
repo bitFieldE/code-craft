@@ -1,7 +1,7 @@
 <template>
   <v-card-text class="py-0">
     <v-btn
-      color="primary"
+      color="error"
       text
       @click="deleteUser"
     >

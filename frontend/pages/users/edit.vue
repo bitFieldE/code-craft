@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row  align="center" justify="center">
-      <v-col cols="6">
+      <v-col cols="10" sm="12" xs="12" md="7" lg="6">
         <v-card>
           <v-tabs
             v-model="tab"

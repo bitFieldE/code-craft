@@ -1,25 +1,23 @@
 <template>
-  <v-card-text>
+  <v-card-text class="text-center">
     <ValidationProvider
       :name="$attrs.label"
       :rules="rules"
       :vid="$attrs.vid"
     >
-      <div class="text-center">
-        <h3>評価（必須）</h3>
-        <v-card-actions>
-          <span class="font-weight-bold">
-            ( {{ inputValue }} )
-          </span>
-          <v-rating
-            v-model="inputValue"
-            v-bind="$attrs"
-            color="yellow darken-3"
-            dense
-            v-on="$listeners"
-          />
-        </v-card-actions>
-      </div>
+      <v-card-subtitle>ツールレビュー（必須）</v-card-subtitle>
+      <v-card-actions>
+        <v-rating
+          v-model="inputValue"
+          v-bind="$attrs"
+          color="yellow darken-3"
+          dense
+          v-on="$listeners"
+        />
+        <span class="font-weight-bold">
+          ( {{ inputValue }} )
+        </span>
+      </v-card-actions>
     </ValidationProvider>
   </v-card-text>
 </template>
