@@ -7,15 +7,17 @@
     <template #activator="{ on, attrs }">
       <v-btn
         v-bind="attrs"
-        icon
+        color="info"
         v-on="on"
       >
-        <v-icon>
+        <v-icon
+          left
+        >
           mdi-comment-outline
         </v-icon>
+        コメントを投稿する
       </v-btn>
     </template>
-
     <v-card>
       <v-card-actions>
         <v-spacer />
@@ -31,10 +33,11 @@
       <v-tabs
         v-model="tab"
         color="info"
+        fixed-tabs
       >
         <v-tab
-          v-for="item in items"
-          :key="item"
+          v-for="(item, index) in items"
+          :key="index"
         >
           {{ item.name }}
         </v-tab>
@@ -46,20 +49,18 @@
               v-model="tab"
             >
               <v-tab-item>
-                <v-card-title>
-                  コメント
-                </v-card-title>
                 <v-card-text class="pb-0">
                   <TextAreaWithValidation
                     v-model="content"
                     label="コメント"
                     rules="required"
+                    outlined
                   />
                 </v-card-text>
               </v-tab-item>
               <v-tab-item>
                 <v-card-text
-                  style="min-height: 240px;"
+                  style="min-height: 200px;"
                   v-html="$md.render(content)"
                 />
               </v-tab-item>
@@ -90,6 +91,12 @@ export default {
   components: {
     TextAreaWithValidation
   },
+  props: {
+    post: {
+      type: Object,
+      default: null
+    }
+  },
   data () {
     return {
       content: '',
@@ -109,13 +116,14 @@ export default {
       this.loading = true
       if (isValid) {
         formData.append('comment[user_id]', this.$auth.user.id)
+        formData.append('comment[post_id]', this.post.id)
         formData.append('comment[content]', this.content)
         await this.$axios.$post('/api/v1/comments', formData)
           .then(
             (response) => {
+              this.$store.commit('comments/addComments', response, { root: true })
               this.content = ''
               this.$refs.form.reset()
-              console.log(response)
             },
             (error) => {
               return error

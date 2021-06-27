@@ -24,6 +24,7 @@
                 />
                 <InputImages
                   v-model="images"
+                  :value="post.images_data"
                 />
                 <InputContent
                   v-model="content"
@@ -56,6 +57,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import TextFieldWithValidation from '~/components/atoms/input/TextFieldWithValidation'
 import InputImages from '~/components/atoms/input/InputImages'
 import InputRate from '~/components/atoms/input/InputRate'
@@ -75,13 +77,33 @@ export default {
     return {
       title: '',
       content: '',
-      rate: 0,
+      rate: null,
       isEnter: false,
       loading: false,
-      showImages: [],
       images: [],
       tags: []
     }
+  },
+  async fetch ({ $axios, params, store }) {
+    await $axios.get(`api/v1/posts/${params.id}`)
+      .then((response) => {
+        store.commit('posts/setPost', response.data, { root: true })
+      })
+      .catch((error) => {
+        console.log(error)
+        return error
+      })
+  },
+  mounted () {
+    this.title = this.post.title
+    this.rate = this.post.rate
+    this.content = this.post.content
+    this.post.tags.forEach((tag) => {
+      this.tags.push(tag.name)
+    })
+  },
+  computed: {
+    ...mapGetters({ post: 'posts/post' })
   },
   methods: {
     async createPost () {
@@ -103,10 +125,9 @@ export default {
             formData.append('post[tags][]', tag)
           })
         }
-        await this.$axios.$post('/api/v1/posts', formData)
+        await this.$axios.$patch(`/api/v1/posts/${this.post.id}`, formData)
           .then(
             (response) => {
-              console.log(response)
               this.$store.dispatch(
                 'flash/showMessage',
                 {

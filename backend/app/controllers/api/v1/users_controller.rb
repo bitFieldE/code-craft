@@ -4,16 +4,17 @@ module Api
       before_action :authenticate_user, only: %i[update destroy]
 
       def login_user
-        render json: current_user.as_json(include: %i[tags followings followers], methods: [:image_url]), status: :ok
+        render json: current_user.as_json(include: [{ posts: { methods: :images_data } }, :tags, :followings, :followers], methods: [:image_url]),
+               status: :ok
       end
 
       def index; end
 
       def show
         user = User.includes({ image_attachment: :blob },
-                             { posts: [{ images_attachments: :blob }, { user: { image_attachment: :blob } }] },
-                             :followings, :followers, :tags).find(params[:id])
-        render json: user.as_json(include: [:followings, :followers, :tags, { posts: { methods: :images_data } }],
+                             { posts: [{ images_attachments: :blob }, { user: { image_attachment: :blob } }, :tags] },
+                              :events, :followings, :followers, :tags).find(params[:id])
+        render json: user.as_json(include: [{ posts: { include: [:tags], methods: %i[images_data created_date] } }, :events, :followings, :followers, :tags],
                                   methods: :image_url)
       end
 
@@ -34,7 +35,7 @@ module Api
 
         if user.update(user_params)
           user.save_tags(tag_list)
-          render json: user.as_json(include: %i[tags followings followers], methods: [:image_url]), status: :ok
+          render json: user.as_json(include: %i[posts tags followings followers], methods: [:image_url]), status: :ok
         else
           render json: user.errors, status: :unprocessable_entity
         end
@@ -43,7 +44,7 @@ module Api
       def destroy
         user = User.find(params[:id])
         if user.destroy
-          render json: user, status: :ok
+          render json: { message: '退会しました', status: :ok }
         else
           render json: user.errors, status: :unprocessable_entity
         end

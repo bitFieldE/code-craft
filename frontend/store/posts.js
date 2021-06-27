@@ -12,5 +12,3 @@ export const mutations = {
     state.post = post
   }
 }
-
-export const actions = {}

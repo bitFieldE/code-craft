@@ -7,6 +7,7 @@
             v-model="email"
             label="メールアドレス"
             rules="required|email|max:30"
+            outlined
           />
           <TextFieldWithValidation
             v-model="password"
@@ -16,6 +17,7 @@
             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
             vid="password"
             @click:append="show = !show"
+            outlined
           />
           <v-card-text class="px-0">
             <v-btn
@@ -56,6 +58,7 @@ export default {
     formTemplate,
     TextFieldWithValidation
   },
+  middleware: 'authenticated',
   data () {
     return {
       show: false,

@@ -17,17 +17,20 @@
           placeholder="あなたの表示名"
           :counter="15"
           rules="max:15|required"
+          outlined
         />
         <TextFieldWithValidation
           v-model="email"
           label="メールアドレス"
           rules="required|email|max:30"
+          outlined
         />
         <TextAreaWithValidation
           v-model="description"
           label="自己紹介"
           rules="max:1000"
           :counter="1000"
+          outlined
         />
         <v-divider />
         <v-card-subtitle>

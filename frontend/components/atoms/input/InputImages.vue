@@ -53,6 +53,13 @@ export default {
       showImages: []
     }
   },
+  mounted () {
+    if (this.value.length > 0) {
+      this.value.forEach((image) => {
+        this.showImages.push(image.url)
+      })
+    }
+  },
   computed: {
     inputValue: {
       get () {

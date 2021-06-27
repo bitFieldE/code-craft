@@ -8,12 +8,12 @@
     <v-textarea
       v-model="inputValue"
       :error-messages="errors"
-      outlined
       v-bind="$attrs"
       v-on="$listeners"
     />
   </ValidationProvider>
 </template>
+
 <script>
 export default {
   props: {

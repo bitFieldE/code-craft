@@ -47,7 +47,9 @@
           プロフィール詳細
         </v-list-item-title>
       </v-list-item>
-      <v-list-item to="/users/edit">
+      <v-list-item
+        :to="{ path: '/users/edit' }"
+      >
         <v-list-item-icon class="mr-2">
           <v-icon size="22">
             mdi-account-cog
@@ -76,7 +78,7 @@ export default {
   methods: {
     async logout () {
       await this.$auth.logout()
-      await this.$store.dispatch(
+      this.$store.dispatch(
         'flash/showMessage',
         {
           message: 'ログアウトしました',
@@ -85,7 +87,7 @@ export default {
         },
         { root: true }
       )
-      await this.$router.push('/')
+      this.$router.push('/')
     }
   }
 }

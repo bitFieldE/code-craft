@@ -7,6 +7,7 @@
   >
     <v-text-field
       v-model="inputValue"
+      type="time"
       :error-messages="errors"
       v-bind="$attrs"
       v-on="$listeners"

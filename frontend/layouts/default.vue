@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Header />
-    <v-main>
+    <v-main style="background-color:#FAFAFA;">
       <nuxt />
     </v-main>
     <Flash />
@@ -19,10 +19,6 @@ export default {
     Header,
     Flash,
     Footer
-  },
-  data () {
-    return {
-    }
   }
 }
 </script>
