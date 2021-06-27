@@ -13,6 +13,7 @@
                   placeholder="記事のタイトル"
                   :counter="50"
                   rules="max:50|required"
+                  outlined
                 />
                 <InputRate
                   v-model="rate"

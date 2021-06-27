@@ -4,6 +4,7 @@ class Post < ApplicationRecord
   has_many :post_tag_maps, dependent: :destroy
   has_many :tags, through: :post_tag_maps
   has_many :comments
+  has_one :event
 
   def images_data
     url_list = []

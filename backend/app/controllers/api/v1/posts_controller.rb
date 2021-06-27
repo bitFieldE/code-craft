@@ -7,7 +7,7 @@ module Api
       def index; end
 
       def show
-        render json: @post.as_json(include: [{ user: { methods: :image_url } }, { comments: { include: { user: { methods: :image_url } }, methods: :created_date } }, :tags],
+        render json: @post.as_json(include: [{ user: { include: %i[followings followers], methods: :image_url } }, { comments: { include: { user: { methods: :image_url } }, methods: :created_date } }, :tags],
                                    methods: %i[images_data created_date])
       end
 
@@ -18,7 +18,7 @@ module Api
         params[:images].each { |image| post.images.attach(image) } if params[:images].present?
 
         if post.save
-          post.save_tags(tags_params[:tags])
+          post.save_tags(tags_params[:tags]) if tags_params[:tags] 
           render json: { post: post.as_json(include: [{ user: { methods: :image_url } }, :tags, :comments], methods: [:images_data]),
                          message: '投稿を作成しました', status: :created }
         else
@@ -30,8 +30,8 @@ module Api
         # 投稿した画像の保存
         params[:images].each { |image| post.images.attach(image) } if params[:images].present?
         if @post.update(post_params)
-          @post.save_tags(tags_params[:tags])
-          render json: @post
+          @post.save_tags(tags_params[:tags]) if tags_params[:tags]
+          render json: { post: @post, message: '投稿を編集しました' }
         else
           render json: @post.errors, status: :unprocessable_entity
         end

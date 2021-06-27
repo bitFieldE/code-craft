@@ -2,7 +2,9 @@
   <v-card>
     <v-card-text class="pb-0">
       {{ post.created_date }}
-      <AddStudyEvent />
+      <AddStudyEvent
+        :post="post"
+      />
       <v-btn
         v-if="$auth.loggedIn&&post.user_id==$auth.user.id"
         class="float-right mr-2"

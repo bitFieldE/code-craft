@@ -8,14 +8,13 @@
       <v-menu
         v-model="menu"
         :close-on-content-click="false"
-        :nudge-right="40"
         transition="scale-transition"
         offset-y
         min-width="auto"
       >
         <template #activator="{ on, attrs }">
           <v-text-field
-            v-model="date"
+            v-model="inputValue"
             label="開催日"
             prepend-icon="mdi-calendar"
             readonly
@@ -24,7 +23,7 @@
           />
         </template>
         <v-date-picker
-          v-model="date"
+          v-model="inputValue"
           locale="ja"
           color="info"
           :min="new Date().toISOString().substr(0, 10)"
@@ -39,13 +38,26 @@
 
 <script>
 export default {
+  props: {
+    value: {
+      type: String,
+      default: new Date().toLocaleDateString().replace(/\//g, '-')
+    }
+  },
   data () {
     return {
-      date: new Date().toLocaleDateString().replace(/\//g, '-'),
       menu: false
     }
   },
   computed: {
+    inputValue: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
+    },
     getEndDate () {
       const endDay = new Date()
       endDay.setFullYear(new Date().getFullYear() + 1)

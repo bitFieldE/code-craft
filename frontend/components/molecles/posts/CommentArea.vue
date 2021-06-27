@@ -54,6 +54,7 @@
                     v-model="content"
                     label="コメント"
                     rules="required"
+                    outlined
                   />
                 </v-card-text>
               </v-tab-item>

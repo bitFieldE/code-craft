@@ -7,9 +7,13 @@
         <v-card>
           <v-card-subtitle>
             {{ post.created_date }}
+            <AddStudyEvent
+              class="float-right ma-0"
+              :post="post"
+            />
           </v-card-subtitle>
           <v-card-title>
-            <h4>{{ post.title }}</h4>
+            {{ post.title }}
           </v-card-title>
           <v-carousel
             v-if="post.images_data.length > 0"
@@ -26,19 +30,21 @@
               :src="image.url"
             />
           </v-carousel>
-          <v-card-actions class="text-center">
-            <v-rating
-              :value="post.rate"
-              color="yellow darken-3"
-              background-color="darken-1"
-              readonly
-              half-increments
-              dense
-            />
-            <span class="font-weight-bold">
-              ({{ post.rate }})
-            </span>
-          </v-card-actions>
+          <v-card-text class="pb-0">
+            <v-card-actions class="text-center">
+              <v-rating
+                :value="post.rate"
+                color="yellow darken-3"
+                background-color="darken-1"
+                readonly
+                half-increments
+                dense
+              />
+              <span class="font-weight-bold">
+                ({{ post.rate }})
+              </span>
+            </v-card-actions>
+          </v-card-text>
           <v-divider />
           <!-- eslint-disable vue/no-v-html -->
           <v-card-text v-html="$md.render(post.content)" />
@@ -88,6 +94,9 @@
               <span class="pl-2">
                 {{ post.user.name }}
               </span>
+              <FollowBtnGroup
+                :user="post.user"
+              />
             </v-card-actions>
             <v-card-text>
               {{ post.user.description }}
@@ -101,9 +110,10 @@
         コメント一覧
       </v-card-title>
       <v-divider />
-      <v-container v-if="comments">
+      <v-container>
         <v-row justify="center">
           <v-col
+            v-if="comments.length > 0"
             cols="12"
             sm="12"
             lg="10"
@@ -114,6 +124,14 @@
               class="mt-4"
               :comment="comment"
             />
+          </v-col>
+          <v-col
+            v-else
+            cols="12"
+            sm="12"
+            lg="10"
+          >
+            <v-card-text>コメントがありません</v-card-text>
           </v-col>
           <v-col
             cols="12"
@@ -158,12 +176,16 @@ import { mapGetters } from 'vuex'
 import TwitterBtn from '~/components/atoms/posts/TwitterBtn'
 import Comment from '~/components/molecles/posts/Comment'
 import CommentArea from '~/components/molecles/posts/CommentArea'
+import AddStudyEvent from '~/components/molecles/users/AddStudyEvent'
+import FollowBtnGroup from '~/components/molecles/users/FollowBtnGroup'
 
 export default {
   components: {
     TwitterBtn,
     CommentArea,
-    Comment
+    Comment,
+    AddStudyEvent,
+    FollowBtnGroup
   },
   async fetch ({ $axios, params, store }) {
     await $axios.get(`api/v1/posts/${params.id}`)

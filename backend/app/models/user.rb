@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_many :user_tag_maps, dependent: :destroy
   has_many :tags, through: :user_tag_maps
   has_many :comments, dependent: :destroy
+  has_many :events, dependent: :destroy
 
   # カラムのバリデーション
   validates :name, presence: true, uniqueness: true,

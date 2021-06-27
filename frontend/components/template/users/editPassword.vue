@@ -15,6 +15,7 @@
           :type="show1 ? 'text' : 'password'"
           :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="show1 = !show1"
+          outlined
         />
         <TextFieldWithValidation
           v-model="password"
@@ -26,6 +27,7 @@
           :type="show2 ? 'text' : 'password'"
           :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="show2 = !show2"
+          outlined
         />
         <TextFieldWithValidation
           v-model="password_confirmation"
@@ -37,6 +39,7 @@
           :type="show3 ? 'text' : 'password'"
           :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="show3 = !show3"
+          outlined
         />
         <v-card-text class="px-0">
           <v-btn

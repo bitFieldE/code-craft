@@ -24,26 +24,9 @@
             </v-card-actions>
             <v-list color="greyLight4">
               <v-list-item class="py-0 form-inline">
-                <div v-if="$auth.loggedIn && user.id !== $auth.user.id">
-                  <v-btn
-                    v-if="is_followed"
-                    class="ml-2"
-                    color="info"
-                    rounded
-                    @click="unFollowUser"
-                  >
-                    アンフォロー
-                  </v-btn>
-                  <v-btn
-                    v-else
-                    class="ml-2"
-                    color="warning"
-                    rounded
-                    @click="followUser"
-                  >
-                    フォロー
-                  </v-btn>
-                </div>
+                <FollowBtnGroup
+                  :user="user"
+                />
               </v-list-item>
               <v-list-item>
                 <v-card-subtitle class="pa-0">
@@ -85,40 +68,45 @@
     <v-container>
       <v-tabs-items v-model="tabTitle">
         <v-tab-item>
-          <v-card
-            class="mx-1 my-10"
-          >
-            <v-card-title>自己紹介</v-card-title>
-            <v-divider />
-            <v-card-text>
-              {{ user.description }}
-            </v-card-text>
-            <v-card-subtitle>登録したタグ</v-card-subtitle>
-            <v-card-text>
-              {{ user.tags }}
-            </v-card-text>
-            <v-card-title>経歴</v-card-title>
-            <v-divider />
-            <v-row justify="center" no-gutters>
-              <v-col>
-                <v-subheader>チャート</v-subheader>
-                <BarChart
-                  :height="200"
-                  :width="200"
-                />
-              </v-col>
-              <v-col>HOGE</v-col>
-            </v-row>
-          </v-card>
+          <v-container style="background-color:#FAFAFA;">
+            <v-card>
+              <v-card-title>自己紹介</v-card-title>
+              <v-divider />
+              <v-card-text>
+                {{ user.description }}
+              </v-card-text>
+              <v-card-subtitle>登録したタグ</v-card-subtitle>
+              <v-card-text>
+                {{ user.tags }}
+              </v-card-text>
+              <v-card-title>経歴</v-card-title>
+              <v-divider />
+              <v-row justify="center" no-gutters>
+                <v-col>
+                  <v-subheader>チャート</v-subheader>
+                  <BarChart
+                    :height="200"
+                    :width="200"
+                  />
+                </v-col>
+                <v-col>HOGE</v-col>
+              </v-row>
+            </v-card>
+          </v-container>
         </v-tab-item>
         <v-tab-item>
-          <v-container>
+          <v-container style="background-color:#FAFAFA;">
             <template v-if="user.posts.length > 0">
               <UserPosts
                 v-for="post in user.posts"
                 :key="post.id"
                 :post="post"
                 class="mb-8"
+              />
+              <v-pagination
+                v-model="page"
+                :length="6"
+                @input="getNumber"
               />
             </template>
             <template v-else>
@@ -130,6 +118,7 @@
                   <v-divider />
                   <v-card-text>
                     <v-btn
+                      color="warning"
                       to="/posts/new"
                     >
                       投稿/レビューを行う
@@ -153,11 +142,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import FollowBtnGroup from '~/components/molecles/users/FollowBtnGroup'
 import BarChart from '~/components/organisms/users/BarChart'
 import UserPosts from '~/components/organisms/users/UserPosts'
 
 export default {
   components: {
+    FollowBtnGroup,
     UserPosts,
     BarChart
   },
@@ -170,7 +161,9 @@ export default {
         { name: 'お気に入りツール' },
         { name: 'イベント' }
       ],
-      is_followed: false
+      page: 1,
+      pageSize: 10,
+      posts: []
     }
   },
   async fetch ({ $axios, params, store }) {
@@ -187,71 +180,11 @@ export default {
     ...mapGetters({ user: 'user/user' })
   },
   mounted () {
-    if (this.user.followers.find(v => v.id === this.$auth.user.id)) { this.is_followed = true }
+
   },
   methods: {
-    async followUser () {
-      const formData = new FormData()
-      formData.append('follow_id', this.user.id)
-      await this.$axios.$post('/api/v1/relationships', formData)
-        .then(
-          (response) => {
-            this.is_followed = true
-            this.$store.commit('user/setUser', response.user, { root: true })
-            this.$store.dispatch(
-              'flash/showMessage',
-              {
-                message: response.message,
-                color: 'success',
-                status: true
-              },
-              { root: true }
-            )
-          },
-          (error) => {
-            this.$store.dispatch(
-              'flash/showMessage',
-              {
-                message: error,
-                color: 'error',
-                status: true
-              },
-              { root: true }
-            )
-            return error
-          }
-        )
-    },
-    async unFollowUser () {
-      await this.$axios.$delete(`/api/v1/relationships/${this.user.id}`)
-        .then(
-          (response) => {
-            this.is_followed = false
-            this.$store.commit('user/setUser', response.user, { root: true })
-            console.log(response.user)
-            this.$store.dispatch(
-              'flash/showMessage',
-              {
-                message: response.message,
-                color: 'success',
-                status: true
-              },
-              { root: true }
-            )
-          },
-          (error) => {
-            this.$store.dispatch(
-              'flash/showMessage',
-              {
-                message: error,
-                color: 'error',
-                status: true
-              },
-              { root: true }
-            )
-            return error
-          }
-        )
+    getNumber (number) {
+      console.log(number)
     }
   }
 }
