@@ -41,7 +41,7 @@ export default {
   props: {
     value: {
       type: String,
-      default: new Date().toLocaleDateString().replace(/\//g, '-')
+      default: ''
     }
   },
   data () {

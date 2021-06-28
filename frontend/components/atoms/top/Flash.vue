@@ -7,7 +7,6 @@
     bottom
     dense
     text
-    outlined
   >
     {{ message }}
   </v-snackbar>

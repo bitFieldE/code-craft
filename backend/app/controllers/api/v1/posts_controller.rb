@@ -28,7 +28,7 @@ module Api
 
       def update
         # 投稿した画像の保存
-        params[:images].each { |image| post.images.attach(image) } if params[:images].present?
+        params[:images].each { |image| @post.images.attach(image) } if params[:images].present?
         if @post.update(post_params)
           @post.save_tags(tags_params[:tags]) if tags_params[:tags]
           render json: { post: @post, message: '投稿を編集しました' }
@@ -37,7 +37,13 @@ module Api
         end
       end
 
-      def destroy; end
+      def destroy
+        if @post.destroy
+          render json: { message: '投稿を削除しました' }
+        else
+          render json: @post.errors, status: :unprocessable_entity
+        end
+      end
 
       private
 

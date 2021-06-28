@@ -38,11 +38,10 @@
         </span>
       </v-card-actions>
     </nuxt-link>
-    <v-card-text
-      v-if="post.tags"
-      class="pt-0"
-    >
+    <v-card-text class="pt-0">
       <v-chip-group
+        v-if="post.tags.length > 0"
+        class="w-100"
         active-class="primary--text"
         column
       >
@@ -56,6 +55,15 @@
           {{ tag.name }}
         </v-chip>
       </v-chip-group>
+      <v-btn
+        v-if="$auth.user&&$auth.user.id==post.user_id"
+        icon
+        @click="deletePost(post.id)"
+      >
+        <v-icon>
+          mdi-trash-can-outline
+        </v-icon>
+      </v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -71,6 +79,37 @@ export default {
     post: {
       type: Object,
       default: () => {}
+    }
+  },
+  methods: {
+    async deletePost (postId) {
+      await this.$axios.$delete(`/api/v1/posts/${postId}`)
+        .then(
+          (response) => {
+            this.$store.commit('posts/deletePost', postId, { root: true })
+            this.$store.dispatch(
+              'flash/showMessage',
+              {
+                message: response.message,
+                color: 'primary',
+                status: true
+              },
+              { root: true }
+            )
+          },
+          (error) => {
+            this.$store.dispatch(
+              'flash/showMessage',
+              {
+                message: error,
+                color: 'error',
+                status: true
+              },
+              { root: true }
+            )
+            return error
+          }
+        )
     }
   }
 }

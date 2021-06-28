@@ -87,7 +87,6 @@
                     label="人数"
                     rules="required"
                   />
-                  {{ participant_number }}
                 </v-card-text>
               </v-col>
             </v-row>
@@ -152,7 +151,7 @@ export default {
       content: '',
       place: '',
       participant_number: null,
-      scheduled_date: '',
+      scheduled_date: new Date().toLocaleDateString().replace(/\//g, '-'),
       start_time: '',
       end_time: '',
       dialog: false,
@@ -183,7 +182,15 @@ export default {
         await this.$axios.$post('/api/v1/events', formData)
           .then(
             (response) => {
-              console.log(response)
+              this.$store.dispatch(
+                'flash/showMessage',
+                {
+                  message: response.message,
+                  color: 'success',
+                  status: true
+                },
+                { root: true }
+              )
               this.content = ''
               this.$refs.form.reset()
             },
