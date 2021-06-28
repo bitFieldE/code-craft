@@ -1,24 +1,41 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col v-for="(showImage, index) in showImages" :key="index" xs="2" sm="2" cols="2">
-        <v-card>
-          <v-img
-            :src="showImage"
-            :height="100"
-            cols="12"
-          />
-          <v-divider />
-          <v-card-text>
-            <a @click="deleteFile(index)">削除</a>
-          </v-card-text>
-        </v-card>
+    <v-row
+      class="drop_area"
+      outlined
+      :class="{enter: isEnter}"
+    >
+      <v-col cols="12" class="text-center">
+        画像アップロード(5枚まで)
       </v-col>
+      <template v-if="showImages.length > 0">
+        <v-col
+          v-for="(showImage, index) in showImages"
+          :key="index"
+          class="text-center"
+          style="min-width:100px;"
+          cols="2"
+        >
+          <v-sheet>
+            <v-img
+              :src="showImage"
+              :height="100"
+              cols="12"
+            />
+          </v-sheet>
+          <v-card-text>
+            <v-btn
+              color="error"
+              @click="deleteFile(index)"
+              x-small
+            >
+              削除
+            </v-btn>
+          </v-card-text>
+        </v-col>
+      </template>
       <v-col
-        v-if="showImages.length < 5"
-        class="drop_area"
-        outlined
-        :class="{enter: isEnter}"
+        style="min-height: 180px;"
         @click="clickDropArea"
         @dragenter="dragEnter"
         @dragleave="dragLeave"
@@ -33,7 +50,6 @@
           style="display:none"
           @change="uploadFile($event)"
         >
-        画像アップロード(5枚まで)
       </v-col>
     </v-row>
   </v-container>
@@ -119,13 +135,10 @@ export default {
 <style>
   .drop_area {
     color: gray;
+    min-height: 240.3px;
     font-weight: bold;
     font-size: 1.2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-    border: 5px solid gray;
+    border: 3px solid;
   }
   .enter {
     border: 5px dotted powderblue;

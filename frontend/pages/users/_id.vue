@@ -7,26 +7,26 @@
       <v-row align="center" justify="center" no-gutters>
         <v-col xs="12" sm="10" md="8" lg="6">
           <v-layout class="py-3 pl-13" align-content-center>
-            <v-card-actions>
-              <v-avatar color="white" size="65">
-                <v-img
-                  v-if="user.image_url"
-                  :src="user.image_url"
-                />
-                <v-icon
-                  v-else
-                  size="80"
-                >
-                  mdi-account-circle
-                </v-icon>
-              </v-avatar>
-              <span class="pl-2">{{ user.name }}</span>
-            </v-card-actions>
             <v-list color="greyLight4">
-              <v-list-item class="py-0 form-inline">
-                <FollowBtnGroup
-                  :user="user"
-                />
+              <v-list-item>
+                <v-card-actions>
+                  <v-avatar color="white" size="65">
+                    <v-img
+                      v-if="user.image_url"
+                      :src="user.image_url"
+                    />
+                    <v-icon
+                      v-else
+                      size="80"
+                    >
+                      mdi-account-circle
+                    </v-icon>
+                  </v-avatar>
+                  <span class="pl-2">{{ user.name }}</span>
+                  <FollowBtnGroup
+                    :user="user"
+                  />
+                </v-card-actions>
               </v-list-item>
               <v-list-item>
                 <v-card-subtitle class="pa-0">
@@ -96,9 +96,9 @@
         </v-tab-item>
         <v-tab-item>
           <v-container style="background-color:#FAFAFA;">
-            <template v-if="user.posts.length > 0">
+            <template v-if="posts.length > 0">
               <UserPosts
-                v-for="post in user.posts"
+                v-for="post in posts"
                 :key="post.id"
                 :post="post"
                 class="mb-8"
@@ -133,7 +133,9 @@
           talkroom
         </v-tab-item>
         <v-tab-item>
-          <v-container></v-container>
+          <v-container>
+            <UserEvents />
+          </v-container>
         </v-tab-item>
       </v-tabs-items>
     </v-container>
@@ -145,11 +147,13 @@ import { mapGetters } from 'vuex'
 import FollowBtnGroup from '~/components/molecles/users/FollowBtnGroup'
 import BarChart from '~/components/organisms/users/BarChart'
 import UserPosts from '~/components/organisms/users/UserPosts'
+import UserEvents from '~/components/organisms/users/UserEvents'
 
 export default {
   components: {
     FollowBtnGroup,
     UserPosts,
+    UserEvents,
     BarChart
   },
   data () {
@@ -162,14 +166,15 @@ export default {
         { name: 'イベント' }
       ],
       page: 1,
-      pageSize: 10,
-      posts: []
+      pageSize: 10
     }
   },
   async fetch ({ $axios, params, store }) {
     await $axios.get(`api/v1/users/${params.id}`)
       .then((response) => {
         store.commit('user/setUser', response.data, { root: true })
+        console.log(response.data)
+        store.commit('posts/setPosts', response.data.posts, { root: true })
       })
       .catch((error) => {
         console.log(error)
@@ -177,7 +182,8 @@ export default {
       })
   },
   computed: {
-    ...mapGetters({ user: 'user/user' })
+    ...mapGetters({ user: 'user/user' }),
+    ...mapGetters({ posts: 'posts/posts' })
   },
   mounted () {
 

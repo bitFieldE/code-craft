@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :relationships, param: 'follow_id', only: %i[create destroy]
       resources :posts, except: [:new]
       resources :events, only: %i[create destroy]
+      resources :likes, only: %i[create destroy]
       resources :comments, only: %i[create destroy]
       resources :users, except: [:edit] do
         get :current_user, action: :login_user, on: :collection

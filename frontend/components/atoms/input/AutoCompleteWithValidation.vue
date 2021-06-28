@@ -8,7 +8,7 @@
     <v-autocomplete
       v-model="inputValue"
       :items="participant"
-      :error-message="errors"
+      :error-messages="errors"
       v-bind="$attrs"
       v-on="$listeners"
     />
