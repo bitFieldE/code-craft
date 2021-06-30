@@ -25,7 +25,7 @@
             class="subheading"
             :style="{ letterSpacing: '5px' }"
           >
-            開発で使うツールのレビュー
+            開発で使うツールのレビュー/勉強会
           </h3>
         </v-col>
       </v-row>
@@ -84,6 +84,9 @@ export default {
       model: [],
       imgHeight: 300
     }
+  },
+  created () {
+    
   }
 }
 </script>

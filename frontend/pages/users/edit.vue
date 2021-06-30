@@ -7,8 +7,8 @@
             v-model="tab"
             fixed-tabs
             centered
-            color="info"
-            background-color="greyLight4"
+            color="secondary"
+            background-color="brown lighten-5"
           >
             <v-tab>
               <v-icon>mdi-account-edit</v-icon>

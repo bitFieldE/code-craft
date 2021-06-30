@@ -141,6 +141,6 @@ export default {
     border: 3px solid;
   }
   .enter {
-    border: 5px dotted rgb(176, 230, 200);
+    border: 5px dotted powderblue;
   }
 </style>

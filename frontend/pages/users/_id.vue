@@ -2,12 +2,12 @@
   <div>
     <v-card
       tile
-      color="greyLight4"
+      color="brown lighten-5"
     >
       <v-row align="center" justify="center" no-gutters>
         <v-col xs="12" sm="10" md="8" lg="6">
           <v-layout class="py-3 pl-13" align-content-center>
-            <v-list color="greyLight4">
+            <v-list color="brown lighten-5">
               <v-list-item>
                 <v-card-actions>
                   <v-avatar color="white" size="65">
@@ -42,8 +42,8 @@
           <v-tabs
             v-model="tabTitle"
             class="d-none d-sm-inline"
-            background-color="greyLight4"
-            color="info"
+            background-color="brown lighten-5"
+            color="secondary"
             centered
           >
             <v-tab v-for="title in titles" :key="title.name">
@@ -53,9 +53,9 @@
           <v-tabs
             v-model="tabTitle"
             class="d-inline d-sm-none"
-            background-color="greyLight4"
+            background-color="brown lighten-5"
             fixed-tabs
-            color="info"
+            color="secondary"
             vertical
           >
             <v-tab v-for="title in titles" :key="title.name">
@@ -89,7 +89,9 @@
                     :width="200"
                   />
                 </v-col>
-                <v-col>HOGE</v-col>
+                <v-col>
+                  {{ user.liked_posts }}
+                </v-col>
               </v-row>
             </v-card>
           </v-container>
@@ -97,16 +99,16 @@
         <v-tab-item>
           <v-container style="background-color:#FAFAFA;">
             <template v-if="posts.length > 0">
+              <v-card-text>
+                <v-btn
+                  color="primary"
+                  to="/posts/new"
+                >
+                  投稿作成
+                </v-btn>
+              </v-card-text>
               <UserPosts
-                v-for="post in posts"
-                :key="post.id"
-                :post="post"
-                class="mb-8"
-              />
-              <v-pagination
-                v-model="page"
-                :length="6"
-                @input="getNumber"
+                :posts="posts"
               />
             </template>
             <template v-else>
@@ -133,8 +135,10 @@
           talkroom
         </v-tab-item>
         <v-tab-item>
-          <v-container>
-            <UserEvents />
+          <v-container style="background-color:#FAFAFA;">
+            <UserEvents
+              :events="events"
+            />
           </v-container>
         </v-tab-item>
       </v-tabs-items>
@@ -164,17 +168,16 @@ export default {
         { name: '投稿レビュー' },
         { name: 'お気に入りツール' },
         { name: 'イベント' }
-      ],
-      page: 1,
-      pageSize: 10
+      ]
     }
   },
   async fetch ({ $axios, params, store }) {
     await $axios.get(`api/v1/users/${params.id}`)
       .then((response) => {
         store.commit('user/setUser', response.data, { root: true })
-        console.log(response.data)
+        console.log(response.data.liked_posts)
         store.commit('posts/setPosts', response.data.posts, { root: true })
+        store.commit('events/setEvents', response.data.events, { root: true })
       })
       .catch((error) => {
         console.log(error)
@@ -183,15 +186,8 @@ export default {
   },
   computed: {
     ...mapGetters({ user: 'user/user' }),
-    ...mapGetters({ posts: 'posts/posts' })
-  },
-  mounted () {
-
-  },
-  methods: {
-    getNumber (number) {
-      console.log(number)
-    }
+    ...mapGetters({ posts: 'posts/posts' }),
+    ...mapGetters({ events: 'events/events' })
   }
 }
 </script>

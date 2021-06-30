@@ -1,8 +1,7 @@
 module Api
   module V1
     class EventsController < ApplicationController
-      def show
-      end
+      def show; end
 
       def create
         post = Post.find(event_params[:post_id])
@@ -11,19 +10,18 @@ module Api
         event.post = post
 
         if event.save
-          render json: { event: event, message: 'イベントを作成しました', status: :created }
+          render json: event.as_json(include: [{ post: { include: [:tags] } }]), message: 'イベントを作成しました', status: :created
         else
-          render json: post.errors, status: :unprocessable_entity
+          render json: event.errors, status: :unprocessable_entity
         end
       end
 
-      def update
-      end
+      def update; end
 
-      def destroy
-      end
+      def destroy; end
 
-    private
+      private
+
       def set_event
         @event = Event.find(params[:id])
       end

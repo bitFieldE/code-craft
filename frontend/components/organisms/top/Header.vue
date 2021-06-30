@@ -48,11 +48,10 @@
       </v-btn>
     </v-toolbar-items>
     <template v-if="!$auth.isUserPresent()">
-      <signup-button />
-      <login-button />
+      <SignupBtn />
+      <LoginBtn />
     </template>
     <template v-else>
-      <Notification />
       <LoginBar />
     </template>
   </v-app-bar>
@@ -60,16 +59,14 @@
 
 <script>
 import LoginBar from '~/components/molecles/top/LoginBar'
-import Notification from '~/components/molecles/top/Notification'
-import LoginButton from '~/components/atoms/top/LoginButton'
-import SignupButton from '~/components/atoms/top/SignupButton'
+import LoginBtn from '~/components/atoms/top/LoginBtn'
+import SignupBtn from '~/components/atoms/top/SignupBtn'
 
 export default {
   components: {
     LoginBar,
-    LoginButton,
-    SignupButton,
-    Notification
+    LoginBtn,
+    SignupBtn
   },
   data () {
     return {

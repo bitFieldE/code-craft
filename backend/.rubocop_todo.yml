@@ -49,4 +49,4 @@ Metrics/MethodLength:
   Max: 27
 
 Layout/LineLength:
-  Max: 150
+  Max: 250

@@ -49,7 +49,10 @@
           <!-- eslint-disable vue/no-v-html -->
           <v-card-text v-html="$md.render(post.content)" />
           <!-- eslint-enable -->
-          <v-card-text v-if="post.tags">
+          <v-card-text
+            v-if="post.tags"
+            class="pb-0"
+          >
             <v-chip-group
               active-class="primary--text"
               column
@@ -64,6 +67,12 @@
                 {{ tag.name }}
               </v-chip>
             </v-chip-group>
+          </v-card-text>
+          <v-card-text class="py-0">
+            <LikeBtnGroup
+              v-if="$auth.loggedIn"
+              :post="post"
+            />
           </v-card-text>
           <v-card-text>
             <TwitterBtn
@@ -176,14 +185,16 @@ import { mapGetters } from 'vuex'
 import TwitterBtn from '~/components/atoms/posts/TwitterBtn'
 import Comment from '~/components/molecles/posts/Comment'
 import CommentArea from '~/components/molecles/posts/CommentArea'
+import LikeBtnGroup from '~/components/molecles/posts/LikeBtnGroup'
 import AddStudyEvent from '~/components/molecles/users/AddStudyEvent'
 import FollowBtnGroup from '~/components/molecles/users/FollowBtnGroup'
 
 export default {
   components: {
     TwitterBtn,
-    CommentArea,
     Comment,
+    CommentArea,
+    LikeBtnGroup,
     AddStudyEvent,
     FollowBtnGroup
   },
