@@ -99,7 +99,7 @@
         <v-tab-item>
           <v-container style="background-color:#FAFAFA;">
             <template v-if="posts.length > 0">
-              <v-card-text>
+              <v-card-text v-if="$auth.user.id==user.id">
                 <v-btn
                   color="primary"
                   to="/posts/new"
@@ -136,9 +136,18 @@
         </v-tab-item>
         <v-tab-item>
           <v-container style="background-color:#FAFAFA;">
-            <UserEvents
-              :events="events"
-            />
+            <template v-if="events.length > 0">
+              <UserEvents
+                :events="events"
+              />
+            </template>
+            <template v-else>
+              <v-card>
+                <v-card-text>
+                  主催イベントがありません
+                </v-card-text>
+              </v-card>
+            </template>
           </v-container>
         </v-tab-item>
       </v-tabs-items>
