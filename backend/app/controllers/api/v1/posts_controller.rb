@@ -8,9 +8,9 @@ module Api
 
       def show
         render json: @post.as_json(include: [{ user: { include: %i[followings followers], methods: :image_url } },
-                                             { comments: { include: { user: { methods: :image_url } }, methods: :created_date } },
+                                             { comments: { include: { user: { methods: :image_url } }} },
                                              :tags, :liked_users],
-                                   methods: %i[images_data created_date])
+                                   methods: :images_data)
       end
 
       def create

@@ -21,7 +21,7 @@
       </v-card-actions>
       <v-card-text v-html="$md.render(comment.content)" />
       <v-card-subtitle class="pb-0">
-        {{ comment.created_date }}
+        {{ $moment(comment.created_at).format('YYYY/MM/DD HH:MM') }}
         <v-btn
           v-if="comment.user.id == $auth.user.id"
           icon

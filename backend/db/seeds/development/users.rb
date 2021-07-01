@@ -25,7 +25,7 @@ end
 User.create(
   name: "guestuser",
   email: "guestuser@example.com",
-  description: "",
+  description: "ゲストユーザー",
   password: "guestuser",
   password_confirmation: "guestuser",
   admin: false

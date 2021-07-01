@@ -44,8 +44,10 @@ export default {
   watch: {
     inputValue (value) {
       if (value.length > 5) {
-        this.$nextTick(() => this.inputValue.pop())
-        this.errormessage = 'タグは5個まで登録できます'
+        this.$nextTick(() => {
+          this.inputValue.pop()
+          this.errormessage = 'タグは5個まで登録できます'
+        })
       }
     }
   },

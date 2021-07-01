@@ -132,7 +132,14 @@
           </v-container>
         </v-tab-item>
         <v-tab-item>
-          talkroom
+          <v-container>
+            <v-row>
+              <v-col>aa</v-col>
+              <v-col>bb</v-col>
+              <v-col>cc</v-col>
+            </v-row>
+            <v-card>vvv</v-card>
+          </v-container>
         </v-tab-item>
         <v-tab-item>
           <v-container style="background-color:#FAFAFA;">
@@ -184,7 +191,6 @@ export default {
     await $axios.get(`api/v1/users/${params.id}`)
       .then((response) => {
         store.commit('user/setUser', response.data, { root: true })
-        console.log(response.data.liked_posts)
         store.commit('posts/setPosts', response.data.posts, { root: true })
         store.commit('events/setEvents', response.data.events, { root: true })
       })

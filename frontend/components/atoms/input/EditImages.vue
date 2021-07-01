@@ -66,7 +66,8 @@ export default {
   data () {
     return {
       isEnter: false,
-      showImages: []
+      showImages: [],
+      image
     }
   },
   mounted () {

@@ -4,7 +4,7 @@ module Api
       def create
         comment = current_user.comments.new(comment_params)
         if comment.save
-          render json: comment.as_json(include: [{ user: { methods: :image_url } }], methods: [:created_date]), status: :created
+          render json: comment.as_json(include: [{ user: { methods: :image_url } }]), status: :created
         else
           render json: comment.errors, status: :unprocessable_entity
         end
