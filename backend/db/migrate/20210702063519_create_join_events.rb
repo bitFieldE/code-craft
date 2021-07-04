@@ -1,10 +1,12 @@
-class CreateEventComments < ActiveRecord::Migration[6.1]
+class CreateJoinEvents < ActiveRecord::Migration[6.1]
   def change
-    create_table :event_comments do |t|
+    create_table :join_events do |t|
       t.references :user, null: false, foreign_key: true
       t.references :event, null: false, foreign_key: true
-      t.text :content, null: false
+
       t.timestamps
+
+      t.index %i[user_id event_id], unique: true
     end
   end
 end

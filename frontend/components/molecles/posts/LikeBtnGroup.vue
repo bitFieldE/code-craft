@@ -56,6 +56,7 @@ export default {
       await this.$axios.$delete(`/api/v1/likes/${this.post.id}`)
         .then(
           (response) => {
+            this.$store.commit('posts/deleteLikedPost', this.post.id, { root: true })
             this.is_liked = false
             return response
           },

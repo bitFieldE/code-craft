@@ -17,7 +17,7 @@ module Api
         post = Post.new(post_params)
         post.user = current_user
         # 投稿した画像の保存
-        params[:images].each { |image| post.images.attach(image) } if params[:images].present?
+        # params[:images].each { |image| post.images.attach(image) } if params[:images].present?
 
         if post.save
           post.save_tags(tags_params[:tags]) if tags_params[:tags]
@@ -40,7 +40,7 @@ module Api
 
       def destroy
         if @post.destroy
-          render json: { message: '投稿を削除しました' }
+          render json: { message: '投稿を削除しました', status: :ok }
         else
           render json: @post.errors, status: :unprocessable_entity
         end

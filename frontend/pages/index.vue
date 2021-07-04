@@ -31,48 +31,18 @@
       </v-row>
     </v-img>
     <div>
-      <v-sheet
-        class="mx-auto"
-      >
-        <v-slide-group
-          v-model="model"
-          class="pa-4"
-          multiple
-          show-arrows
-        >
-          <v-slide-item
-            v-for="n in 15"
-            :key="n"
-            v-slot="{ active, toggle }"
-          >
-            <v-card
-              :color="active ? 'primary' : 'grey lighten-1'"
-              class="ma-4"
-              height="200"
-              width="150"
-              @click="toggle"
-            >
-              <v-row
-                class="fill-height"
-                align="center"
-                justify="center"
-              >
-                <v-scale-transition>
-                  <v-icon
-                    v-if="active"
-                    color="white"
-                    size="48"
-                    v-text="'mdi-close-circle-outline'"
-                  ></v-icon>
-                </v-scale-transition>
-              </v-row>
-            </v-card>
-          </v-slide-item>
-        </v-slide-group>
-      </v-sheet>
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <v-card-text class="text-h5">注目記事</v-card-text>
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
     <div>
-      {{ $auth.user }}
+      <v-container>
+        <v-card-text class="text-h5 border-bottom">開催間近イベント</v-card-text>
+      </v-container>
     </div>
   </div>
 </template>
@@ -82,19 +52,9 @@ export default {
   data () {
     return {
       model: [],
-      imgHeight: 300
+      imgHeight: 250
     }
   },
-  created () {
-    
-  }
+  created () {}
 }
 </script>
-
-<style>
-  .prettyprint ol.linenums > li {
-    list-style-type: decimal;
-    /* または */
-    list-style-type: decimal-leading-zero;
-  }
-</style>

@@ -6,27 +6,22 @@
   >
     <template #activator="{ on, attrs }">
       <v-btn
+        class="float-right my-0"
         v-bind="attrs"
         color="warning"
-        class="float-right"
+        small
+        fab
         v-on="on"
       >
-        <v-icon
-          left
-        >
+        <v-icon>
           mdi-calendar-month-outline
         </v-icon>
-        イベント作成
       </v-btn>
     </template>
     <v-card>
-      <v-banner
-        class="grey lighten-5"
-        sticky
-        outlined
-      >
+      <v-banner class="grey lighten-5" sticky outlined>
         <v-btn
-          class="float-right my-0"
+          class="float-right"
           text
           @click="dialog = false"
         >
@@ -121,7 +116,7 @@
               class="white--text"
               @click="createEvent"
             >
-              作成する
+              編集する
             </v-btn>
           </v-card-text>
         </v-container>
@@ -147,6 +142,10 @@ export default {
     post: {
       type: Object,
       default: null
+    },
+    event: {
+      type: Object,
+      default: null
     }
   },
   data () {
@@ -155,7 +154,7 @@ export default {
       content: '',
       place: '',
       participant_number: null,
-      scheduled_date: new Date().toLocaleDateString().replace(/\//g, '-'),
+      scheduled_date: '',
       start_time: '',
       end_time: '',
       dialog: false,
@@ -167,13 +166,21 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.title = this.event.title
+    this.content = this.event.content
+    this.place = this.event.place
+    this.participant_number = this.event.participant_number
+    this.scheduled_date = this.event.scheduled_date
+    this.start_time = this.$moment(this.event.start_time).format('HH:mm')
+    this.end_time = this.$moment(this.event.end_time).format('HH:mm')
+  },
   methods: {
     async createEvent () {
       const isValid = await this.$refs.form.validate()
       const formData = new FormData()
       this.loading = true
       if (isValid) {
-        console.log(this.post.id)
         formData.append('event[user_id]', this.$auth.user.id)
         formData.append('event[post_id]', this.post.id)
         formData.append('event[title]', this.title)
@@ -183,20 +190,11 @@ export default {
         formData.append('event[scheduled_date]', this.scheduled_date)
         formData.append('event[start_time]', this.start_time)
         formData.append('event[end_time]', this.end_time)
-        await this.$axios.$post('/api/v1/events', formData)
+        await this.$axios.$patch(`/api/v1/events/${this.event.id}`, formData)
           .then(
             (response) => {
-              this.$store.commit('events/addEvent', response.event, { root: true })
-              this.$store.dispatch(
-                'flash/showMessage',
-                {
-                  message: response.message,
-                  color: 'success',
-                  status: true
-                },
-                { root: true }
-              )
-              this.content = ''
+              console.log(response)
+              this.$store.commit('events/updateEvent', response, { root: true })
               this.$refs.form.reset()
             },
             (error) => {

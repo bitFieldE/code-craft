@@ -23,11 +23,15 @@
               イベント
             </v-tab>
           </v-tabs>
-          <v-tabs-items v-model="tab" touchless>
+          <v-tabs-items v-model="tab">
             <v-tab-item>
+              <v-container>
+              </v-container>
             </v-tab-item>
             <v-tab-item>
             </v-tab-item>
+              <v-container>
+              </v-container>
             <v-tab-item>
               <v-container>
               </v-container>

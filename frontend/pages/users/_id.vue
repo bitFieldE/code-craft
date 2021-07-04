@@ -44,6 +44,7 @@
             class="d-none d-sm-inline"
             background-color="brown lighten-5"
             color="secondary"
+            show-arrows
             centered
           >
             <v-tab v-for="title in titles" :key="title.name">
@@ -68,7 +69,7 @@
     <v-container>
       <v-tabs-items v-model="tabTitle">
         <v-tab-item>
-          <v-container style="background-color:#FAFAFA;">
+          <v-container class="grey lighten-5">
             <v-card>
               <v-card-title>自己紹介</v-card-title>
               <v-divider />
@@ -76,8 +77,26 @@
                 {{ user.description }}
               </v-card-text>
               <v-card-subtitle>登録したタグ</v-card-subtitle>
-              <v-card-text>
-                {{ user.tags }}
+              <v-card-text
+                v-if="user.tags"
+                class="pb-0"
+              >
+                <v-chip-group
+                  active-class="primary--text"
+                  column
+                >
+                  <v-chip
+                    v-for="tag in user.tags"
+                    :key="tag.id"
+                    color="success"
+                    small
+                  >
+                    {{ tag.name }}
+                  </v-chip>
+                </v-chip-group>
+              </v-card-text>
+              <v-card-text v-else>
+                登録したタグはありません
               </v-card-text>
               <v-card-title>経歴</v-card-title>
               <v-divider />
@@ -90,14 +109,14 @@
                   />
                 </v-col>
                 <v-col>
-                  {{ user.liked_posts }}
+                  {{ posts.liked_users }}
                 </v-col>
               </v-row>
             </v-card>
           </v-container>
         </v-tab-item>
         <v-tab-item>
-          <v-container style="background-color:#FAFAFA;">
+          <v-container class="grey lighten-5">
             <template v-if="posts.length > 0">
               <v-card-text v-if="$auth.user.id==user.id">
                 <v-btn
@@ -132,17 +151,39 @@
           </v-container>
         </v-tab-item>
         <v-tab-item>
-          <v-container>
-            <v-row>
-              <v-col>aa</v-col>
-              <v-col>bb</v-col>
-              <v-col>cc</v-col>
-            </v-row>
-            <v-card>vvv</v-card>
+          <v-container class="grey lighten-5">
+            <template v-if="likedPosts.length > 0">
+              <UserLikedPosts
+                :likedPosts="likedPosts"
+              />
+            </template>
+            <template v-else>
+              <v-card>
+                <v-card-text>
+                  お気に入り記事がありません
+                </v-card-text>
+              </v-card>
+            </template>
           </v-container>
         </v-tab-item>
         <v-tab-item>
-          <v-container style="background-color:#FAFAFA;">
+          <v-container class="grey lighten-5">
+            <template v-if="events.length > 0">
+              <UserEvents
+                :events="events"
+              />
+            </template>
+            <template v-else>
+              <v-card>
+                <v-card-text>
+                  主催イベントがありません
+                </v-card-text>
+              </v-card>
+            </template>
+          </v-container>
+        </v-tab-item>
+        <v-tab-item>
+          <v-container class="grey lighten-5">
             <template v-if="events.length > 0">
               <UserEvents
                 :events="events"
@@ -166,14 +207,16 @@
 import { mapGetters } from 'vuex'
 import FollowBtnGroup from '~/components/molecles/users/FollowBtnGroup'
 import BarChart from '~/components/organisms/users/BarChart'
-import UserPosts from '~/components/organisms/users/UserPosts'
 import UserEvents from '~/components/organisms/users/UserEvents'
+import UserLikedPosts from '~/components/organisms/users/UserLikedPosts'
+import UserPosts from '~/components/organisms/users/UserPosts'
 
 export default {
   components: {
     FollowBtnGroup,
-    UserPosts,
     UserEvents,
+    UserLikedPosts,
+    UserPosts,
     BarChart
   },
   data () {
@@ -183,7 +226,8 @@ export default {
         { name: 'プロフィール詳細' },
         { name: '投稿レビュー' },
         { name: 'お気に入りツール' },
-        { name: 'イベント' }
+        { name: 'イベント' },
+        { name: '参加イベント' }
       ]
     }
   },
@@ -192,6 +236,7 @@ export default {
       .then((response) => {
         store.commit('user/setUser', response.data, { root: true })
         store.commit('posts/setPosts', response.data.posts, { root: true })
+        store.commit('posts/setLikedPosts', response.data.liked_posts, { root: true })
         store.commit('events/setEvents', response.data.events, { root: true })
       })
       .catch((error) => {
@@ -202,6 +247,7 @@ export default {
   computed: {
     ...mapGetters({ user: 'user/user' }),
     ...mapGetters({ posts: 'posts/posts' }),
+    ...mapGetters({ likedPosts: 'posts/likedPosts' }),
     ...mapGetters({ events: 'events/events' })
   }
 }

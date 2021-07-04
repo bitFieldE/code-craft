@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <v-card>
-      AAA
-    </v-card>
+    <v-row></v-row>
   </v-container>
 </template>
 
 <script>
-export default {}
+export default {
+  
+}
 </script>

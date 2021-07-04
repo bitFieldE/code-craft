@@ -106,7 +106,6 @@ export default {
         await this.$axios.$post('/api/v1/posts', formData)
           .then(
             (response) => {
-              console.log(response)
               this.$store.dispatch(
                 'flash/showMessage',
                 {
