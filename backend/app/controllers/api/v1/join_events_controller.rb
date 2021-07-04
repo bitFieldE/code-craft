@@ -1,7 +1,12 @@
 class Api::V1::JoinEventsController < ApplicationController
   def create
-    join_event = current_user.join_events.create(event_id: join_event_params[:event_id])
-    render json: join_event, status: :created
+    event = Event.find(join_event_params[:event_id])
+    if event.participant_number < event.join_users.length
+      join_event = current_user.join_events.create(event_id: join_event_params[:event_id])
+      render json: join_event.as_json(include: [:user]), status: :created
+    else
+      render json: join_event.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy

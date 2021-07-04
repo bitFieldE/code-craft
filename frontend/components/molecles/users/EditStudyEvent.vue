@@ -8,7 +8,7 @@
       <v-btn
         class="float-right my-0"
         v-bind="attrs"
-        color="warning"
+        color="lime accent-4"
         small
         fab
         v-on="on"

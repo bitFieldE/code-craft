@@ -3,12 +3,12 @@
     <v-btn
       v-if="is_joined"
       :to="{ path: `/events/${event.id}` }"
+      color="deep-purple lighten-5"
     >
       参加者ルーム
     </v-btn>
     <v-btn
       v-else-if="event.participant_number > 0 && event.participant_number==event.join_users.length"
-      color="error"
       disabled
     >
       上限人数に達しました
@@ -49,7 +49,8 @@ export default {
         .then(
           (response) => {
             this.is_joined = true
-            return response
+            console.log(response)
+            this.$store.commit('events/addParticipant', response, { root: true })
           },
           (error) => {
             return error

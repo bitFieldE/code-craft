@@ -185,14 +185,14 @@
         <v-tab-item>
           <v-container class="grey lighten-5">
             <template v-if="events.length > 0">
-              <UserEvents
+              <UserJoinedEvents
                 :events="events"
               />
             </template>
             <template v-else>
               <v-card>
                 <v-card-text>
-                  主催イベントがありません
+                  参加イベントがありません
                 </v-card-text>
               </v-card>
             </template>
@@ -208,16 +208,18 @@ import { mapGetters } from 'vuex'
 import FollowBtnGroup from '~/components/molecles/users/FollowBtnGroup'
 import BarChart from '~/components/organisms/users/BarChart'
 import UserEvents from '~/components/organisms/users/UserEvents'
+import UserJoinedEvents from '~/components/organisms/users/UserJoinedEvents'
 import UserLikedPosts from '~/components/organisms/users/UserLikedPosts'
 import UserPosts from '~/components/organisms/users/UserPosts'
 
 export default {
   components: {
     FollowBtnGroup,
+    BarChart,
     UserEvents,
+    UserJoinedEvents,
     UserLikedPosts,
-    UserPosts,
-    BarChart
+    UserPosts
   },
   data () {
     return {

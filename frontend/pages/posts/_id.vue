@@ -100,9 +100,14 @@
                   mdi-account-circle
                 </v-icon>
               </v-avatar>
-              <span class="pl-2">
-                {{ post.user.name }}
-              </span>
+              <nuxt-link
+                :to="{ path: `/users/${post.user.id}` }"
+                style="color: inherit; text-decoration: none;"
+              >
+                <span class="pl-2">
+                  {{ post.user.name }}
+                </span>
+              </nuxt-link>
               <FollowBtnGroup
                 :user="post.user"
               />
