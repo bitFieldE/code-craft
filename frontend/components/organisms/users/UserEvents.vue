@@ -11,20 +11,22 @@
       >
         <v-card class="mb-8">
           <v-img src="/images/no_img.png">
-            <v-row>
-              <v-card-text>
-                <v-col cols="12">
+            <v-row no-gutters>
+              <v-col cols="12">
+                <div class="float-right mt-2 mr-2">
                   <EventModal
                     :event="event"
                   />
-                </v-col>
-                <v-col cols="12">
+                </div>
+              </v-col>
+              <v-col cols="12">
+                <div class="float-right mt-2 mr-2">
                   <EditStudyEvent
                     :post="event.post"
                     :event="event"
                   />
-                </v-col>
-              </v-card-text>
+                </div>
+              </v-col>
             </v-row>
           </v-img>
           <v-card-title class="text-h5">

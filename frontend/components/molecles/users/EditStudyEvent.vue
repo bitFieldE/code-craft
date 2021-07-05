@@ -7,7 +7,7 @@
     <template #activator="{ on, attrs }">
       <v-btn
         v-bind="attrs"
-        class="pull-right"
+        class="white--text"
         color="lime accent-4"
         small
         fab

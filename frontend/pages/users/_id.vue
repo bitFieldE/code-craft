@@ -51,18 +51,20 @@
               {{ title.name }}
             </v-tab>
           </v-tabs>
-          <v-card-text class="d-inline d-sm-none center-block">
-            <v-btn
-              icon
-              @click="show = !show"
-            >
-              <v-icon
-                size="30"
+          <div class="d-inline d-sm-none py-0">
+            <div class="text-center">
+              <v-btn
+                icon
+                @click="show = !show"
               >
-                {{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
-              </v-icon>
-            </v-btn>
-          </v-card-text>
+                <v-icon
+                  size="30"
+                >
+                  {{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                </v-icon>
+              </v-btn>
+            </div>
+          </div>
           <v-divider />
           <v-expand-transition>
             <div v-show="show">
