@@ -2,8 +2,8 @@
   <v-container>
     <v-row>
       <v-col
-        v-for="event in displayEvents"
-        :key="event.id"
+        v-for="(joinedEvent, index) in displayJoinedEvents"
+        :key="index"
         cols="12"
         xs="12"
         sm="4"
@@ -11,41 +11,24 @@
       >
         <v-card class="mb-8">
           <v-img src="/images/no_img.png">
-            <v-card-text>
-              <EventModal
-                :event="event"
-              />
-            </v-card-text>
           </v-img>
           <v-card-title class="text-h5">
-            {{ event.title }}
+            {{ joinedEvent.title }}
           </v-card-title>
           <v-card-subtitle>
-            {{ $moment(event.scheduled_date).format('YYYY/MM/DD') }}
+            {{ $moment(joinedEvent.scheduled_date).format('YYYY/MM/DD') }}
           </v-card-subtitle>
-          <v-card-text>
-            <v-chip-group
-              v-if="event.post.tags.length > 0"
-              class="w-100"
-              active-class="primary--text"
-              column
-            >
-              <v-chip
-                v-for="tag in event.post.tags"
-                :key="tag.id"
-                color="info"
-                class="white--text ml-0"
-                small
-              >
-                {{ tag.name }}
-              </v-chip>
-            </v-chip-group>
-          </v-card-text>
           <v-card-text class="pt-0">
+            <v-btn
+              :to="{ path: `/events/${joinedEvent.id}` }"
+              color="deep-purple lighten-5"
+            >
+              参加者ルーム
+            </v-btn>
             <v-btn
               class="pt-0"
               color="pink accent-2"
-              @click="cancelEvent(event.id)"
+              @click="cancelEvent(joinedEvent)"
             >
               <v-icon>
                 mdi-trash-can-outline
@@ -60,7 +43,7 @@
       <v-pagination
         v-model="page"
         color="info"
-        :length="EventsLength"
+        :length="joinedEventsLength"
         @input="pageChange"
       />
     </v-card-text>
@@ -68,14 +51,9 @@
 </template>
 
 <script>
-import EventModal from '~/components/molecles/events/EventModal'
-
 export default {
-  components: {
-    EventModal
-  },
   props: {
-    events: {
+    joinedEvents: {
       type: Array,
       default: () => []
     }
@@ -88,23 +66,24 @@ export default {
     }
   },
   computed: {
-    displayEvents () {
-      return this.events.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+    displayJoinedEvents () {
+      return this.joinedEvents.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
     },
-    EventsLength () {
-      return Math.ceil(this.events.length / this.pageSize)
+    joinedEventsLength () {
+      return Math.ceil(this.joinedEvents.length / this.pageSize)
     }
   },
   methods: {
     pageChange (pageNumber) {
-      this.displayEvents.slice(this.pageSize * (pageNumber - 1), this.pageSize * (pageNumber))
+      this.displayJoinedEvents.slice(this.pageSize * (pageNumber - 1), this.pageSize * (pageNumber))
     },
-    async cancelEvent (eventId) {
-      if (window.confirm('削除してもよろしいですか？')) {
-        await this.$axios.$delete(`/api/v1/join_events/${eventId}`)
+    async cancelEvent (joinedEvent) {
+      if (window.confirm('キャンセルしてもよろしいですか？')) {
+        await this.$axios.$delete(`/api/v1/join_events/${joinedEvent.id}`)
           .then(
             (response) => {
-              this.$store.commit('events/deleteEvent', eventId, { root: true })
+              this.$store.commit('events/deleteJoinedEvent', joinedEvent.id, { root: true })
+              this.$store.commit('events/deleteParticipants', this.$auth.user.id, { root: true })
               this.$store.dispatch(
                 'flash/showMessage',
                 {

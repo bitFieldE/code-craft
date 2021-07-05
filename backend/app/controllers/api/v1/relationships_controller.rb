@@ -7,7 +7,7 @@ module Api
       def create
         following = current_user.follow(@user)
         if following.save
-          render json: { user: @user.as_json(include: [:followings, :followers, :tags, { posts: { include: [:tags], methods: %i[images_data created_date] } }],
+          render json: { user: @user.as_json(include: [:followings, :followers, :tags, { posts: { include: [:tags], methods: %i[images_data] } }],
                                              methods: :image_url), message: 'ユーザーをフォローしました',
                          status: :created }
         else
@@ -18,7 +18,7 @@ module Api
       def destroy
         following = current_user.unfollow(@user)
         if following.destroy
-          render json: { user: @user.as_json(include: [:followings, :followers, :tags, { posts: { include: [:tags], methods: %i[images_data created_date] } }],
+          render json: { user: @user.as_json(include: [:followings, :followers, :tags, { posts: { include: [:tags], methods: %i[images_data] } }],
                                              methods: :image_url), message: 'ユーザーのフォローを解除しました',
                          status: :accepted }
         else

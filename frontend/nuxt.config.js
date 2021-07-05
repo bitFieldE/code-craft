@@ -69,7 +69,8 @@ export default {
     langPrefix: '',
     use: [
       'markdown-it-mark',
-      'markdown-it-ins'
+      'markdown-it-ins',
+      'markdown-it-emoji'
     ],
     highlight: (str, lang) => {
       const hljs = require('highlight.js');

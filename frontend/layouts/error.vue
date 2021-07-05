@@ -8,7 +8,7 @@
         {{ otherError }}
       </v-card-title>
       <NuxtLink to="/">
-        Home
+        CodeCraft
       </NuxtLink>
     </v-container>
   </v-app>

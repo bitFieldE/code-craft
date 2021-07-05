@@ -1,9 +1,9 @@
 class Api::V1::JoinEventsController < ApplicationController
   def create
-    event = Event.find(join_event_params[:event_id])
-    if event.participant_number < event.join_users.length
+    event = Event.find_by(id: join_event_params[:event_id])
+    if event.participant_number > event.join_users.count
       join_event = current_user.join_events.create(event_id: join_event_params[:event_id])
-      render json: join_event.as_json(include: [:user]), status: :created
+      render json: join_event.as_json(include: [:user, { event: { include: [{ post: { include: [:tags] } }, :join_users] } }]), status: :created
     else
       render json: join_event.errors, status: :unprocessable_entity
     end

@@ -4,9 +4,7 @@
     size="34"
     class="my-app-log"
   >
-    <span class="white--text text-subtitle-2">
-      Biz
-    </span>
+    <span class="white--text text-subtitle-2"></span>
   </v-avatar>
 </template>
 

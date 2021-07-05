@@ -6,8 +6,8 @@
   >
     <template #activator="{ on, attrs }">
       <v-btn
-        class="float-right my-0"
         v-bind="attrs"
+        class="pull-right"
         color="lime accent-4"
         small
         fab

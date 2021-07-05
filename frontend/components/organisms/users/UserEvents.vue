@@ -11,15 +11,21 @@
       >
         <v-card class="mb-8">
           <v-img src="/images/no_img.png">
-            <v-card-text>
-              <EventModal
-                :event="event"
-              />
-            </v-card-text>
-            <EditStudyEvent
-              :post="event.post"
-              :event="event"
-            />
+            <v-row>
+              <v-card-text>
+                <v-col cols="12">
+                  <EventModal
+                    :event="event"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <EditStudyEvent
+                    :post="event.post"
+                    :event="event"
+                  />
+                </v-col>
+              </v-card-text>
+            </v-row>
           </v-img>
           <v-card-title class="text-h5">
             {{ event.title }}

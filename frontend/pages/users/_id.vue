@@ -51,18 +51,35 @@
               {{ title.name }}
             </v-tab>
           </v-tabs>
-          <v-tabs
-            v-model="tabTitle"
-            class="d-inline d-sm-none"
-            background-color="brown lighten-5"
-            fixed-tabs
-            color="secondary"
-            vertical
-          >
-            <v-tab v-for="title in titles" :key="title.name">
-              {{ title.name }}
-            </v-tab>
-          </v-tabs>
+          <v-card-text class="d-inline d-sm-none center-block">
+            <v-btn
+              icon
+              @click="show = !show"
+            >
+              <v-icon
+                size="30"
+              >
+                {{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+              </v-icon>
+            </v-btn>
+          </v-card-text>
+          <v-divider />
+          <v-expand-transition>
+            <div v-show="show">
+              <v-tabs
+                v-model="tabTitle"
+                class="d-inline d-sm-none"
+                background-color="brown lighten-5"
+                fixed-tabs
+                color="secondary"
+                vertical
+              >
+                <v-tab v-for="title in titles" :key="title.name">
+                  {{ title.name }}
+                </v-tab>
+              </v-tabs>
+            </div>
+          </v-expand-transition>
         </v-col>
       </v-row>
     </v-card>
@@ -184,15 +201,15 @@
         </v-tab-item>
         <v-tab-item>
           <v-container class="grey lighten-5">
-            <template v-if="events.length > 0">
+            <template v-if="joinedEvents.length > 0">
               <UserJoinedEvents
-                :events="events"
+                :joinedEvents="joinedEvents"
               />
             </template>
             <template v-else>
               <v-card>
                 <v-card-text>
-                  参加イベントがありません
+                  参加予定のイベントがありません
                 </v-card-text>
               </v-card>
             </template>
@@ -224,6 +241,7 @@ export default {
   data () {
     return {
       tabTitle: null,
+      show: false,
       titles: [
         { name: 'プロフィール詳細' },
         { name: '投稿レビュー' },
@@ -240,6 +258,13 @@ export default {
         store.commit('posts/setPosts', response.data.posts, { root: true })
         store.commit('posts/setLikedPosts', response.data.liked_posts, { root: true })
         store.commit('events/setEvents', response.data.events, { root: true })
+        if (response.data.join_events.length > 0) {
+          const joinedEvents = []
+          response.data.join_events.forEach((joinEvent) => {
+            joinedEvents.push(joinEvent.event)
+          })
+          store.commit('events/setJoinedEvents', joinedEvents, { root: true })
+        }
       })
       .catch((error) => {
         console.log(error)
@@ -250,7 +275,8 @@ export default {
     ...mapGetters({ user: 'user/user' }),
     ...mapGetters({ posts: 'posts/posts' }),
     ...mapGetters({ likedPosts: 'posts/likedPosts' }),
-    ...mapGetters({ events: 'events/events' })
+    ...mapGetters({ events: 'events/events' }),
+    ...mapGetters({ joinedEvents: 'events/joinedEvents' })
   }
 }
 </script>

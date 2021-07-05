@@ -47,7 +47,10 @@
           </v-card-text>
           <v-divider />
           <!-- eslint-disable vue/no-v-html -->
-          <v-card-text v-html="$md.render(post.content)" />
+          <div
+            class="mx-4 mt-5"
+            v-html="$md.render(post.content)"
+          />
           <!-- eslint-enable -->
           <v-card-text
             v-if="post.tags"

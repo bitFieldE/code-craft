@@ -7,7 +7,6 @@
     <template #activator="{ on, attrs }">
       <v-btn
         v-bind="attrs"
-        class="m-4 float-right"
         color="warning"
         small
         fab
@@ -21,7 +20,6 @@
     <v-card>
       <v-banner class="grey lighten-5" sticky outlined>
         <v-btn
-          class="float-right my-0"
           icon
           @click="dialog=false"
         >
@@ -122,7 +120,6 @@
         </v-timeline>
       </v-card-text>
       <v-card-text>
-        <h3>{{ `参加人数: ${participants.length}/${event.participant_number}` }}</h3>
         <JoinBtnGroup
           :event="event"
         />
@@ -132,7 +129,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import JoinBtnGroup from '~/components/molecles/events/JoinBtnGroup'
 
 export default {
@@ -149,12 +145,6 @@ export default {
     return {
       dialog: false
     }
-  },
-  computed: {
-    ...mapGetters({ participants: 'events/participants' })
-  },
-  mounted () {
-    this.$store.commit('events/setParticipants', this.event.join_users, { root: true })
   }
 }
 </script>

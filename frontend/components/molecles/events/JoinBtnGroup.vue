@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h3>{{ `参加人数: ${participants.length}/${event.participant_number}` }}</h3>
     <v-btn
       v-if="is_joined"
       :to="{ path: `/events/${event.id}` }"
@@ -26,6 +27,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   props: {
     event: {
@@ -33,13 +36,15 @@ export default {
       default: () => {}
     }
   },
-  data () {
-    return {
-      is_joined: false
-    }
-  },
   mounted () {
-    if (this.event.join_users.find(v => v.id === this.$auth.user.id)) { this.is_joined = true }
+    this.$store.commit('events/setParticipants', this.event.join_users, { root: true })
+  },
+  computed: {
+    ...mapGetters({ joinedEvents: 'events/joinedEvents' }),
+    ...mapGetters({ participants: 'events/participants' }),
+    is_joined () {
+      return this.joinedEvents.find(v => v.id === this.event.id)
+    }
   },
   methods: {
     async joinEvent (eventId) {
@@ -49,8 +54,8 @@ export default {
         .then(
           (response) => {
             this.is_joined = true
-            console.log(response)
-            this.$store.commit('events/addParticipant', response, { root: true })
+            this.$store.commit('events/addJoinedEvent', response.event, { root: true })
+            this.$store.commit('events/addParticipant', response.user, { root: true })
           },
           (error) => {
             return error
