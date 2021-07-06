@@ -6,9 +6,10 @@
       class="mb-8"
     >
       <v-card-text class="pb-0">
-        {{ post.created_date }}
+        {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
         <AddStudyEvent
           :post="post"
+          :user="user"
         />
         <v-btn
           v-if="$auth.loggedIn&&post.user_id==$auth.user.id"
@@ -85,6 +86,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import AddStudyEvent from '~/components/molecles/users/AddStudyEvent'
 
 export default {
@@ -105,6 +107,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({ user: 'user/user' }),
     displayPosts () {
       return this.posts.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
     },

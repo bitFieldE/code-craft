@@ -9,6 +9,9 @@
         :to="{ path: `/posts/${post.id}` }"
         style="color: inherit; text-decoration: none;"
       >
+        <v-card-text>
+          {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
+        </v-card-text>
         <v-card-title class="pb-0" style="font-size: 15px;">
           {{ post.title }}
         </v-card-title>
@@ -46,7 +49,7 @@
         </v-chip-group>
       </v-card-text>
       <v-card-text
-        v-if="$auth.user&&$auth.user.id==post.user_id"
+        v-if="$auth.loggedIn"
         class="pt-0"
       >
         <LikeBtnGroup

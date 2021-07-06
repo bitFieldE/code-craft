@@ -12,6 +12,17 @@
           label="プロフィール画像"
         />
         <TextFieldWithValidation
+          v-if="name=='guestuser'"
+          v-model="name"
+          label="ユーザー名"
+          placeholder="あなたの表示名"
+          :counter="15"
+          rules="max:15|required"
+          disabled
+          outlined
+        />
+        <TextFieldWithValidation
+          v-else
           v-model="name"
           label="ユーザー名"
           placeholder="あなたの表示名"
@@ -20,6 +31,15 @@
           outlined
         />
         <TextFieldWithValidation
+          v-if="email=='guestuser@example.com'"
+          v-model="email"
+          label="メールアドレス"
+          rules="required|email|max:30"
+          disabled
+          outlined
+        />
+        <TextFieldWithValidation
+          v-else
           v-model="email"
           label="メールアドレス"
           rules="required|email|max:30"

@@ -15,8 +15,8 @@ module Api
                              { posts: [{ images_attachments: :blob }, { user: { image_attachment: :blob } }, :tags] },
                              :liked_posts, :events, :followings, :followers, :tags).find(params[:id])
         render json: user.as_json(include: [{ posts: { include: [:tags], methods: :images_data } },
-                                            { events: { include: [{ post: { include: [:tags] } }, { user: { methods: :image_url } }, :join_users] } },
-                                            { liked_posts: { include: [:tags, :liked_users] }}, { join_events: { include: [{ event: { include: [:join_users] } }] } },
+                                            { events: { include: [{ post: { include: [:tags] } }, { user: { methods: :image_url } }, { join_users: { methods: :image_url }}] } },
+                                            { liked_posts: { include: [:tags, :liked_users] }}, { join_events: { include: [{ event: { include: [{ user: { methods: :image_url } } ,{ join_users: { methods: :image_url }}] } }] } },
                                             :followings, :followers, :tags], methods: :image_url)
       end
 

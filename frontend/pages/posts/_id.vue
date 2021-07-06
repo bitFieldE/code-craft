@@ -10,6 +10,7 @@
             <AddStudyEvent
               class="float-right ma-0"
               :post="post"
+              :user="$auth.user"
             />
           </v-card-subtitle>
           <v-card-title>

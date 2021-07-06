@@ -55,6 +55,15 @@ export default {
       imgHeight: 250
     }
   },
-  created () {}
+  async fetch ({ $axios, params, store }) {
+    await $axios.get('api/v1/top')
+      .then((response) => {
+        store.commit('posts/setPosts', response.data, { root: true })
+      })
+      .catch((error) => {
+        console.log(error)
+        return error
+      })
+  }
 }
 </script>

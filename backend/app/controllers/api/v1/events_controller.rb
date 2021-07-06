@@ -12,7 +12,7 @@ module Api
         event.post = post
 
         if event.save
-          render json: { event: event.as_json(include: [{ post: { include: [:tags] } }, { user: { methods: :image_url } }, :join_users]), message: 'イベントを作成しました', status: :created }
+          render json: { event: event.as_json(include: [{ post: { include: [:tags] } }, { user: { methods: :image_url } }, { join_users: { methods: :image_url } }]), message: 'イベントを作成しました', status: :created }
         else
           render json: event.errors, status: :unprocessable_entity
         end
@@ -20,7 +20,7 @@ module Api
 
       def update
         if @event.update(event_params)
-          render json: @event.as_json(include: [{ post: { include: [:tags] } }, { user: { methods: :image_url } }, :join_users]), status: :ok
+          render json: @event.as_json(include: [{ post: { include: [:tags] } }, { user: { methods: :image_url } }, { join_users: { methods: :image_url } }]), status: :ok
         else
           render json: @event.errors, status: :unprocessable_entity
         end

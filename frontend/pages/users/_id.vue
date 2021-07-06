@@ -206,6 +206,7 @@
             <template v-if="joinedEvents.length > 0">
               <UserJoinedEvents
                 :joinedEvents="joinedEvents"
+                :user="user"
               />
             </template>
             <template v-else>

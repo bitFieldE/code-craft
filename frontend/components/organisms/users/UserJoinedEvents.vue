@@ -11,6 +11,15 @@
       >
         <v-card class="mb-8">
           <v-img src="/images/no_img.png">
+            <v-row no-gutters>
+              <v-col cols="12">
+                <div class="float-right mt-2 mr-2">
+                  <EventModal
+                    :event="joinedEvent"
+                  />
+                </div>
+              </v-col>
+            </v-row>
           </v-img>
           <v-card-title class="text-h5">
             {{ joinedEvent.title }}
@@ -20,20 +29,14 @@
           </v-card-subtitle>
           <v-card-text class="pt-0">
             <v-btn
-              :to="{ path: `/events/${joinedEvent.id}` }"
-              color="deep-purple lighten-5"
-            >
-              参加者ルーム
-            </v-btn>
-            <v-btn
-              class="pt-0"
+              v-if="$auth.user.id==user.id"
+              class="pt-0 white--text"
               color="pink accent-2"
               @click="cancelEvent(joinedEvent)"
             >
               <v-icon>
                 mdi-trash-can-outline
               </v-icon>
-              参加をキャンセルする
             </v-btn>
           </v-card-text>
         </v-card>
@@ -51,8 +54,17 @@
 </template>
 
 <script>
+import EventModal from '~/components/molecles/events/EventModal'
+
 export default {
+  components: {
+    EventModal
+  },
   props: {
+    user: {
+      type: Object,
+      default: () => {}
+    },
     joinedEvents: {
       type: Array,
       default: () => []

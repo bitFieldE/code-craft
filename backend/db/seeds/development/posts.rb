@@ -9,6 +9,11 @@ contents = [
     title: "Nuxt.js使ってみた",
     rate: 5.0,
     content: "# vue-cliをインストール\n\n<br>\n\n```shell\nnpm install -g vue-cli\n```\n\n<br>\n\n# プロジェクトの作成\n<br>\n\n```\nvue init nuxt-community/starter-template sample\n```\n\n<br>\n\n```\n? Project name sample\n? Project description Nuxt.js project\n? Author [UserName]\n```\n<br>\n必要なライブラリをインストールします。\n<br>\n\n```\ncd sample\nnpm install\n```\n\n<br>\n開発サーバーを起動。\n<br>\n\n```\nnpm run dev\n```\n\n<br>\nlocalhost:3000でNuxtのサンプルアプリが起動します。\n<br>\n\n```shell\n> sample@1.0.0 dev /Users/takeshi/projects/sample/sample\n> nuxt\n\n  nuxt:build App root: /Users/takeshi/projects/sample/sample +0ms\n  nuxt:build Generating /Users/takeshi/projects/sample/sample/.nuxt files... +1ms\n  nuxt:build Generating files... +49ms\n  nuxt:build Generating routes... +7ms\n  nuxt:build Building files... +21ms\n  nuxt:build Adding webpack middleware... +110ms\nBuild completed in 6.958s\n\n\n\n DONE  Compiled successfully in 6963ms                                                                        21:33:18\n\n\n OPEN  http://localhost:3000\n```\n"
+  },
+  {
+    title: "",
+    rate: 5.0,
+    content: "**非常に助かりました**\n\n[【MySQL】Unknown MySQL server host 'db' (-2)の対処法【Docker】](https://qiita.com/SyoInoue/items/2ed5b3017c517920ec09)"
   }
 ]
 1.upto(10) do |idx|

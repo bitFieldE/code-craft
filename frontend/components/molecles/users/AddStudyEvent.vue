@@ -144,6 +144,10 @@ export default {
     AutoCompleteWithValidation
   },
   props: {
+    user: {
+      type: Object,
+      default: null
+    },
     post: {
       type: Object,
       default: null
@@ -186,7 +190,9 @@ export default {
         await this.$axios.$post('/api/v1/events', formData)
           .then(
             (response) => {
-              this.$store.commit('events/addEvent', response.event, { root: true })
+              if (response.event.user.id === this.user.id) {
+                this.$store.commit('events/addEvent', response.event, { root: true })
+              }
               this.$store.dispatch(
                 'flash/showMessage',
                 {
@@ -196,7 +202,13 @@ export default {
                 },
                 { root: true }
               )
+              this.title = ''
               this.content = ''
+              this.place = ''
+              this.participant_number = null
+              this.scheduled_date = new Date().toLocaleDateString().replace(/\//g, '-')
+              this.start_time = ''
+              this.end_time = ''
               this.$refs.form.reset()
             },
             (error) => {
