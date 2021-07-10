@@ -1,7 +1,9 @@
-class Api::V1::EventCommentsController < ApplicationController
-  def create
-  end
+module Api
+  module V1
+    class EventCommentsController < ApplicationController
+      def create; end
 
-  def destroy
+      def destroy; end
+    end
   end
 end

@@ -24,7 +24,8 @@
                 />
                 <InputImages
                   v-model="images"
-                  :value="post.images_data"
+                  :images_url="post.images_data"
+                  @deletelIds="deletelIdList"
                 />
                 <InputContent
                   v-model="content"
@@ -77,6 +78,7 @@ export default {
     return {
       title: '',
       content: '',
+      deleteIds: [],
       rate: null,
       isEnter: false,
       loading: false,
@@ -94,16 +96,19 @@ export default {
         return error
       })
   },
+  computed: {
+    ...mapGetters({ post: 'posts/post' })
+  },
   mounted () {
+    if (this.post.user.id !== this.$auth.user.id) {
+      this.$router.push(`/users/${this.post.user.id}`)
+    }
     this.title = this.post.title
     this.rate = this.post.rate
     this.content = this.post.content
     this.post.tags.forEach((tag) => {
       this.tags.push(tag.name)
     })
-  },
-  computed: {
-    ...mapGetters({ post: 'posts/post' })
   },
   methods: {
     async createPost () {
@@ -123,6 +128,11 @@ export default {
         if (this.tags) {
           this.tags.forEach((tag) => {
             formData.append('post[tags][]', tag)
+          })
+        }
+        if (this.deleteIds) {
+          this.deleteIds.forEach((deleteId) => {
+            formData.append('post[delete_ids][]', deleteId)
           })
         }
         await this.$axios.$patch(`/api/v1/posts/${this.post.id}`, formData)
@@ -158,6 +168,9 @@ export default {
           )
         this.loading = false
       }
+    },
+    deletelIdList (id) {
+      this.deleteIds.push(id)
     }
   }
 }

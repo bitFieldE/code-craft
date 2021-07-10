@@ -5,13 +5,18 @@
       :key="post.id"
       class="mb-8"
     >
+      <v-card-text>
+        {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
+        <AddStudyEvent
+          v-if="$auth.loggedIn"
+          :post="post"
+          :user="user"
+        />
+      </v-card-text>
       <nuxt-link
         :to="{ path: `/posts/${post.id}` }"
         style="color: inherit; text-decoration: none;"
       >
-        <v-card-text>
-          {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
-        </v-card-text>
         <v-card-title class="pb-0" style="font-size: 15px;">
           {{ post.title }}
         </v-card-title>
@@ -67,11 +72,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import LikeBtnGroup from '~/components/molecles/posts/LikeBtnGroup'
+import AddStudyEvent from '~/components/molecles/users/AddStudyEvent'
 
 export default {
   components: {
-    LikeBtnGroup
+    LikeBtnGroup,
+    AddStudyEvent
   },
   props: {
     likedPosts: {
@@ -87,6 +95,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({ user: 'user/user' }),
     displayLikedPosts () {
       return this.likedPosts.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
     },

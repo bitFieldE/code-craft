@@ -8,19 +8,10 @@
       <v-card-text class="pb-0">
         {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
         <AddStudyEvent
+          v-if="$auth.loggedIn"
           :post="post"
           :user="user"
         />
-        <v-btn
-          v-if="$auth.loggedIn&&post.user_id==$auth.user.id"
-          class="float-right mr-2"
-          :to="{ path: `/posts/edit/${post.id}` }"
-          icon
-        >
-          <v-icon>
-            mdi-square-edit-outline
-          </v-icon>
-        </v-btn>
       </v-card-text>
       <nuxt-link
         :to="{ path: `/posts/${post.id}` }"
@@ -63,9 +54,18 @@
         </v-chip-group>
       </v-card-text>
       <v-card-text
-        v-if="$auth.user&&$auth.user.id==post.user_id"
+        v-if="$auth.loggedIn&&$auth.user.id==post.user_id"
         class="pt-0"
       >
+        <v-btn
+          class=""
+          :to="{ path: `/posts/edit/${post.id}` }"
+          icon
+        >
+          <v-icon>
+            mdi-square-edit-outline
+          </v-icon>
+        </v-btn>
         <v-btn
           icon
           @click="deletePost(post.id)"

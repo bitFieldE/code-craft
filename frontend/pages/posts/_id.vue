@@ -91,19 +91,22 @@
         <v-card>
           <v-container>
             <v-card-actions>
-              <v-avatar color="black" size="50" class="mr-1">
+              <v-avatar
+                v-if="post.user.image_url"
+                color="black"
+                size="40"
+                class="mr-1"
+              >
                 <v-img
-                  v-if="post.user.image_url"
                   :src="post.user.image_url"
                 />
-                <v-icon
-                  v-else
-                  color="white"
-                  size="50"
-                >
-                  mdi-account-circle
-                </v-icon>
               </v-avatar>
+              <v-icon
+                v-else
+                size="45"
+              >
+                mdi-account-circle
+              </v-icon>
               <nuxt-link
                 :to="{ path: `/users/${post.user.id}` }"
                 style="color: inherit; text-decoration: none;"

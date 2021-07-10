@@ -17,6 +17,8 @@ services:
         WORKDIR: $WORKDIR
     command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
+      POSTGRES_HOST: $POSTGRES_HOST
+      POSTGRES_USERNAME: $POSTGRES_USERNAME
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       FRONTEND_DOMAIN: "localhost:$FRONTEND_PORT"   
     volumes:

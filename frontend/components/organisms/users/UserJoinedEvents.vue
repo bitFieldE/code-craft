@@ -95,7 +95,6 @@ export default {
           .then(
             (response) => {
               this.$store.commit('events/deleteJoinedEvent', joinedEvent.id, { root: true })
-              this.$store.commit('events/deleteParticipants', this.$auth.user.id, { root: true })
               this.$store.dispatch(
                 'flash/showMessage',
                 {

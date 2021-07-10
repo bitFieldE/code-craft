@@ -10,7 +10,11 @@
         md="4"
       >
         <v-card class="mb-8">
-          <v-img src="/images/no_img.png">
+          <v-img
+            :src="event.image_url ? event.image_url : '/images/no_img.png'"
+            min-height="150"
+            max-height="150"
+          >
             <v-row no-gutters>
               <v-col cols="12">
                 <div class="float-right mt-2 mr-2">
@@ -19,7 +23,10 @@
                   />
                 </div>
               </v-col>
-              <v-col cols="12">
+              <v-col
+                v-if="event.user.id==$auth.user.id"
+                cols="12"
+              >
                 <div class="float-right mt-2 mr-2">
                   <EditStudyEvent
                     :post="event.post"
@@ -35,6 +42,10 @@
           <v-card-subtitle>
             <span>開催日: </span>
             {{ $moment(event.scheduled_date).format('YYYY/MM/DD') }}
+          </v-card-subtitle>
+          <v-card-subtitle>
+            <span>開始時刻: </span>
+            {{ $moment(event.start_time).format('HH : mm') }}
           </v-card-subtitle>
           <v-card-text>
             <v-chip-group
@@ -54,7 +65,10 @@
               </v-chip>
             </v-chip-group>
           </v-card-text>
-          <v-card-text class="pt-0">
+          <v-card-text
+            v-if="event.user_id == $auth.user.id"
+            class="pt-0"
+          >
             <v-btn
               class="pt-0"
               icon
@@ -119,6 +133,7 @@ export default {
           .then(
             (response) => {
               this.$store.commit('events/deleteEvent', eventId, { root: true })
+              this.$store.commit('events/deleteJoinedEvent', eventId, { root: true })
               this.$store.dispatch(
                 'flash/showMessage',
                 {

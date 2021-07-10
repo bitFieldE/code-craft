@@ -39,6 +39,11 @@
         <v-container>
           <v-form>
             <v-card-text>
+              <InputEventImage
+                v-model="image"
+              />
+            </v-card-text>
+            <v-card-text>
               <TextFieldWithValidation
                 v-model="title"
                 label="イベントのタイトル"
@@ -132,6 +137,7 @@
 
 <script>
 import DatePicker from '~/components/atoms/input/DatePicker'
+import InputEventImage from '~/components/atoms/input/InputEventImage'
 import TextAreaWithValidation from '~/components/atoms/input/TextAreaWithValidation'
 import TextFieldWithValidation from '~/components/atoms/input/TextFieldWithValidation'
 import AutoCompleteWithValidation from '~/components/atoms/input/AutoCompleteWithValidation'
@@ -139,6 +145,7 @@ import AutoCompleteWithValidation from '~/components/atoms/input/AutoCompleteWit
 export default {
   components: {
     DatePicker,
+    InputEventImage,
     TextAreaWithValidation,
     TextFieldWithValidation,
     AutoCompleteWithValidation
@@ -155,6 +162,7 @@ export default {
   },
   data () {
     return {
+      image: '',
       title: '',
       content: '',
       place: '',
@@ -180,6 +188,7 @@ export default {
         console.log(this.post.id)
         formData.append('event[user_id]', this.$auth.user.id)
         formData.append('event[post_id]', this.post.id)
+        if (this.image) { formData.append('event[image]', this.image) }
         formData.append('event[title]', this.title)
         formData.append('event[participant_number]', this.participant_number)
         formData.append('event[place]', this.place)

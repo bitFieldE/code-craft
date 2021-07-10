@@ -15,13 +15,22 @@
       上限人数に達しました
     </v-btn>
     <v-btn
-      v-else-if="event.user.id!=$auth.user.id"
+      v-else-if="event.user.id!=$auth.user.id && !is_joined"
       @click="joinEvent(event.id)"
     >
       <v-icon>
         mdi-account-arrow-right
       </v-icon>
       参加する
+    </v-btn>
+    <v-btn
+      v-else
+      disabled
+    >
+      <v-icon>
+        mdi-account-arrow-right
+      </v-icon>
+      参加済み
     </v-btn>
   </div>
 </template>
