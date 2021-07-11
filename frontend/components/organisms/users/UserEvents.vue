@@ -1,6 +1,20 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row v-if="loading">
+      <v-col
+        v-for="n in 6"
+        :key="n"
+        cols="12"
+        xs="12"
+        sm="4"
+        md="4"
+      >
+        <v-skeleton-loader
+          type="card"
+        />
+      </v-col>
+    </v-row>
+    <v-row v-else>
       <v-col
         v-for="event in displayEvents"
         :key="event.id"
@@ -106,6 +120,10 @@ export default {
     events: {
       type: Array,
       default: () => []
+    },
+    loading: {
+      type: Boolean,
+      default: null
     }
   },
   data () {

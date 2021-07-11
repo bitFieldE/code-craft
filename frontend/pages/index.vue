@@ -40,7 +40,8 @@
               急上昇記事
             </v-card-text>
             <FamousPosts
-             :posts="famousPosts"
+              :posts="famousPosts"
+              :loading="loading"
             />
           </v-col>
         </v-row>
@@ -53,8 +54,9 @@
             <v-card-text class="text-h6">
               開催間近イベント
             </v-card-text>
-            <ComingSoonEvent
+            <ComingSoonEvents
               :events="comingSoonEvents"
+              :loading="loading"
             />
           </v-col>
         </v-row>
@@ -65,36 +67,41 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ComingSoonEvent from '~/components/organisms/top/ComingSoonEvent'
+import ComingSoonEvents from '~/components/organisms/top/ComingSoonEvents'
 import FamousPosts from '~/components/organisms/top/FamousPosts'
 
 export default {
   components: {
-    ComingSoonEvent,
+    ComingSoonEvents,
     FamousPosts
   },
   data () {
     return {
+      loading: false,
       model: [],
       imgHeight: 250
     }
   },
-  async fetch ({ $axios, store, $config }) {
-    console.log($config.baseURL)
-    await $axios.get('api/v1/top')
-      .then((response) => {
-        console.log(response.data.tag_posts)
-        store.commit('posts/setFamousPosts', response.data.posts, { root: true })
-        store.commit('events/setComingSoonEvents', response.data.events, { root: true })
-      })
-      .catch((error) => {
-        console.log(error)
-        return error
-      })
-  },
   computed: {
     ...mapGetters({ famousPosts: 'posts/famousPosts' }),
     ...mapGetters({ comingSoonEvents: 'events/comingSoonEvents' })
+  },
+  async mounted () {
+    this.loading = true
+    await this.$axios.get('api/v1/top')
+      .then((response) => {
+        this.$store.commit('posts/setFamousPosts', response.data.posts, { root: true })
+        this.$store.commit('events/setComingSoonEvents', response.data.events, { root: true })
+      })
+      .catch((error) => {
+        return error
+      })
+    setTimeout(this.stopLoading, 500)
+  },
+  methods: {
+    stopLoading () {
+      this.loading = false
+    }
   }
 }
 </script>

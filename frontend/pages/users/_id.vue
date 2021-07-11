@@ -147,6 +147,7 @@
               </v-card-text>
               <UserPosts
                 :posts="posts"
+                :loading="loading"
               />
             </template>
             <template v-else>
@@ -174,6 +175,7 @@
             <template v-if="likedPosts.length > 0">
               <UserLikedPosts
                 :likedPosts="likedPosts"
+                :loading="loading"
               />
             </template>
             <template v-else>
@@ -190,6 +192,7 @@
             <template v-if="events.length > 0">
               <UserEvents
                 :events="events"
+                :loading="loading"
               />
             </template>
             <template v-else>
@@ -207,6 +210,7 @@
               <UserJoinedEvents
                 :joinedEvents="joinedEvents"
                 :user="user"
+                :loading="loading"
               />
             </template>
             <template v-else>
@@ -251,7 +255,8 @@ export default {
         { name: 'お気に入りツール' },
         { name: 'イベント' },
         { name: '参加イベント' }
-      ]
+      ],
+      loading: null
     }
   },
   async fetch ({ $axios, params, store }) {
@@ -274,12 +279,21 @@ export default {
         return error
       })
   },
+  mounted () {
+    this.loading = true
+    setTimeout(this.stopLoading, 3000)
+  },
   computed: {
     ...mapGetters({ user: 'user/user' }),
     ...mapGetters({ posts: 'posts/posts' }),
     ...mapGetters({ likedPosts: 'posts/likedPosts' }),
     ...mapGetters({ events: 'events/events' }),
     ...mapGetters({ joinedEvents: 'events/joinedEvents' })
+  },
+  methods: {
+    stopLoading () {
+      this.loading = false
+    }
   }
 }
 </script>

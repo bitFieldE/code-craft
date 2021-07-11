@@ -1,67 +1,80 @@
 <template>
   <div>
-    <v-card
-      v-for="post in displayLikedPosts"
-      :key="post.id"
-      class="mb-8"
-    >
-      <v-card-text>
-        {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
-        <AddStudyEvent
-          v-if="$auth.loggedIn"
-          :post="post"
-          :user="user"
-        />
-      </v-card-text>
-      <nuxt-link
-        :to="{ path: `/posts/${post.id}` }"
-        style="color: inherit; text-decoration: none;"
+    <template v-if="loading">
+      <v-card
+        v-for="n in 5"
+        :key="n"
+        class="mb-8"
       >
-        <v-card-title class="pb-0" style="font-size: 15px;">
-          {{ post.title }}
-        </v-card-title>
-        <v-card-actions class="ml-2">
-          <v-rating
-            :value="post.rate"
-            color="yellow darken-3"
-            background-color="grey darken-1"
-            readonly
-            half-increments
-            dense
-            small
+        <v-skeleton-loader
+          type="article, actions"
+        />
+      </v-card>
+    </template>
+    <template v-else>
+      <v-card
+        v-for="post in displayLikedPosts"
+        :key="post.id"
+        class="mb-8"
+      >
+        <v-card-text>
+          {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
+          <AddStudyEvent
+            v-if="$auth.loggedIn"
+            :post="post"
+            :user="user"
           />
-          <span class="rate pl-1">
-            ( {{ post.rate }} )
-          </span>
-        </v-card-actions>
-      </nuxt-link>
-      <v-card-text class="py-0">
-        <v-chip-group
-          v-if="post.tags.length > 0"
-          class="w-100"
-          active-class="primary--text"
-          column
+        </v-card-text>
+        <nuxt-link
+          :to="{ path: `/posts/${post.id}` }"
+          style="color: inherit; text-decoration: none;"
         >
-          <v-chip
-            v-for="tag in post.tags"
-            :key="tag.id"
-            color="info"
-            outlined
-            small
+          <v-card-title class="pb-0" style="font-size: 15px;">
+            {{ post.title }}
+          </v-card-title>
+          <v-card-actions class="ml-2">
+            <v-rating
+              :value="post.rate"
+              color="yellow darken-3"
+              background-color="grey darken-1"
+              readonly
+              half-increments
+              dense
+              small
+            />
+            <span class="rate pl-1">
+              ( {{ post.rate }} )
+            </span>
+          </v-card-actions>
+        </nuxt-link>
+        <v-card-text class="py-0">
+          <v-chip-group
+            v-if="post.tags.length > 0"
+            class="w-100"
+            active-class="primary--text"
+            column
           >
-            {{ tag.name }}
-          </v-chip>
-        </v-chip-group>
-      </v-card-text>
-      <v-card-text
-        v-if="$auth.loggedIn"
-        class="pt-0"
-      >
-        <LikeBtnGroup
-          :post="post"
-        />
-      </v-card-text>
-    </v-card>
+            <v-chip
+              v-for="tag in post.tags"
+              :key="tag.id"
+              color="info"
+              outlined
+              small
+            >
+              {{ tag.name }}
+            </v-chip>
+          </v-chip-group>
+        </v-card-text>
+        <v-card-text
+          v-if="$auth.loggedIn"
+          class="pt-0"
+        >
+          <LikeBtnGroup
+            :post="post"
+          />
+        </v-card-text>
+      </v-card>
+    </template>
     <v-pagination
       v-model="page"
       color="info"
@@ -85,6 +98,10 @@ export default {
     likedPosts: {
       type: Array,
       default: () => []
+    },
+    loading: {
+      type: Boolean,
+      default: null
     }
   },
   data () {

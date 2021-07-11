@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row  align="center" justify="center">
+    <v-row align="center" justify="center">
       <v-col xs="12" sm="8" md="7" lg="6">
         <v-card>
           <v-tabs
@@ -23,15 +23,18 @@
               イベント
             </v-tab>
           </v-tabs>
-          <v-tabs-items v-model="tab">
+          <v-tabs-items v-model="tab" touchless>
             <v-tab-item>
               <v-container>
+                ユーザー
+                <searchUsers />
               </v-container>
             </v-tab-item>
             <v-tab-item>
-            </v-tab-item>
               <v-container>
+                投稿
               </v-container>
+            </v-tab-item>
             <v-tab-item>
               <v-container>
               </v-container>
@@ -44,7 +47,12 @@
 </template>
 
 <script>
+import searchUsers from '~/components/template/top/searchUsers'
+
 export default {
+  components: {
+    searchUsers
+  },
   middleware: 'loginAuth',
   data () {
     return {

@@ -1,81 +1,93 @@
 <template>
   <div>
-    <v-card
-      v-for="post in displayPosts"
-      :key="post.id"
-      class="mb-8"
-    >
-      <v-card-text class="pb-0">
-        {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
-        <AddStudyEvent
-          v-if="$auth.loggedIn"
-          :post="post"
-          :user="user"
+    <template v-if="loading">
+      <v-card
+        v-for="n in 5"
+        :key="n"
+        class="mb-8"
+      >
+        <v-skeleton-loader
+          type="article, actions"
         />
-      </v-card-text>
-      <nuxt-link
-        :to="{ path: `/posts/${post.id}` }"
-        style="color: inherit; text-decoration: none;"
+      </v-card>
+    </template>
+    <template v-else>
+      <v-card
+        v-for="post in displayPosts"
+        :key="post.id"
+        class="mb-8"
       >
-        <v-card-title class="pb-0" style="font-size: 15px;">
-          {{ post.title }}
-        </v-card-title>
-        <v-card-actions class="ml-2">
-          <v-rating
-            :value="post.rate"
-            color="yellow darken-3"
-            background-color="grey darken-1"
-            readonly
-            half-increments
-            dense
-            small
+        <v-card-text class="pb-0">
+          {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
+          <AddStudyEvent
+            v-if="$auth.loggedIn"
+            :post="post"
+            :user="user"
           />
-          <span class="rate pl-1">
-            ( {{ post.rate }} )
-          </span>
-        </v-card-actions>
-      </nuxt-link>
-      <v-card-text class="py-0">
-        <v-chip-group
-          v-if="post.tags.length > 0"
-          class="w-100"
-          active-class="primary--text"
-          column
+        </v-card-text>
+        <nuxt-link
+          :to="{ path: `/posts/${post.id}` }"
+          style="color: inherit; text-decoration: none;"
         >
-          <v-chip
-            v-for="tag in post.tags"
-            :key="tag.id"
-            color="info"
-            outlined
-            small
+          <v-card-title class="pb-0" style="font-size: 15px;">
+            {{ post.title }}
+          </v-card-title>
+          <v-card-actions class="ml-2">
+            <v-rating
+              :value="post.rate"
+              color="yellow darken-3"
+              background-color="grey darken-1"
+              readonly
+              half-increments
+              dense
+              small
+            />
+            <span class="rate pl-1">
+              ( {{ post.rate }} )
+            </span>
+          </v-card-actions>
+        </nuxt-link>
+        <v-card-text class="py-0">
+          <v-chip-group
+            v-if="post.tags.length > 0"
+            class="w-100"
+            active-class="primary--text"
+            column
           >
-            {{ tag.name }}
-          </v-chip>
-        </v-chip-group>
-      </v-card-text>
-      <v-card-text
-        v-if="$auth.loggedIn&&$auth.user.id==post.user_id"
-        class="pt-0"
-      >
-        <v-btn
-          class=""
-          :to="{ path: `/posts/edit/${post.id}` }"
-          icon
+            <v-chip
+              v-for="tag in post.tags"
+              :key="tag.id"
+              color="info"
+              outlined
+              small
+            >
+              {{ tag.name }}
+            </v-chip>
+          </v-chip-group>
+        </v-card-text>
+        <v-card-text
+          v-if="$auth.loggedIn&&$auth.user.id==post.user_id"
+          class="pt-0"
         >
-          <v-icon>
-            mdi-square-edit-outline
-          </v-icon>
-        </v-btn>
-        <v-btn
-          icon
-          @click="deletePost(post.id)"
-        >
-          <v-icon>
-            mdi-trash-can-outline
-          </v-icon>
-        </v-btn>
-      </v-card-text>
-    </v-card>
+          <v-btn
+            :to="{ path: `/posts/edit/${post.id}` }"
+            icon
+          >
+            <v-icon>
+              mdi-square-edit-outline
+            </v-icon>
+          </v-btn>
+          <v-btn
+            icon
+            @click="deletePost(post.id)"
+          >
+            <v-icon>
+              mdi-trash-can-outline
+            </v-icon>
+          </v-btn>
+        </v-card-text>
+      </v-card>
+    </template>
     <v-pagination
       v-model="page"
       color="info"
@@ -97,6 +109,10 @@ export default {
     posts: {
       type: Array,
       default: () => []
+    },
+    loading: {
+      type: Boolean,
+      default: null
     }
   },
   data () {

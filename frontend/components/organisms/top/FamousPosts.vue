@@ -1,6 +1,20 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row v-if="loading">
+      <v-col
+        v-for="n in 6"
+        :key="n"
+        xs="12"
+        sm="6"
+        md="６"
+        cols="12"
+      >
+        <v-skeleton-loader
+          type="article, actions"
+        />
+      </v-col>
+    </v-row>
+    <v-row v-else>
       <v-col
         v-for="post in posts"
         :key="post.id"
@@ -88,6 +102,10 @@ export default {
     posts: {
       type: Array,
       default: () => []
+    },
+    loading: {
+      type: Boolean,
+      default: null
     }
   }
 }

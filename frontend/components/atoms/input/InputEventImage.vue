@@ -9,8 +9,8 @@
       <div class="p-2 float-right">
         <v-file-input
           id="fileInput"
-          accept="image/*"
           v-model="inputValue"
+          accept="image/*"
           prepend-icon="mdi-plus"
           hide-input
           @change="convertImage"
@@ -31,7 +31,7 @@ export default {
       type: null,
       default: ''
     },
-    eventImage: {
+    event_image: {
       type: null,
       default: ''
     }
@@ -49,6 +49,11 @@ export default {
       set (value) {
         this.$emit('input', value)
       }
+    }
+  },
+  mounted () {
+    if (this.event_image) {
+      this.eventImageURL = this.event_image
     }
   },
   methods: {

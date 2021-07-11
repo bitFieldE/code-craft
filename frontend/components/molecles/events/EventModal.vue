@@ -28,13 +28,13 @@
           </v-icon>
         </v-btn>
       </v-banner>
+      <v-card-title>
+        {{ event.title }}
+      </v-card-title>
       <v-img
         :src="event.image_url ? event.image_url : '/images/no_img.png'"
         max-height="300"
       />
-      <v-card-title>
-        {{ event.title }}
-      </v-card-title>
       <v-card-text>
         <v-timeline
           align-top
@@ -47,7 +47,7 @@
           >
             <div>
               <span>場所</span>
-              <div class="text-h5">
+              <div class="text-h6">
                 {{ event.place }}
               </div>
             </div>
@@ -59,7 +59,7 @@
           >
             <div>
               <span>開催日</span>
-              <div class="text-h5">
+              <div class="text-h6">
                 {{ $moment(event.scheduled_date).format('YYYY/MM/DD') }}
               </div>
             </div>
@@ -90,10 +90,7 @@
             </div>
           </v-timeline-item>
 
-          <v-timeline-item
-            color="white"
-            large
-          >
+          <v-timeline-item color="white" large>
             <template #icon>
               <v-avatar>
                 <v-img

@@ -7,5 +7,14 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+
+    }
+  },
+  fetch () {
+
+  }
+}
 </script>
