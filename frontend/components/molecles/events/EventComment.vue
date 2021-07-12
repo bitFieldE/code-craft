@@ -1,7 +1,16 @@
 <template>
-  <div>aaa</div>
+  <v-container>
+    aaa
+  </v-container>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    comment: {
+      type: Object,
+      default: () => {}
+    }
+  }
+}
 </script>

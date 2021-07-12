@@ -112,6 +112,11 @@
                 outlined
               />
             </v-card-text>
+            <v-card-text>
+              <InputTags
+                v-model="tags"
+              />
+            </v-card-text>
           </v-form>
           <v-card-text>
             <v-btn
@@ -137,6 +142,7 @@ import DatePicker from '~/components/atoms/input/DatePicker'
 import InputEventImage from '~/components/atoms/input/InputEventImage'
 import TextAreaWithValidation from '~/components/atoms/input/TextAreaWithValidation'
 import TextFieldWithValidation from '~/components/atoms/input/TextFieldWithValidation'
+import InputTags from '../../atoms/input/InputTags.vue'
 
 export default {
   components: {
@@ -144,7 +150,8 @@ export default {
     DatePicker,
     InputEventImage,
     TextAreaWithValidation,
-    TextFieldWithValidation
+    TextFieldWithValidation,
+    InputTags
   },
   props: {
     post: {
@@ -166,6 +173,7 @@ export default {
       scheduled_date: '',
       start_time: '',
       end_time: '',
+      tags: [],
       dialog: false,
       loading: false,
       tab: null,
@@ -184,6 +192,9 @@ export default {
     this.scheduled_date = this.event.scheduled_date
     this.start_time = this.$moment(this.event.start_time).format('HH:mm')
     this.end_time = this.$moment(this.event.end_time).format('HH:mm')
+    this.event.tags.forEach((tag) => {
+      this.tags.push(tag.name)
+    })
   },
   methods: {
     async createEvent () {
@@ -201,6 +212,11 @@ export default {
         formData.append('event[scheduled_date]', this.scheduled_date)
         formData.append('event[start_time]', this.start_time)
         formData.append('event[end_time]', this.end_time)
+        if (this.tags) {
+          this.tags.forEach((tag) => {
+            formData.append('event[tags][]', tag)
+          })
+        }
         await this.$axios.$patch(`/api/v1/events/${this.event.id}`, formData)
           .then(
             (response) => {

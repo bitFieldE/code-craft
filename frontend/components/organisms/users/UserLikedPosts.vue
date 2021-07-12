@@ -66,7 +66,7 @@
           </v-chip-group>
         </v-card-text>
         <v-card-text
-          v-if="$auth.loggedIn"
+          v-if="$auth.loggedIn && $auth.user.id == post.user_id"
           class="pt-0"
         >
           <LikeBtnGroup

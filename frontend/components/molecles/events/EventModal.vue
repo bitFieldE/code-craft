@@ -90,9 +90,9 @@
             </div>
           </v-timeline-item>
 
-          <v-timeline-item color="white" large>
+          <v-timeline-item color="white">
             <template #icon>
-              <v-avatar>
+              <v-avatar size="40">
                 <v-img
                   v-if="event.user.image_url"
                   :src="event.user.image_url"

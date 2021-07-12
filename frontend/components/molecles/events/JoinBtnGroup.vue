@@ -2,26 +2,25 @@
   <div>
     <h3>{{ `参加人数: ${event.join_users.length}/${event.participant_number}` }}</h3>
     <v-btn
-      v-if="event.user.id==$auth.user.id"
       :to="{ path: `/events/${event.id}` }"
       color="deep-purple lighten-5 white--text"
     >
       参加者ルーム
     </v-btn>
     <v-btn
-      v-if="event.participant_number > 0 && event.participant_number==event.join_users.length"
-      disabled
-    >
-      上限人数に達しました
-    </v-btn>
-    <v-btn
-      v-else-if="event.user.id!=$auth.user.id && !is_joined"
+      v-if="event.user.id!=$auth.user.id && !is_joined"
       @click="joinEvent(event.id)"
     >
       <v-icon>
         mdi-account-arrow-right
       </v-icon>
       参加する
+    </v-btn>
+    <v-btn
+      v-else-if="event.participant_number > 0 && event.participant_number==event.join_users.length"
+      disabled
+    >
+      上限人数に達しました
     </v-btn>
     <v-btn
       v-else
@@ -59,10 +58,6 @@ export default {
         .then(
           (response) => {
             this.is_joined = true
-            if (this.$auth.user.id === response.event.user.id) {
-              // 参加者人数の更新
-              this.$store.commit('events/addJoinedEvent', response.event, { root: true })
-            }
             this.$store.commit('events/updateEvent', response.event, { root: true })
           },
           (error) => {

@@ -44,6 +44,26 @@
           <v-card-subtitle class="pb-0">
             {{ $moment(event.scheduled_date).format('YYYY/MM/DD') }}
           </v-card-subtitle>
+          <v-card-text
+            v-if="event.tags.length > 0"
+            class="py-0"
+          >
+            <v-chip-group
+              class="w-100"
+              active-class="primary--text"
+              column
+            >
+              <v-chip
+                v-for="tag in event.tags"
+                :key="tag.id"
+                color="info"
+                outlined
+                small
+              >
+                {{ tag.name }}
+              </v-chip>
+            </v-chip-group>
+          </v-card-text>
           <nuxt-link
             :to="{ path: `/users/${event.user.id}` }"
             style="color: inherit; text-decoration: none;"

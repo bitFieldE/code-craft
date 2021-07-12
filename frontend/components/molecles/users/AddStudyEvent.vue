@@ -108,12 +108,17 @@
                 outlined
               />
             </v-card-text>
-            <v-card-text class="pb-0">
+            <v-card-text>
               <TextAreaWithValidation
                 v-model="content"
                 label="詳細"
                 rules="required|max:1000"
                 outlined
+              />
+            </v-card-text>
+            <v-card-text class="pb-0">
+              <InputTags
+                v-model="tags"
               />
             </v-card-text>
           </v-form>
@@ -141,6 +146,7 @@ import InputEventImage from '~/components/atoms/input/InputEventImage'
 import TextAreaWithValidation from '~/components/atoms/input/TextAreaWithValidation'
 import TextFieldWithValidation from '~/components/atoms/input/TextFieldWithValidation'
 import AutoCompleteWithValidation from '~/components/atoms/input/AutoCompleteWithValidation'
+import InputTags from '~/components/atoms/input/InputTags'
 
 export default {
   components: {
@@ -148,7 +154,8 @@ export default {
     InputEventImage,
     TextAreaWithValidation,
     TextFieldWithValidation,
-    AutoCompleteWithValidation
+    AutoCompleteWithValidation,
+    InputTags
   },
   props: {
     user: {
@@ -170,6 +177,7 @@ export default {
       scheduled_date: new Date().toLocaleDateString().replace(/\//g, '-'),
       start_time: '',
       end_time: '',
+      tags: [],
       dialog: false,
       loading: false,
       tab: null,
@@ -196,6 +204,11 @@ export default {
         formData.append('event[scheduled_date]', this.scheduled_date)
         formData.append('event[start_time]', this.start_time)
         formData.append('event[end_time]', this.end_time)
+        if (this.tags) {
+          this.tags.forEach((tag) => {
+            formData.append('event[tags][]', tag)
+          })
+        }
         await this.$axios.$post('/api/v1/events', formData)
           .then(
             (response) => {

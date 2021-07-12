@@ -29,8 +29,9 @@
               </v-container>
             </v-tab-item>
           </v-tabs-items>
-          <v-divider />
-          <DeleteUserBtn />
+          <DeleteUserBtn
+            v-if="$auth.user.name!='guestuser'"
+          />
         </v-card>
       </v-col>
     </v-row>

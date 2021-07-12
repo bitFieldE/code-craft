@@ -61,15 +61,17 @@
             <span>開始時刻: </span>
             {{ $moment(event.start_time).format('HH : mm') }}
           </v-card-subtitle>
-          <v-card-text>
+          <v-card-text
+            v-if="event.tags.length > 0"
+            class="py-0"
+          >
             <v-chip-group
-              v-if="event.post.tags.length > 0"
               class="w-100"
               active-class="primary--text"
               column
             >
               <v-chip
-                v-for="tag in event.post.tags"
+                v-for="tag in event.tags"
                 :key="tag.id"
                 color="info"
                 class="white--text ml-0"

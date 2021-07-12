@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_02_063519) do
+ActiveRecord::Schema.define(version: 2021_07_12_043945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 2021_07_02_063519) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["event_id"], name: "index_event_comments_on_event_id"
     t.index ["user_id"], name: "index_event_comments_on_user_id"
+  end
+
+  create_table "event_tag_maps", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_event_tag_maps_on_event_id"
+    t.index ["tag_id"], name: "index_event_tag_maps_on_tag_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -159,6 +168,8 @@ ActiveRecord::Schema.define(version: 2021_07_02_063519) do
   add_foreign_key "comments", "users"
   add_foreign_key "event_comments", "events"
   add_foreign_key "event_comments", "users"
+  add_foreign_key "event_tag_maps", "events"
+  add_foreign_key "event_tag_maps", "tags"
   add_foreign_key "events", "posts"
   add_foreign_key "events", "users"
   add_foreign_key "join_events", "events"

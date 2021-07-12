@@ -4,8 +4,6 @@ module Api
       before_action :authenticate_user, except: [:show]
       before_action :set_post, except: %i[index create]
 
-      def index; end
-
       def show
         render json: @post.as_json(include: [{ user: { include: %i[followings followers], methods: :image_url } },
                                              { comments: { include: { user: { methods: :image_url } } } },

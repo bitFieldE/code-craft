@@ -6,7 +6,7 @@ module Api
         events = Event.where('scheduled_date > ? AND scheduled_date <= ?', Date.today, Date.today + 7.day).limit(6)
         render json: {
           posts: posts.as_json(include: [{ user: { methods: :image_url } }, :liked_users, :tags]),
-          events: events.as_json(include: [{ user: { methods: :image_url } }, :join_users], methods: :image_url)
+          events: events.as_json(include: [{ user: { methods: :image_url } }, :tags, :join_users], methods: :image_url)
         }
       end
     end

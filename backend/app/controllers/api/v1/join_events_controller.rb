@@ -8,7 +8,7 @@ module Api
           render json: join_event.as_json(include: [{ user: { methods: :image_url } },
                                                     { event: { include: [{ post: { include: [:tags] } },
                                                                          { user: { methods: :image_url } },
-                                                                         { join_users: { methods: :image_url } }], methods: :image_url } }]), status: :created
+                                                                         { join_users: { methods: :image_url } }, :tags], methods: :image_url } }]), status: :created
         else
           render json: join_event.errors, status: :unprocessable_entity
         end
