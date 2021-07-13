@@ -14,6 +14,12 @@ Rails.application.routes.draw do
       resources :users, except: [:edit] do
         get :current_user, action: :login_user, on: :collection
       end
+      resources :search do
+        get :users, on: :collection
+        get :posts, on: :collection
+        get :events, on: :collection
+        get :tags, on: :collection
+      end
       # ログイン・ログアウト処理
       resources :user_token, only: [:create] do
         delete :destroy, on: :collection

@@ -21,11 +21,13 @@
           </v-tabs>
           <v-tabs-items v-model="tab" touchless>
             <v-tab-item>
-              <editUser />
+              <v-container>
+                <EditUser />
+              </v-container>
             </v-tab-item>
             <v-tab-item>
               <v-container>
-                <editPassword />
+                <EditPassword />
               </v-container>
             </v-tab-item>
           </v-tabs-items>
@@ -39,15 +41,15 @@
 </template>
 
 <script>
-import editUser from '~/components/template/users/editUser'
-import editPassword from '~/components/template/users/editPassword'
 import DeleteUserBtn from '~/components/atoms/DeleteUserBtn'
+import EditPassword from '~/components/organisms/users/EditPassword'
+import EditUser from '~/components/organisms/users/EditUser'
 
 export default {
   components: {
-    editUser,
-    editPassword,
-    DeleteUserBtn
+    DeleteUserBtn,
+    EditPassword,
+    EditUser
   },
   middleware: 'loginAuth',
   data () {

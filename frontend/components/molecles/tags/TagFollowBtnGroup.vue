@@ -2,22 +2,26 @@
   <div>
     <v-btn
       v-if="is_followed"
-      class="ml-3"
-      color=""
+      color="info"
       rounded
       small
       @click="unFollowTag"
     >
+      <v-icon left>
+        mdi-minus
+      </v-icon>
       アンフォロー
     </v-btn>
     <v-btn
       v-else
-      class="ml-3"
       color="warning"
       rounded
       small
       @click="followTag"
     >
+      <v-icon left>
+        mdi-plus
+      </v-icon>
       フォロー
     </v-btn>
   </div>
@@ -81,7 +85,7 @@ export default {
             this.$store.dispatch(
               'flash/showMessage',
               {
-                message: response,
+                message: '',
                 color: 'success',
                 status: true
               },

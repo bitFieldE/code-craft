@@ -27,12 +27,10 @@ module Api
 
       def update
         # 既存の画像の削除
-        if @post.images.present?
-          if ids_params[:delete_ids].present?
-            ids_params[:delete_ids].each do |delete_id|
-              image = @post.images.find_by(blob_id: delete_id)
-              image.purge
-            end
+        if @post.images.present? && ids_params[:delete_ids].present?
+          ids_params[:delete_ids].each do |delete_id|
+            image = @post.images.find_by(blob_id: delete_id)
+            image.purge
           end
         end
 

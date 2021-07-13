@@ -2,7 +2,7 @@
   <v-combobox
     v-model.trim="inputValue"
     multiple
-    label="言語/技術を入力"
+    label="関連情報を入力"
     append-icon
     small-chips
     deletable-chips

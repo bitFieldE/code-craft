@@ -19,7 +19,7 @@ RSpec.describe 'Api::V1::Posts', type: :request do
     let!(:user) { create(:user) }
     let!(:post) { create(:post, user: user) }
     let!(:params) { { auth: { email: user.email, password: user.password } } }
-    let!(:update) { { post: { title: 'testpost', rate: 3.5 ,content: 'testcontent' } } }
+    let!(:update) { { post: { title: 'testpost', rate: 3.5, content: 'testcontent' } } }
 
     it 'returns http success' do
       post '/api/v1/user_token', params: params

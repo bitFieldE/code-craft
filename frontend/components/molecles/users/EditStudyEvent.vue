@@ -113,6 +113,7 @@
               />
             </v-card-text>
             <v-card-text>
+              <v-card-subtitle>タグを入力</v-card-subtitle>
               <InputTags
                 v-model="tags"
               />
@@ -142,7 +143,7 @@ import DatePicker from '~/components/atoms/input/DatePicker'
 import InputEventImage from '~/components/atoms/input/InputEventImage'
 import TextAreaWithValidation from '~/components/atoms/input/TextAreaWithValidation'
 import TextFieldWithValidation from '~/components/atoms/input/TextFieldWithValidation'
-import InputTags from '../../atoms/input/InputTags.vue'
+import InputTags from '~/components/atoms/input/InputTags.vue'
 
 export default {
   components: {

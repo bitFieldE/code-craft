@@ -60,7 +60,12 @@
                 outlined
                 small
               >
-                {{ tag.name }}
+                <nuxt-link
+                  :to="{ path: `/tags/${tag.id}` }"
+                  style="color: inherit; text-decoration: none;"
+                >
+                  {{ tag.name }}
+                </nuxt-link>
               </v-chip>
             </v-chip-group>
           </v-card-text>

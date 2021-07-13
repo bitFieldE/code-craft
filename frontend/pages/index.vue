@@ -37,7 +37,7 @@
         <v-row>
           <v-col cols="12">
             <v-card-text class="text-h6 font-weight-light">
-              急上昇記事
+              人気レビュー記事
             </v-card-text>
             <FamousPosts
               :posts="famousPosts"
