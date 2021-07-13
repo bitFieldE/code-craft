@@ -8,7 +8,8 @@
       prepend-icon="mdi-magnify"
       @keyup="searchEvents"
     />
-    {{ events }}
+    <v-row v-if="events.length > 0">
+    </v-row>
   </v-container>
 </template>
 

@@ -75,20 +75,27 @@
               </v-chip>
             </v-chip-group>
           </v-card-text>
-          <v-card-text
-            v-if="event.user_id == $auth.user.id"
-            class="pt-0"
+          <nuxt-link
+            :to="{ path: `/users/${event.user.id}` }"
+            style="color: inherit; text-decoration: none;"
           >
-            <v-btn
-              class="pt-0"
-              icon
-              @click="deleteEvent(event.id)"
-            >
-              <v-icon>
-                mdi-trash-can-outline
+            <v-card-text>
+              <v-avatar
+                v-if="event.user.image_url"
+                size="25"
+              >
+                <v-img
+                  :src="event.user.image_url"
+                />
+              </v-avatar>
+              <v-icon
+                v-else
+              >
+                mdi-account-circle
               </v-icon>
-            </v-btn>
-          </v-card-text>
+              {{ event.user.name }}
+            </v-card-text>
+          </nuxt-link>
         </v-card>
       </v-col>
     </v-row>

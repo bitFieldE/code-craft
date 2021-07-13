@@ -8,7 +8,7 @@
       prepend-icon="mdi-magnify"
       @keyup="searchTags"
     />
-    <v-row v-if="tags.length > 0">
+    <v-row v-if="tags">
       <v-col
         v-for="tag in tags"
         :key="tag.id"
