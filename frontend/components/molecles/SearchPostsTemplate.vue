@@ -20,9 +20,8 @@
         <v-card-text class="pb-0">
           {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
           <AddStudyEvent
-            v-if="$auth.loggedIn"
             :post="post"
-            :user="post.user"
+            :user="$auth.user"
           />
         </v-card-text>
         <nuxt-link

@@ -166,7 +166,7 @@ export default {
   },
   data () {
     return {
-      image: '',
+      image: null,
       title: '',
       content: '',
       place: '',

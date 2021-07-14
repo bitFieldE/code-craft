@@ -8,43 +8,44 @@
       prepend-icon="mdi-magnify"
       @keyup="searchTags"
     />
-    <v-row v-if="tags">
-      <v-col
-        v-for="tag in tags"
-        :key="tag.id"
-      >
-        {{ tag.name }}
-      </v-col>
-    </v-row>
+    <SearchTagsTemplate
+      v-if="tags.length > 0"
+      :tags="tags"
+      :loading="loading"
+    />
   </v-container>
 </template>
 
 <script>
 import TextFieldWithValidation from '~/components/atoms/input/TextFieldWithValidation'
+import SearchTagsTemplate from '~/components/molecles/SearchTagsTemplate'
 
 export default {
   components: {
-    TextFieldWithValidation
+    TextFieldWithValidation,
+    SearchTagsTemplate
   },
   data () {
     return {
       keyword: '',
-      tags: []
+      tags: [],
+      loading: null
     }
   },
   methods: {
     async searchTags () {
+      this.loading = true
       await this.$axios.get('api/v1/search/tags', {
         params: {
           keyword: this.keyword
         }
       }).then((response) => {
         this.tags = response.data
-        console.log(response)
       })
         .catch((error) => {
           return error
         })
+      this.loading = false
     }
   }
 }

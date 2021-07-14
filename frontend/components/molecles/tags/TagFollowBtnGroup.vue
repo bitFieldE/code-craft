@@ -52,15 +52,6 @@ export default {
           (response) => {
             this.$store.commit('tags/setTag', response, { root: true })
             this.is_followed = true
-            this.$store.dispatch(
-              'flash/showMessage',
-              {
-                message: response,
-                color: 'success',
-                status: true
-              },
-              { root: true }
-            )
           },
           (error) => {
             this.$store.dispatch(
@@ -82,15 +73,6 @@ export default {
           (response) => {
             this.is_followed = false
             this.$store.commit('tags/setTag', response, { root: true })
-            this.$store.dispatch(
-              'flash/showMessage',
-              {
-                message: '',
-                color: 'success',
-                status: true
-              },
-              { root: true }
-            )
           },
           (error) => {
             this.$store.dispatch(

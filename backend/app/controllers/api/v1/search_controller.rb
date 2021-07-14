@@ -1,26 +1,41 @@
-class Api::V1::SearchController < ApplicationController
-  def users
-    users = User.where('name Like ? OR description Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
-    render json: users.as_json()
-  end
+module Api
+  module V1
+    class SearchController < ApplicationController
+      def users
+        users = if params[:keyword].empty?
+                  []
+                else
+                  User.where('name Like ? OR description Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+                end
+        render json: users.as_json(include: %i[followings followers tags], methods: :image_url)
+      end
 
-  def posts
-    unless params[:keyword].empty?
-      posts = Post.where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
-    else
-      posts = []
+      def posts
+        posts = if params[:keyword].empty?
+                  []
+                else
+                  Post.where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+                end
+        render json: posts.as_json(include: [{ user: { methods: :image_url } }, :liked_users, :tags])
+      end
+
+      def events
+        events = if params[:keyword].empty?
+                   []
+                 else
+                   Event.where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+                 end
+        render json: events.as_json(include: [{ user: { methods: :image_url } }, :tags, :join_users], methods: :image_url)
+      end
+
+      def tags
+        tags = if params[:keyword].empty?
+                 []
+               else
+                 Tag.where('name Like ?', "%#{params[:keyword]}%")
+               end
+        render json: tags.as_json(include: %i[users posts events])
+      end
     end
-    render json: posts.as_json(include: [{ user: { methods: :image_url } }, :liked_users, :tags])
-  end
-
-  def events
-    events = Event.where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%") unless params[:keyword].empty?
-
-    render json: events.as_json()
-  end
-
-  def tags
-    tags = Tag.where('name Like ?', "%#{params[:keyword]}%") unless params[:keyword].empty?
-    render json: tags
   end
 end

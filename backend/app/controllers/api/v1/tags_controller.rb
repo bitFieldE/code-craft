@@ -20,8 +20,11 @@ module Api
       # タグのアンフォロー
       def destroy
         user_tag_map = UserTagMap.find_by(user_id: current_user.id, tag_id: @tag.id)
-
-        render json: @tag.as_json(include: %i[users posts events]), status: :ok if user_tag_map.destroy
+        if user_tag_map.destroy
+          render json: @tag.as_json(include: %i[users posts events]), status: :ok
+        else
+          render json: user_tag_map.errors, status: :unprocessable_entity
+        end
       end
 
       private

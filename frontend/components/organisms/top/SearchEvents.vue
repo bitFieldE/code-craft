@@ -8,26 +8,33 @@
       prepend-icon="mdi-magnify"
       @keyup="searchEvents"
     />
-    <v-row v-if="events.length > 0">
-    </v-row>
+    <SearchEventsTemplate
+      v-if="events.length > 0"
+      :events="events"
+      :loading="loading"
+    />
   </v-container>
 </template>
 
 <script>
 import TextFieldWithValidation from '~/components/atoms/input/TextFieldWithValidation'
+import SearchEventsTemplate from '~/components/molecles/SearchEventsTemplate'
 
 export default {
   components: {
-    TextFieldWithValidation
+    TextFieldWithValidation,
+    SearchEventsTemplate
   },
   data () {
     return {
       keyword: '',
-      events: []
+      events: [],
+      loading: null
     }
   },
   methods: {
     async searchEvents () {
+      this.loading = true
       await this.$axios.get('api/v1/search/events', {
         params: {
           keyword: this.keyword
@@ -38,6 +45,7 @@ export default {
         .catch((error) => {
           return error
         })
+      this.loading = false
     }
   }
 }

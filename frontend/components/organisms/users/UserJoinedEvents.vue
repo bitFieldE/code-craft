@@ -24,7 +24,11 @@
         md="4"
       >
         <v-card class="mb-8">
-          <v-img src="/images/no_img.png">
+          <v-img
+            :src="joinedEvent.image_url ? joinedEvent.image_url : '/images/no_img.png'"
+            min-height="150"
+            max-height="150"
+          >
             <v-row no-gutters>
               <v-col cols="12">
                 <div class="float-right mt-2 mr-2">
@@ -92,7 +96,7 @@ export default {
     return {
       page: 1,
       length: 0,
-      pageSize: 5
+      pageSize: 6
     }
   },
   computed: {

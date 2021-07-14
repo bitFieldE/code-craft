@@ -2,19 +2,22 @@
   <v-card>
     <v-container>
       <v-card-actions>
-        <v-avatar color="black" size="40" class="mr-1">
+        <v-avatar
+          v-if="comment.user.image_url"
+          color="black"
+          size="40"
+          class="mr-1"
+        >
           <v-img
-            v-if="comment.user.image_url"
             :src="comment.user.image_url"
           />
-          <v-icon
-            v-else
-            color="white"
-            size="40"
-          >
-            mdi-account-circle
-          </v-icon>
         </v-avatar>
+        <v-icon
+          v-else
+          size="40"
+        >
+          mdi-account-circle
+        </v-icon>
         <span class="pl-2">
           {{ comment.user.name }}
         </span>

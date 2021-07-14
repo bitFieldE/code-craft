@@ -137,7 +137,7 @@ export default {
     return {
       page: 1,
       length: 0,
-      pageSize: 5
+      pageSize: 6
     }
   },
   computed: {

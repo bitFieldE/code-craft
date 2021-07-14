@@ -4,7 +4,8 @@ module Api
       before_action :set_event, only: %i[show update destroy]
 
       def show
-        render json: @event.as_json(include: [{ post: { include: [:tags] } }, { user: { methods: :image_url } }, { join_users: { methods: :image_url } }], methods: :image_url)
+        render json: @event.as_json(include: [{ post: { include: [:tags] } }, { user: { methods: :image_url } }, { join_users: { methods: :image_url } },
+                                              { event_comments: { include: { user: { methods: :image_url } } } }], methods: :image_url)
       end
 
       def create
