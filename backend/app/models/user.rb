@@ -33,6 +33,23 @@ class User < ApplicationRecord
                          with: VALID_PASSWORD_REGEX
                        },
                        allow_nil: true
+  
+  def save_tags(tags)
+    current_tags = self.tags.pluck(:name) unless self.tags.nil?
+    old_tags = current_tags - tags
+    new_tags = tags - current_tags
+
+    # すでに登録されているがフォームに含まれていない古いタグの削除
+    old_tags.each do |old_name|
+      self.tags.delete Tag.find_by(name: old_name)
+    end
+
+    # タグの生成
+    new_tags.each do |new_name|
+      user_tag = Tag.find_or_create_by(name: new_name)
+      self.tags << user_tag
+    end
+  end
 
   # ユーザーへのフォロー
   def follow(other_user)

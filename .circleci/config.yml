@@ -113,11 +113,11 @@ jobs:
       - checkout
       - aws-ecr/build-and-push-image:
           account-url: AWS_ACCOUNT_URL
-          repo: "meetwithkids-backend"
+          repo: "code-craft-backend"
           region: AWS_REGION
           tag: "${CIRCLE_SHA1}"
           path: './backend'
-          dockerfile: Dockerfile.prd
+          dockerfile: Dockerfile
 
   build_and_push_image_frontend:
     machine:
@@ -172,7 +172,7 @@ workflows:
       - aws-ecs/run-task:
           cluster: meetwithkids-ecs-cluster
           # task-definition: meetwithkids-db-migrate
-          task-definition: meetwithkids-db-seed
+          task-definition: code-craft-db-seed
           subnet-ids: subnet-06a4f27e9e1d65861, subnet-02f0bf9e2014d444f
           assign-public-ip: ENABLED
           security-group-ids: '${MIGRATION_SECURITY_GROUP_ID}'
@@ -183,9 +183,9 @@ workflows:
               only: master
 
       - aws-ecs/deploy-service-update:
-            family: meetwithkids-frontend-task
-            service-name: meetwithkids-frontend-ecs-service
-            cluster-name: meetwithkids-ecs-cluster
+            family: code-craft-frontend-task
+            service-name: code-craft-frontend-ecs-service
+            cluster-name: code-craft-ecs-cluster
             container-image-name-updates: 'container=frontend-container,tag=${CIRCLE_SHA1}'
             requires:
               - build_and_push_image_frontend
@@ -197,8 +197,8 @@ workflows:
               - build_and_push_image_frontend
               - build_and_push_image_backend
             family: meetwithkids-backend-task
-            service-name: meetwithkids-backend-ecs-service
-            cluster-name: meetwithkids-ecs-cluster
+            service-name: code-craft-backend-ecs-service
+            cluster-name: code-craft-ecs-cluster
             container-image-name-updates: 'container=backend-container,tag=${CIRCLE_SHA1}'
             filters:
               branches:

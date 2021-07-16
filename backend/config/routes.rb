@@ -2,6 +2,14 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :top, only: [:index]
+      resources :admin do
+        get :users, on: :collection
+        get :posts, on: :collection
+        get :comments, on: :collection
+        get :events, on: :collection
+        get :event_comments, on: :collection
+        get :tags, on: :collection
+      end
       resource :passwords, only: [:update]
       resources :relationships, param: 'follow_id', only: %i[create destroy]
       resources :posts, except: [:new]

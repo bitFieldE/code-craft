@@ -3,9 +3,9 @@
     <h3>{{ `参加人数: ${event.join_users.length}/${event.participant_number}` }}</h3>
     <v-btn
       :to="{ path: `/events/${event.id}` }"
-      color="deep-purple lighten-5 white--text"
+      color="deep-purple white--text"
     >
-      参加者ルーム
+      参加者専用ルーム
     </v-btn>
     <v-btn
       v-if="event.user.id!=$auth.user.id && !is_joined"
@@ -21,15 +21,6 @@
       disabled
     >
       上限人数に達しました
-    </v-btn>
-    <v-btn
-      v-else
-      disabled
-    >
-      <v-icon>
-        mdi-account-arrow-right
-      </v-icon>
-      参加済み
     </v-btn>
   </div>
 </template>

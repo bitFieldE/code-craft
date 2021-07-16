@@ -37,6 +37,19 @@
         アカウント
       </v-subheader>
 
+      <v-list-item
+        v-if="$auth.user.admin"
+        :to="{ path: '/admin' }"
+      >
+        <v-list-item-icon class="mr-2">
+          <v-icon size="22">
+            mdi-card-account-details-star
+          </v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>
+          管理者専用ページ
+        </v-list-item-title>
+      </v-list-item>
       <v-list-item :to="{ path: '/search' }">
         <v-list-item-icon class="mr-2">
           <v-icon size="22">
@@ -67,16 +80,6 @@
         </v-list-item-icon>
         <v-list-item-title>
           プロフィール編集
-        </v-list-item-title>
-      </v-list-item>
-      <v-list-item :to="{ path: '/notifications' }">
-        <v-list-item-icon class="mr-2">
-          <v-icon size="22">
-            mdi-bell-outline
-          </v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>
-          通知
         </v-list-item-title>
       </v-list-item>
       <v-list-item @click="logout">

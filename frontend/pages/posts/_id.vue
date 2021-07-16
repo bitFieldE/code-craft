@@ -154,16 +154,10 @@
           <v-col
             v-else
             cols="12"
-            sm="12"
-            lg="10"
           >
             <v-card-text>コメントがありません</v-card-text>
           </v-col>
-          <v-col
-            cols="12"
-            sm="12"
-            lg="10"
-          >
+          <v-col cols="12">
             <v-card-text
               v-if="$auth.isAuthenticated()"
               class="px-0"

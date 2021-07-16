@@ -8,8 +8,6 @@ module Api
                status: :ok
       end
 
-      def index; end
-
       def show
         user = User.includes({ image_attachment: :blob },
                              { posts: [{ images_attachments: :blob }, { user: { image_attachment: :blob } }, :tags] },

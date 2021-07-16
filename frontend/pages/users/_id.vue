@@ -98,7 +98,7 @@
               <v-card-text>
                 {{ user.description }}
               </v-card-text>
-              <v-card-subtitle>登録したタグ</v-card-subtitle>
+              <v-card-subtitle class="pb-0">登録したタグ</v-card-subtitle>
               <v-card-text
                 v-if="user.tags"
                 class="pb-0"
@@ -126,7 +126,7 @@
               <v-card-text v-else>
                 登録したタグはありません
               </v-card-text>
-              <v-card-title>経歴</v-card-title>
+              <v-card-title></v-card-title>
               <v-divider />
               <v-row justify="center" no-gutters>
                 <v-col>
@@ -265,7 +265,8 @@ export default {
         { name: 'イベント' },
         { name: '参加イベント' }
       ],
-      loading: null
+      loading: null,
+      chartData: []
     }
   },
   async fetch ({ $axios, params, store }) {
@@ -298,6 +299,9 @@ export default {
   mounted () {
     this.loading = true
     setTimeout(this.stopLoading, 3000)
+    this.user.tags.forEach((tag) => {
+      console.log(tag)
+    })
   },
   methods: {
     stopLoading () {
