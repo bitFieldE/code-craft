@@ -2,26 +2,29 @@
   <div>
     <v-card
       tile
-      color="greyLight4"
+      color="brown lighten-5"
     >
       <v-row align="center" justify="center" no-gutters>
         <v-col xs="12" sm="10" md="8" lg="6">
           <v-layout class="py-3 pl-13" align-content-center>
-            <v-list color="greyLight4">
+            <v-list color="brown lighten-5">
               <v-list-item>
                 <v-card-actions>
-                  <v-avatar color="white" size="65">
+                  <v-avatar
+                    v-if="user.image_url"
+                    color="white"
+                    size="65"
+                  >
                     <v-img
-                      v-if="user.image_url"
                       :src="user.image_url"
                     />
-                    <v-icon
-                      v-else
-                      size="80"
-                    >
-                      mdi-account-circle
-                    </v-icon>
                   </v-avatar>
+                  <v-icon
+                    v-else
+                    size="65"
+                  >
+                    mdi-account-circle
+                  </v-icon>
                   <span class="pl-2">{{ user.name }}</span>
                   <FollowBtnGroup
                     :user="user"
@@ -42,44 +45,92 @@
           <v-tabs
             v-model="tabTitle"
             class="d-none d-sm-inline"
-            background-color="greyLight4"
-            color="info"
+            background-color="brown lighten-5"
+            color="secondary"
+            show-arrows
             centered
           >
             <v-tab v-for="title in titles" :key="title.name">
               {{ title.name }}
             </v-tab>
           </v-tabs>
-          <v-tabs
-            v-model="tabTitle"
-            class="d-inline d-sm-none"
-            background-color="greyLight4"
-            fixed-tabs
-            color="info"
-            vertical
-          >
-            <v-tab v-for="title in titles" :key="title.name">
-              {{ title.name }}
-            </v-tab>
-          </v-tabs>
+          <div class="d-inline d-sm-none py-0">
+            <div class="text-center">
+              <v-btn
+                icon
+                @click="show = !show"
+              >
+                <v-icon
+                  size="30"
+                >
+                  {{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                </v-icon>
+              </v-btn>
+            </div>
+          </div>
+          <v-divider />
+          <v-expand-transition>
+            <div v-show="show">
+              <v-tabs
+                v-model="tabTitle"
+                class="d-inline d-sm-none"
+                background-color="brown lighten-5"
+                fixed-tabs
+                color="secondary"
+                vertical
+              >
+                <v-tab v-for="title in titles" :key="title.name">
+                  {{ title.name }}
+                </v-tab>
+              </v-tabs>
+            </div>
+          </v-expand-transition>
         </v-col>
       </v-row>
     </v-card>
     <v-container>
       <v-tabs-items v-model="tabTitle">
         <v-tab-item>
-          <v-container style="background-color:#FAFAFA;">
+          <v-container class="grey lighten-5">
             <v-card>
               <v-card-title>自己紹介</v-card-title>
               <v-divider />
               <v-card-text>
                 {{ user.description }}
               </v-card-text>
-              <v-card-subtitle>登録したタグ</v-card-subtitle>
-              <v-card-text>
-                {{ user.tags }}
+              <v-card-subtitle class="pb-0">
+                登録したタグ
+              </v-card-subtitle>
+              <v-card-text
+                v-if="user.tags"
+                class="pb-0"
+              >
+                <v-chip-group
+                  active-class="primary--text"
+                  column
+                >
+                  <v-chip
+                    v-for="tag in user.tags"
+                    :key="tag.id"
+                    color="info"
+                    outlined
+                    small
+                  >
+                    <nuxt-link
+                      :to="{ path: `/tags/${tag.id}` }"
+                      style="color: inherit; text-decoration: none;"
+                    >
+                      {{ tag.name }}
+                    </nuxt-link>
+                  </v-chip>
+                </v-chip-group>
               </v-card-text>
-              <v-card-title>経歴</v-card-title>
+              <v-card-text v-else>
+                登録したタグはありません
+              </v-card-text>
+              <v-card-title>
+                あなたの嗜好
+              </v-card-title>
               <v-divider />
               <v-row justify="center" no-gutters>
                 <v-col>
@@ -89,24 +140,27 @@
                     :width="200"
                   />
                 </v-col>
-                <v-col>HOGE</v-col>
+                <v-col>
+                  {{ posts.liked_users }}
+                </v-col>
               </v-row>
             </v-card>
           </v-container>
         </v-tab-item>
         <v-tab-item>
-          <v-container style="background-color:#FAFAFA;">
+          <v-container class="grey lighten-5">
             <template v-if="posts.length > 0">
+              <v-card-text v-if="$auth.user.id==user.id">
+                <v-btn
+                  color="primary"
+                  to="/posts/new"
+                >
+                  投稿作成
+                </v-btn>
+              </v-card-text>
               <UserPosts
-                v-for="post in posts"
-                :key="post.id"
-                :post="post"
-                class="mb-8"
-              />
-              <v-pagination
-                v-model="page"
-                :length="6"
-                @input="getNumber"
+                :posts="posts"
+                :loading="loading"
               />
             </template>
             <template v-else>
@@ -130,11 +184,55 @@
           </v-container>
         </v-tab-item>
         <v-tab-item>
-          talkroom
+          <v-container class="grey lighten-5">
+            <template v-if="likedPosts.length > 0">
+              <UserLikedPosts
+                :posts="likedPosts"
+                :loading="loading"
+              />
+            </template>
+            <template v-else>
+              <v-card>
+                <v-card-text>
+                  お気に入り記事がありません
+                </v-card-text>
+              </v-card>
+            </template>
+          </v-container>
         </v-tab-item>
         <v-tab-item>
-          <v-container>
-            <UserEvents />
+          <v-container class="grey lighten-5">
+            <template v-if="events.length > 0">
+              <UserEvents
+                :events="events"
+                :loading="loading"
+              />
+            </template>
+            <template v-else>
+              <v-card>
+                <v-card-text>
+                  主催イベントがありません
+                </v-card-text>
+              </v-card>
+            </template>
+          </v-container>
+        </v-tab-item>
+        <v-tab-item>
+          <v-container class="grey lighten-5">
+            <template v-if="joinedEvents.length > 0">
+              <UserJoinedEvents
+                :events="joinedEvents"
+                :user="user"
+                :loading="loading"
+              />
+            </template>
+            <template v-else>
+              <v-card>
+                <v-card-text>
+                  参加予定のイベントがありません
+                </v-card-text>
+              </v-card>
+            </template>
           </v-container>
         </v-tab-item>
       </v-tabs-items>
@@ -146,35 +244,49 @@
 import { mapGetters } from 'vuex'
 import FollowBtnGroup from '~/components/molecles/users/FollowBtnGroup'
 import BarChart from '~/components/organisms/users/BarChart'
-import UserPosts from '~/components/organisms/users/UserPosts'
 import UserEvents from '~/components/organisms/users/UserEvents'
+import UserJoinedEvents from '~/components/organisms/users/UserJoinedEvents'
+import UserLikedPosts from '~/components/organisms/users/UserLikedPosts'
+import UserPosts from '~/components/organisms/users/UserPosts'
 
 export default {
   components: {
     FollowBtnGroup,
-    UserPosts,
+    BarChart,
     UserEvents,
-    BarChart
+    UserJoinedEvents,
+    UserLikedPosts,
+    UserPosts
   },
   data () {
     return {
       tabTitle: null,
+      show: false,
       titles: [
         { name: 'プロフィール詳細' },
         { name: '投稿レビュー' },
         { name: 'お気に入りツール' },
-        { name: 'イベント' }
+        { name: 'イベント' },
+        { name: '参加イベント' }
       ],
-      page: 1,
-      pageSize: 10
+      loading: null,
+      chartData: []
     }
   },
   async fetch ({ $axios, params, store }) {
     await $axios.get(`api/v1/users/${params.id}`)
       .then((response) => {
         store.commit('user/setUser', response.data, { root: true })
-        console.log(response.data)
         store.commit('posts/setPosts', response.data.posts, { root: true })
+        store.commit('posts/setLikedPosts', response.data.liked_posts, { root: true })
+        store.commit('events/setEvents', response.data.events, { root: true })
+        if (response.data.join_events.length > 0) {
+          const joinedEvents = []
+          response.data.join_events.forEach((joinEvent) => {
+            joinedEvents.push(joinEvent.event)
+          })
+          store.commit('events/setJoinedEvents', joinedEvents, { root: true })
+        }
       })
       .catch((error) => {
         console.log(error)
@@ -183,14 +295,18 @@ export default {
   },
   computed: {
     ...mapGetters({ user: 'user/user' }),
-    ...mapGetters({ posts: 'posts/posts' })
+    ...mapGetters({ posts: 'posts/posts' }),
+    ...mapGetters({ likedPosts: 'posts/likedPosts' }),
+    ...mapGetters({ events: 'events/events' }),
+    ...mapGetters({ joinedEvents: 'events/joinedEvents' })
   },
   mounted () {
-
+    this.loading = true
+    setTimeout(this.stopLoading, 3000)
   },
   methods: {
-    getNumber (number) {
-      console.log(number)
+    stopLoading () {
+      this.loading = false
     }
   }
 }

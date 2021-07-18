@@ -12,6 +12,17 @@
           label="プロフィール画像"
         />
         <TextFieldWithValidation
+          v-if="name=='guestuser'"
+          v-model="name"
+          label="ユーザー名"
+          placeholder="あなたの表示名"
+          :counter="15"
+          rules="max:15|required"
+          disabled
+          outlined
+        />
+        <TextFieldWithValidation
+          v-else
           v-model="name"
           label="ユーザー名"
           placeholder="あなたの表示名"
@@ -20,6 +31,15 @@
           outlined
         />
         <TextFieldWithValidation
+          v-if="email=='guestuser@example.com'"
+          v-model="email"
+          label="メールアドレス"
+          rules="required|email|max:30"
+          disabled
+          outlined
+        />
+        <TextFieldWithValidation
+          v-else
           v-model="email"
           label="メールアドレス"
           rules="required|email|max:30"
@@ -31,13 +51,6 @@
           rules="max:1000"
           :counter="1000"
           outlined
-        />
-        <v-divider />
-        <v-card-subtitle>
-          興味のある技術
-        </v-card-subtitle>
-        <InputTags
-          v-model="tags"
         />
         <v-card-text class="px-0">
           <v-btn
@@ -60,14 +73,12 @@
 import TextFieldWithValidation from '~/components/atoms/input/TextFieldWithValidation'
 import TextAreaWithValidation from '~/components/atoms/input/TextAreaWithValidation'
 import ImageFileWithValidation from '~/components/atoms/input/ImageFileWithValidation'
-import InputTags from '~/components/atoms/input/InputTags'
 
 export default {
   components: {
     TextFieldWithValidation,
     TextAreaWithValidation,
-    ImageFileWithValidation,
-    InputTags
+    ImageFileWithValidation
   },
   data () {
     return {
@@ -75,14 +86,8 @@ export default {
       image: null,
       name: this.$auth.user.name,
       email: this.$auth.user.email,
-      description: this.$auth.user.description,
-      tags: []
+      description: this.$auth.user.description
     }
-  },
-  mounted () {
-    this.$auth.user.tags.forEach((tag) => {
-      this.tags.push(tag.name)
-    })
   },
   methods: {
     async updateProfile () {
@@ -92,11 +97,6 @@ export default {
 
       if (isValid) {
         if (this.image) { formData.append('user[image]', this.image) }
-        if (this.tags) {
-          this.tags.forEach((tag) => {
-            formData.append('user[tags][]', tag)
-          })
-        }
         formData.append('user[name]', this.name)
         formData.append('user[email]', this.email)
         formData.append('user[description]', this.description)

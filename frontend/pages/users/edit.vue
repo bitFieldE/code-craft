@@ -1,14 +1,14 @@
 <template>
   <v-container>
-    <v-row  align="center" justify="center">
-      <v-col cols="10" sm="12" xs="12" md="7" lg="6">
+    <v-row align="center" justify="center">
+      <v-col xs="12" sm="8" md="7" lg="6">
         <v-card>
           <v-tabs
             v-model="tab"
             fixed-tabs
             centered
-            color="info"
-            background-color="greyLight4"
+            color="secondary"
+            background-color="brown lighten-5"
           >
             <v-tab>
               <v-icon>mdi-account-edit</v-icon>
@@ -21,16 +21,19 @@
           </v-tabs>
           <v-tabs-items v-model="tab" touchless>
             <v-tab-item>
-              <editUser />
+              <v-container>
+                <EditUser />
+              </v-container>
             </v-tab-item>
             <v-tab-item>
               <v-container>
-                <editPassword />
+                <EditPassword />
               </v-container>
             </v-tab-item>
           </v-tabs-items>
-          <v-divider />
-          <DeleteUserBtn />
+          <DeleteUserBtn
+            v-if="$auth.user.name!='guestuser'"
+          />
         </v-card>
       </v-col>
     </v-row>
@@ -38,15 +41,15 @@
 </template>
 
 <script>
-import editUser from '~/components/template/users/editUser'
-import editPassword from '~/components/template/users/editPassword'
 import DeleteUserBtn from '~/components/atoms/DeleteUserBtn'
+import EditPassword from '~/components/organisms/users/EditPassword'
+import EditUser from '~/components/organisms/users/EditUser'
 
 export default {
   components: {
-    editUser,
-    editPassword,
-    DeleteUserBtn
+    DeleteUserBtn,
+    EditPassword,
+    EditUser
   },
   middleware: 'loginAuth',
   data () {

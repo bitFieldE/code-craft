@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_27_052429) do
+ActiveRecord::Schema.define(version: 2021_07_12_043945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,12 +55,21 @@ ActiveRecord::Schema.define(version: 2021_06_27_052429) do
 
   create_table "event_comments", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "post_id", null: false
+    t.bigint "event_id", null: false
     t.text "content", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["post_id"], name: "index_event_comments_on_post_id"
+    t.index ["event_id"], name: "index_event_comments_on_event_id"
     t.index ["user_id"], name: "index_event_comments_on_user_id"
+  end
+
+  create_table "event_tag_maps", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_event_tag_maps_on_event_id"
+    t.index ["tag_id"], name: "index_event_tag_maps_on_tag_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -77,6 +86,16 @@ ActiveRecord::Schema.define(version: 2021_06_27_052429) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["post_id"], name: "index_events_on_post_id"
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "join_events", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_join_events_on_event_id"
+    t.index ["user_id", "event_id"], name: "index_join_events_on_user_id_and_event_id", unique: true
+    t.index ["user_id"], name: "index_join_events_on_user_id"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -147,10 +166,14 @@ ActiveRecord::Schema.define(version: 2021_06_27_052429) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
-  add_foreign_key "event_comments", "posts"
+  add_foreign_key "event_comments", "events"
   add_foreign_key "event_comments", "users"
+  add_foreign_key "event_tag_maps", "events"
+  add_foreign_key "event_tag_maps", "tags"
   add_foreign_key "events", "posts"
   add_foreign_key "events", "users"
+  add_foreign_key "join_events", "events"
+  add_foreign_key "join_events", "users"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
   add_foreign_key "post_tag_maps", "posts"

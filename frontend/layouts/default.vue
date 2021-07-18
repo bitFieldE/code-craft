@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Header />
-    <v-main style="background-color:#FAFAFA;">
+    <v-main class="grey lighten-5">
       <nuxt />
     </v-main>
     <Flash />

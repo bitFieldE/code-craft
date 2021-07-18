@@ -4,11 +4,11 @@ module Api
       before_action :authenticate_user, except: [:show]
       before_action :set_post, except: %i[index create]
 
-      def index; end
-
       def show
-        render json: @post.as_json(include: [{ user: { include: %i[followings followers], methods: :image_url } }, { comments: { include: { user: { methods: :image_url } }, methods: :created_date } }, :tags],
-                                   methods: %i[images_data created_date])
+        render json: @post.as_json(include: [{ user: { include: %i[followings followers], methods: :image_url } },
+                                             { comments: { include: { user: { methods: :image_url } } } },
+                                             :tags, :liked_users],
+                                   methods: :images_data)
       end
 
       def create
@@ -18,17 +18,25 @@ module Api
         params[:images].each { |image| post.images.attach(image) } if params[:images].present?
 
         if post.save
-          post.save_tags(tags_params[:tags]) if tags_params[:tags] 
-          render json: { post: post.as_json(include: [{ user: { methods: :image_url } }, :tags, :comments], methods: [:images_data]),
-                         message: '投稿を作成しました', status: :created }
+          post.save_tags(tags_params[:tags]) if tags_params[:tags]
+          render json: { post: post, message: '投稿を作成しました', status: :created }
         else
           render json: post.errors, status: :unprocessable_entity
         end
       end
 
       def update
+        # 既存の画像の削除
+        if @post.images.present? && ids_params[:delete_ids].present?
+          ids_params[:delete_ids].each do |delete_id|
+            image = @post.images.find_by(blob_id: delete_id)
+            image.purge
+          end
+        end
+
         # 投稿した画像の保存
         params[:images].each { |image| @post.images.attach(image) } if params[:images].present?
+
         if @post.update(post_params)
           @post.save_tags(tags_params[:tags]) if tags_params[:tags]
           render json: { post: @post, message: '投稿を編集しました' }
@@ -39,7 +47,7 @@ module Api
 
       def destroy
         if @post.destroy
-          render json: { message: '投稿を削除しました' }
+          render json: { message: '投稿を削除しました', status: :ok }
         else
           render json: @post.errors, status: :unprocessable_entity
         end
@@ -53,6 +61,10 @@ module Api
 
       def post_params
         params.require(:post).permit(:title, :content, :rate, images: [])
+      end
+
+      def ids_params
+        params.require(:post).permit(delete_ids: [])
       end
 
       def tags_params

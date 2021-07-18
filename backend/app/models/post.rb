@@ -4,18 +4,19 @@ class Post < ApplicationRecord
   has_many :post_tag_maps, dependent: :destroy
   has_many :tags, through: :post_tag_maps
   has_many :comments, dependent: :destroy
-  has_one :event, dependent: :destroy
+  has_many :event, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :liked_users, through: :likes, source: :user
+
+  # カラムのバリデーション
+  validates :title, presence: true, length: { maximum: 50, allow_blank: true }
+  validates :rate, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 5.0 }
+  validates :content, presence: true
 
   def images_data
     url_list = []
     images.each { |image| url_list.push({ id: image.blob_id, url: url_for(image) }) } if images.attached?
     url_list
-  end
-
-  def created_date
-    self.created_at&.strftime('%Y/%m/%d')
   end
 
   def save_tags(tags)

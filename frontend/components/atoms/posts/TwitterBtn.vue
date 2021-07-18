@@ -1,6 +1,7 @@
 <template>
   <v-btn
-    color="primary"
+    class="white--text"
+    color="#26c6da"
     :href="twitterUrl"
   >
     <v-icon

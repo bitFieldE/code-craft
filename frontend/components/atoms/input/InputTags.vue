@@ -2,7 +2,7 @@
   <v-combobox
     v-model.trim="inputValue"
     multiple
-    label="言語/技術を入力"
+    label="関連情報を入力"
     append-icon
     small-chips
     deletable-chips
@@ -44,8 +44,10 @@ export default {
   watch: {
     inputValue (value) {
       if (value.length > 5) {
-        this.$nextTick(() => this.inputValue.pop())
-        this.errormessage = 'タグは5個まで登録できます'
+        this.$nextTick(() => {
+          this.inputValue.pop()
+          this.errormessage = 'タグは5個まで登録できます'
+        })
       }
     }
   },

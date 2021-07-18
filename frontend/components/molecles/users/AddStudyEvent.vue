@@ -9,6 +9,7 @@
         v-bind="attrs"
         color="warning"
         class="float-right"
+        small
         v-on="on"
       >
         <v-icon
@@ -20,9 +21,13 @@
       </v-btn>
     </template>
     <v-card>
-      <v-card-actions style="background-color: #F5F5F5">
-        <v-spacer />
+      <v-banner
+        class="grey lighten-5"
+        sticky
+        outlined
+      >
         <v-btn
+          class="float-right my-0"
           text
           @click="dialog = false"
         >
@@ -30,15 +35,20 @@
             mdi-close
           </v-icon>
         </v-btn>
-      </v-card-actions>
+      </v-banner>
       <ValidationObserver ref="form" v-slot="{ invalid }" immediate>
         <v-container>
           <v-form>
             <v-card-text>
+              <InputEventImage
+                v-model="image"
+              />
+            </v-card-text>
+            <v-card-text>
               <TextFieldWithValidation
                 v-model="title"
                 label="イベントのタイトル"
-                rules="required"
+                rules="required|max:50"
                 outlined
               />
             </v-card-text>
@@ -99,12 +109,18 @@
                 outlined
               />
             </v-card-text>
-            <v-card-text class="pb-0">
+            <v-card-text>
               <TextAreaWithValidation
                 v-model="content"
                 label="詳細"
                 rules="required|max:1000"
                 outlined
+              />
+            </v-card-text>
+            <v-card-text class="pb-0">
+              <v-card-subtitle>タグを入力</v-card-subtitle>
+              <InputTags
+                v-model="tags"
               />
             </v-card-text>
           </v-form>
@@ -128,18 +144,26 @@
 
 <script>
 import DatePicker from '~/components/atoms/input/DatePicker'
+import InputEventImage from '~/components/atoms/input/InputEventImage'
 import TextAreaWithValidation from '~/components/atoms/input/TextAreaWithValidation'
 import TextFieldWithValidation from '~/components/atoms/input/TextFieldWithValidation'
 import AutoCompleteWithValidation from '~/components/atoms/input/AutoCompleteWithValidation'
+import InputTags from '~/components/atoms/input/InputTags'
 
 export default {
   components: {
     DatePicker,
+    InputEventImage,
     TextAreaWithValidation,
     TextFieldWithValidation,
-    AutoCompleteWithValidation
+    AutoCompleteWithValidation,
+    InputTags
   },
   props: {
+    user: {
+      type: Object,
+      default: null
+    },
     post: {
       type: Object,
       default: null
@@ -147,6 +171,7 @@ export default {
   },
   data () {
     return {
+      image: null,
       title: '',
       content: '',
       place: '',
@@ -154,6 +179,7 @@ export default {
       scheduled_date: new Date().toLocaleDateString().replace(/\//g, '-'),
       start_time: '',
       end_time: '',
+      tags: [],
       dialog: false,
       loading: false,
       tab: null,
@@ -172,6 +198,7 @@ export default {
         console.log(this.post.id)
         formData.append('event[user_id]', this.$auth.user.id)
         formData.append('event[post_id]', this.post.id)
+        if (this.image) { formData.append('event[image]', this.image) }
         formData.append('event[title]', this.title)
         formData.append('event[participant_number]', this.participant_number)
         formData.append('event[place]', this.place)
@@ -179,9 +206,17 @@ export default {
         formData.append('event[scheduled_date]', this.scheduled_date)
         formData.append('event[start_time]', this.start_time)
         formData.append('event[end_time]', this.end_time)
+        if (this.tags) {
+          this.tags.forEach((tag) => {
+            formData.append('event[tags][]', tag)
+          })
+        }
         await this.$axios.$post('/api/v1/events', formData)
           .then(
             (response) => {
+              if (response.event.user.id === this.user.id) {
+                this.$store.commit('events/addEvent', response.event, { root: true })
+              }
               this.$store.dispatch(
                 'flash/showMessage',
                 {
@@ -191,7 +226,13 @@ export default {
                 },
                 { root: true }
               )
+              this.title = ''
               this.content = ''
+              this.place = ''
+              this.participant_number = null
+              this.scheduled_date = new Date().toLocaleDateString().replace(/\//g, '-')
+              this.start_time = ''
+              this.end_time = ''
               this.$refs.form.reset()
             },
             (error) => {

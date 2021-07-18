@@ -1,16 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Posts', type: :request do
-  describe 'GET /index' do
-    it 'returns http success' do
-      get '/api/v1/posts/index'
-      expect(response).to have_http_status(:success)
-    end
-  end
-
   describe 'GET /show' do
-    let(:user) { create(:user) }
-    let(:post) { create(:post, user: user) }
+    let(:post) { create(:post) }
 
     it '特定のレビュー記事が取得できること' do
       get api_v1_post_path(post.id)
@@ -22,30 +14,40 @@ RSpec.describe 'Api::V1::Posts', type: :request do
     end
   end
 
-  describe 'GET /create' do
-    it 'returns http success' do
-      get '/api/v1/posts/create'
-      expect(response).to have_http_status(:success)
-    end
-  end
-
-  describe 'GET /edit' do
-    it 'returns http success' do
-      get '/api/v1/posts/edit'
-      expect(response).to have_http_status(:success)
-    end
-  end
-
   describe 'GET /update' do
-    it 'returns http success' do
-      get '/api/v1/posts/update'
+    let!(:user) { create(:user) }
+    let!(:params) { { auth: { email: user.email, password: user.password } } }
+
+    # ログイン処理
+    before do
+      post '/api/v1/user_token', params: params
+    end
+
+    it '投稿の情報を更新できること' do
+      post = create(:post)
+      update = { post: { title: 'testpost', rate: 3.5, content: 'testcontent' } }
+      put "/api/v1/posts/#{post.id}", params: update
+      json = JSON.parse(response.body)
+      # responseの可否判定
       expect(response).to have_http_status(:success)
+      expect(json['post']['title']).to eq(update[:post][:title])
+      expect(json['post']['rate']).to eq(update[:post][:rate])
+      expect(json['post']['content']).to eq(update[:post][:content])
     end
   end
 
   describe 'GET /destroy' do
-    it 'returns http success' do
-      get '/api/v1/posts/destroy'
+    let!(:user) { create(:user) }
+    let!(:params) { { auth: { email: user.email, password: user.password } } }
+
+    # ログイン処理
+    before do
+      post '/api/v1/user_token', params: params
+    end
+
+    it '投稿を削除できること' do
+      post = create(:post)
+      delete "/api/v1/posts/#{post.id}"
       expect(response).to have_http_status(:success)
     end
   end

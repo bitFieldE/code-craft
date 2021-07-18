@@ -6,10 +6,11 @@
       >
         <v-card>
           <v-card-subtitle>
-            {{ post.created_date }}
+            {{ $moment(post.created_at).format('YYYY/MM/DD HH:MM') }}
             <AddStudyEvent
               class="float-right ma-0"
               :post="post"
+              :user="$auth.user"
             />
           </v-card-subtitle>
           <v-card-title>
@@ -47,9 +48,15 @@
           </v-card-text>
           <v-divider />
           <!-- eslint-disable vue/no-v-html -->
-          <v-card-text v-html="$md.render(post.content)" />
+          <div
+            class="mx-4 mt-5"
+            v-html="$md.render(post.content)"
+          />
           <!-- eslint-enable -->
-          <v-card-text v-if="post.tags">
+          <v-card-text
+            v-if="post.tags"
+            class="pb-0"
+          >
             <v-chip-group
               active-class="primary--text"
               column
@@ -61,9 +68,20 @@
                 outlined
                 small
               >
-                {{ tag.name }}
+                <nuxt-link
+                  :to="{ path: `/tags/${tag.id}` }"
+                  style="color: inherit; text-decoration: none;"
+                >
+                  {{ tag.name }}
+                </nuxt-link>
               </v-chip>
             </v-chip-group>
+          </v-card-text>
+          <v-card-text class="py-0">
+            <LikeBtnGroup
+              v-if="$auth.loggedIn"
+              :post="post"
+            />
           </v-card-text>
           <v-card-text>
             <TwitterBtn
@@ -78,22 +96,30 @@
         <v-card>
           <v-container>
             <v-card-actions>
-              <v-avatar color="black" size="50" class="mr-1">
+              <v-avatar
+                v-if="post.user.image_url"
+                color="black"
+                size="40"
+                class="mr-1"
+              >
                 <v-img
-                  v-if="post.user.image_url"
                   :src="post.user.image_url"
                 />
-                <v-icon
-                  v-else
-                  color="white"
-                  size="50"
-                >
-                  mdi-account-circle
-                </v-icon>
               </v-avatar>
-              <span class="pl-2">
-                {{ post.user.name }}
-              </span>
+              <v-icon
+                v-else
+                size="45"
+              >
+                mdi-account-circle
+              </v-icon>
+              <nuxt-link
+                :to="{ path: `/users/${post.user.id}` }"
+                style="color: inherit; text-decoration: none;"
+              >
+                <span class="pl-2">
+                  {{ post.user.name }}
+                </span>
+              </nuxt-link>
               <FollowBtnGroup
                 :user="post.user"
               />
@@ -128,16 +154,10 @@
           <v-col
             v-else
             cols="12"
-            sm="12"
-            lg="10"
           >
             <v-card-text>コメントがありません</v-card-text>
           </v-col>
-          <v-col
-            cols="12"
-            sm="12"
-            lg="10"
-          >
+          <v-col cols="12">
             <v-card-text
               v-if="$auth.isAuthenticated()"
               class="px-0"
@@ -176,14 +196,16 @@ import { mapGetters } from 'vuex'
 import TwitterBtn from '~/components/atoms/posts/TwitterBtn'
 import Comment from '~/components/molecles/posts/Comment'
 import CommentArea from '~/components/molecles/posts/CommentArea'
+import LikeBtnGroup from '~/components/molecles/posts/LikeBtnGroup'
 import AddStudyEvent from '~/components/molecles/users/AddStudyEvent'
 import FollowBtnGroup from '~/components/molecles/users/FollowBtnGroup'
 
 export default {
   components: {
     TwitterBtn,
-    CommentArea,
     Comment,
+    CommentArea,
+    LikeBtnGroup,
     AddStudyEvent,
     FollowBtnGroup
   },

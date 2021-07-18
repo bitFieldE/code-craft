@@ -19,9 +19,9 @@
       </v-btn>
     </template>
     <v-card>
-      <v-card-actions>
-        <v-spacer />
+      <v-banner class="grey lighten-5" sticky outlined>
         <v-btn
+          class="float-right"
           text
           @click="dialog = false"
         >
@@ -29,7 +29,7 @@
             mdi-close
           </v-icon>
         </v-btn>
-      </v-card-actions>
+      </v-banner>
       <v-tabs
         v-model="tab"
         color="info"
