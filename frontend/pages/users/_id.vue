@@ -98,7 +98,9 @@
               <v-card-text>
                 {{ user.description }}
               </v-card-text>
-              <v-card-subtitle class="pb-0">登録したタグ</v-card-subtitle>
+              <v-card-subtitle class="pb-0">
+                登録したタグ
+              </v-card-subtitle>
               <v-card-text
                 v-if="user.tags"
                 class="pb-0"
@@ -126,7 +128,9 @@
               <v-card-text v-else>
                 登録したタグはありません
               </v-card-text>
-              <v-card-title></v-card-title>
+              <v-card-title>
+                あなたの嗜好
+              </v-card-title>
               <v-divider />
               <v-row justify="center" no-gutters>
                 <v-col>
@@ -183,7 +187,7 @@
           <v-container class="grey lighten-5">
             <template v-if="likedPosts.length > 0">
               <UserLikedPosts
-                :likedPosts="likedPosts"
+                :posts="likedPosts"
                 :loading="loading"
               />
             </template>
@@ -217,7 +221,7 @@
           <v-container class="grey lighten-5">
             <template v-if="joinedEvents.length > 0">
               <UserJoinedEvents
-                :joinedEvents="joinedEvents"
+                :events="joinedEvents"
                 :user="user"
                 :loading="loading"
               />
@@ -299,9 +303,6 @@ export default {
   mounted () {
     this.loading = true
     setTimeout(this.stopLoading, 3000)
-    this.user.tags.forEach((tag) => {
-      console.log(tag)
-    })
   },
   methods: {
     stopLoading () {

@@ -45,15 +45,21 @@
           <v-card-subtitle>
             {{ $moment(joinedEvent.scheduled_date).format('YYYY/MM/DD') }}
           </v-card-subtitle>
+          <v-card-subtitle class="pt-0">
+            <span>開始時刻: </span>
+            {{ $moment(joinedEvent.start_time).format('HH : mm') }}
+          </v-card-subtitle>
           <v-card-text class="pt-0">
             <v-btn
               v-if="$auth.user.id==user.id"
               class="pt-0 white--text"
               color="pink accent-2"
-              @click="cancelEvent(joinedEvent)"
+              small
+              fab
+              @click="cancelEvent(joinedEvent.id)"
             >
               <v-icon>
-                mdi-trash-can-outline
+                mdi-account-cancel
               </v-icon>
             </v-btn>
           </v-card-text>
@@ -83,7 +89,7 @@ export default {
       type: Object,
       default: () => {}
     },
-    joinedEvents: {
+    events: {
       type: Array,
       default: () => []
     },
@@ -101,22 +107,22 @@ export default {
   },
   computed: {
     displayJoinedEvents () {
-      return this.joinedEvents.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      return this.events.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
     },
     joinedEventsLength () {
-      return Math.ceil(this.joinedEvents.length / this.pageSize)
+      return Math.ceil(this.events.length / this.pageSize)
     }
   },
   methods: {
     pageChange (pageNumber) {
       this.displayJoinedEvents.slice(this.pageSize * (pageNumber - 1), this.pageSize * (pageNumber))
     },
-    async cancelEvent (joinedEvent) {
+    async cancelEvent (joinedEventId) {
       if (window.confirm('キャンセルしてもよろしいですか？')) {
-        await this.$axios.$delete(`/api/v1/join_events/${joinedEvent.id}`)
+        await this.$axios.$delete(`/api/v1/join_events/${joinedEventId}`)
           .then(
             (response) => {
-              this.$store.commit('events/deleteJoinedEvent', joinedEvent.id, { root: true })
+              this.$store.commit('events/deleteJoinedEvent', joinedEventId, { root: true })
               this.$store.dispatch(
                 'flash/showMessage',
                 {

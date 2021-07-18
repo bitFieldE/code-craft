@@ -27,6 +27,16 @@ module Api
         end
       end
 
+      def delete_tag
+        tag = Tag.find(params[:tag_id])
+
+        if tag.destroy
+          render json: { message: 'タグを削除しました', status: :ok }
+        else
+          render json: tag.errors, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def set_tag

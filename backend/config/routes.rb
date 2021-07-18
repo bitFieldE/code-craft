@@ -15,7 +15,9 @@ Rails.application.routes.draw do
       resources :posts, except: [:new]
       resources :events, only: %i[show create update destroy]
       resources :event_comments, only: %i[create destroy]
-      resources :tags, only: %i[show create destroy]
+      resources :tags, only: %i[show create destroy] do
+        delete :delete_tag
+      end
       resources :join_events, only: %i[create destroy]
       resources :likes, only: %i[create destroy]
       resources :comments, only: %i[create destroy]

@@ -50,6 +50,10 @@
           <v-card-subtitle class="pb-0">
             {{ $moment(event.scheduled_date).format('YYYY/MM/DD') }}
           </v-card-subtitle>
+          <v-card-subtitle class="pt-0">
+            <span>開始時刻: </span>
+            {{ $moment(event.start_time).format('HH : mm') }}
+          </v-card-subtitle>
           <v-card-text
             v-if="event.tags.length > 0"
             class="py-0"

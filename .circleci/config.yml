@@ -1,205 +1,128 @@
-ersion: 2.1
+version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.15.3
-  aws-ecs: circleci/aws-ecs@2.1.0
-  aws-cli: circleci/aws-cli@1.4.1
+  aws-ecs: circleci/aws-ecs@1.2.0
+  aws-cli: circleci/aws-cli@0.1.16
+# 実行するjob
 jobs:
-  test_backend:
-    docker:
-      - image: circleci/ruby:2.7.1-node-browsers-legacy
-        environment:
-          RAILS_ENV: test
-          DB_HOST: '127.0.0.1'
-      - image: circleci/mysql:5.7.32
-    working_directory: ~/repo
-
+  # buildするjob
+  build:
+    machine:
+      image: circleci/classic:edge
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - gem-cache-v1-{{ checksum "~/repo/backend/Gemfile.lock" }}
-            - gem-cache-v1-
       - run:
-          name: Install bundler
-          command: gem install bundler -v 2.2.15
-          working_directory: backend
+          name: docker-compose build
+          command: docker-compose build
+  # testするjob
+  test:
+    machine:
+      image: circleci/classic:edge
+    steps:
+      - checkout
       - run:
-          name: Which bundler?
-          command: bundle -v
-          working_directory: backend
+          name: docker-compose up -d
+          command: docker-compose up -d
+      - run: sleep 10
+      # バックエンド側テスト
       - run:
-          command: |
-            gem install bundler
-            bundle config set path 'vendor/bundle'
-            bundle install --jobs=4 --retry=3
-          working_directory: ~/repo/backend
-      - save_cache:
-          key: gem-cache-v1-{{ checksum "~/repo/backend/Gemfile.lock" }}
-          paths:
-            - ~/repo/backend/vendor/bundle
-
-      # Database setup
+          name: docker-compose run backend --rm rails db:create RAILS_ENV=test
+          command: docker-compose run backend --rm rails db:create RAILS_ENV=test
       - run:
-          command: bundle exec rails db:create
-          working_directory: ~/repo/backend
+          name: docker-compose run backend --rm rails db:migrate RAILS_ENV=test
+          command: docker-compose run backend --rm rails db:migrate RAILS_ENV=test
       - run:
-          command: bundle exec rails db:migrate
-          working_directory: ~/repo/backend
-      - run:
-          command: bundle exec rails db:seed --trace
-          working_directory: ~/repo/backend
-      - run:
-          name: create directory to store test results
-          command: mkdir /tmp/test-results
-          working_directory: ~/repo/backend
-
-      # run tests
-      - run:
-          name: RSpec
-          command: |
-            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
-              || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
-          working_directory: ~/repo/backend
+          name: docker-compose run backend --rm bundle exec rspec spec
+          command: docker-compose run backend --rm bundle exec rspec spec
       - run:
           name: Rubocop
-          command: bundle exec rubocop
-          working_directory: backend
-
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
-      - store_artifacts:
-          path: /home/circleci/repo/tmp/screenshots
-
-  test_frontend:
-    docker:
-      - image: circleci/node:15.10
-        environment:
-          NODE_ENV: test
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "~/repo/frontend/package.json" }}
-
+          command:  docker-compose run backend --rm bundle exec rubocop
       - run:
-          name: install-packages
-          command: npm install
-          working_directory: ~/repo/frontend
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "~/repo/frontend/package.json" }}
-
-      # - run:
-      #     name: Run ESLint
-      #     command: npm run lint
-      #     working_directory: ~/repo/frontend
-
+          name: docker-compose run frontend --rm yarn install
+          command: docker-compose run frontend --rm yarn install
+      # フロントエンド側テスト
       - run:
-          name: test
-          command: npm run test
-          working_directory: ~/repo/frontend
+          name: docker-compose run frontend --rm yarn run test
+          command: docker-compose run front yarn test
+      - run:
+          name: docker-compose down
+          command: docker-compose down
 
-  build_and_push_image_backend:
-    machine:
-      image: ubuntu-1604:201903-01
-    steps:
-      - checkout
-      - aws-ecr/build-and-push-image:
-          account-url: AWS_ACCOUNT_URL
-          repo: "code-craft-backend"
-          region: AWS_REGION
-          tag: "${CIRCLE_SHA1}"
-          path: './backend'
-          dockerfile: Dockerfile
-
-  build_and_push_image_frontend:
-    machine:
-      image: ubuntu-1604:201903-01
-    steps:
-      - checkout
-      - aws-ecr/build-and-push-image:
-            account-url: AWS_ACCOUNT_URL
-            repo: "meetwithkids-frontend"
-            region: AWS_REGION
-            tag: "${CIRCLE_SHA1}"
-            path: './frontend/'
-            dockerfile: Dockerfile.prd
-
+# 順番を制御するworkflow
 workflows:
-  version: 2
-  test:
+  build_and_test_and_deploy:
     jobs:
-      - test_backend:
-          filters:
-            branches:
-              only: master
-      - test_frontend:
-          filters:
-            branches:
-              only: master
-      - build_and_push_image_backend:
+      - build
+      - test:
           requires:
-           - test_frontend
-           - test_backend
-          filters:
-            branches:
-              only: master
-      - build_and_push_image_frontend:
+            - build
+      - aws-ecr/build-and-push-image:
+          name: 'build-and-push-back'
+          account-url: AWS_ECR_ACCOUNT_URL
+          region: AWS_REGION
+          repo: ${REPO_NAME_BACK}
+          tag: "${CIRCLE_SHA1}"
+          path: './back'
+          dockerfile: Dockerfile.prd
           requires:
-            - test_frontend
-            - test_backend
+            - test
           filters:
             branches:
-              only: master
+              only:
+                - main
+      - aws-ecr/build-and-push-image:
+          name: 'build-and-push-front'
+          account-url: AWS_ECR_ACCOUNT_URL
+          region: AWS_REGION
+          repo: ${REPO_NAME_FRONT}
+          tag: "${CIRCLE_SHA1}"
+          path: './front'
+          dockerfile: Dockerfile.prd
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - main
       - aws-ecs/update-task-definition:
-          # family: meetwithkids-db-migrate
-          family: meetwithkids-db-seed
-          container-image-name-updates: 'container=backend-container,tag=${CIRCLE_SHA1}'
-          aws-region: AWS_REGION
+          family: ${FAMILY_NAME_MIGRATE} # rails db:migrate用タスク定義名
+          container-image-name-updates: 'container=back-container,tag=${CIRCLE_SHA1}'
+          aws-region: '${AWS_REGION}'
           requires:
-            - build_and_push_image_backend
+            - build-and-push-back
           filters:
             branches:
-              only: master
-
+              only: main
       - aws-ecs/run-task:
-          cluster: meetwithkids-ecs-cluster
-          # task-definition: meetwithkids-db-migrate
-          task-definition: code-craft-db-seed
-          subnet-ids: subnet-06a4f27e9e1d65861, subnet-02f0bf9e2014d444f
+          cluster: ${CLUSTER_NAME}
+          task-definition: ${TASK_MIGRATE}
+          subnet-ids: '${SUBNET_PUBLIC_1A},${SUBNET_PUBLIC_1C}'
           assign-public-ip: ENABLED
           security-group-ids: '${MIGRATION_SECURITY_GROUP_ID}'
           requires:
             - aws-ecs/update-task-definition
           filters:
             branches:
-              only: master
-
+              only: main
       - aws-ecs/deploy-service-update:
-            family: code-craft-frontend-task
-            service-name: code-craft-frontend-ecs-service
-            cluster-name: code-craft-ecs-cluster
-            container-image-name-updates: 'container=frontend-container,tag=${CIRCLE_SHA1}'
+            family: ${FAMILY_NAME_BACK}
+            service-name: ${SERVICE_NAME_BACK}
+            cluster-name: ${CLUSTER_NAME}
+            container-image-name-updates: 'container=back-container,tag=${CIRCLE_SHA1}'
             requires:
-              - build_and_push_image_frontend
+              - aws-ecs/run-task
             filters:
               branches:
-                only: master
+                only:
+                  - main
       - aws-ecs/deploy-service-update:
+            family: ${FAMILY_NAME_FRONT}
+            service-name: ${SERVICE_NAME_FRONT}
+            cluster-name: ${CLUSTER_NAME}
+            container-image-name-updates: 'container=front-container,tag=${CIRCLE_SHA1}'
             requires:
-              - build_and_push_image_frontend
-              - build_and_push_image_backend
-            family: meetwithkids-backend-task
-            service-name: code-craft-backend-ecs-service
-            cluster-name: code-craft-ecs-cluster
-            container-image-name-updates: 'container=backend-container,tag=${CIRCLE_SHA1}'
+              - build-and-push-front
             filters:
               branches:
-                only: master
+                only:
+                  - main

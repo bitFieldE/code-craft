@@ -36,6 +36,14 @@ export const mutations = {
       return event
     })
   },
+  updateComingSoonEvent (state, eventData) {
+    state.comingSoonEvents = state.comingSoonEvents.map((comingSoonEvent) => {
+      if (comingSoonEvent.id === eventData.id) {
+        comingSoonEvent = eventData
+      }
+      return comingSoonEvent
+    })
+  },
   deleteEvent (state, eventId) {
     state.events = state.events.filter(event => event.id !== eventId)
   },

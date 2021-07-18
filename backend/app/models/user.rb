@@ -33,7 +33,7 @@ class User < ApplicationRecord
                          with: VALID_PASSWORD_REGEX
                        },
                        allow_nil: true
-  
+
   def save_tags(tags)
     current_tags = self.tags.pluck(:name) unless self.tags.nil?
     old_tags = current_tags - tags

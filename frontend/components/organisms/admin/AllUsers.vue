@@ -113,7 +113,7 @@ export default {
     async deleteUser (userId) {
       if (window.confirm('削除してもよろしいですか？')) {
         await this.$axios.delete(`api/v1/users/${userId}`).then((response) => {
-          this.users = response.data
+          this.users = this.users.filter(user => user.id !== userId)
         })
           .catch((error) => {
             return error
