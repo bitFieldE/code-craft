@@ -11,7 +11,6 @@ RSpec.describe 'Api::V1::Comments', type: :request do
     end
 
     it 'コメントが削除できること' do
-      post = create(:post)
       comment = create(:comment)
       delete "/api/v1/comments/#{comment.id}"
       expect(response).to have_http_status(:success)

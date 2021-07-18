@@ -43,6 +43,9 @@ Style/RedundantSelf:
 Metrics/AbcSize:
   Max: 40
 
+Metrics/PerceivedComplexity:
+  Max: 10
+
 CyclomaticComplexity:
   Max: 10
 
