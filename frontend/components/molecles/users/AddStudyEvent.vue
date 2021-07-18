@@ -48,7 +48,7 @@
               <TextFieldWithValidation
                 v-model="title"
                 label="イベントのタイトル"
-                rules="required"
+                rules="required|max:50"
                 outlined
               />
             </v-card-text>

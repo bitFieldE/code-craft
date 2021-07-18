@@ -8,6 +8,11 @@ class Event < ApplicationRecord
   has_many :join_users, through: :join_events, source: :user
   has_many :event_comments, dependent: :destroy
 
+  # カラムのバリデーション
+  validates :title, presence: true, length: { maximum: 50, allow_blank: true }
+  validates :content, presence: true, length: { maximum: 1000, allow_blank: true }
+  validates :participant_number, numericality: { greater_than: 0, less_than_or_equal_to: 50 }
+
   def image_url
     image.attached? ? url_for(image) : nil
   end

@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Api::V1::Posts', type: :request do
   describe 'GET /show' do
-    let(:user) { create(:user) }
-    let(:post) { create(:post, user: user) }
+    let(:post) { create(:post) }
 
     it '特定のレビュー記事が取得できること' do
       get api_v1_post_path(post.id)
@@ -25,7 +24,7 @@ RSpec.describe 'Api::V1::Posts', type: :request do
     end
 
     it '投稿の情報を更新できること' do
-      post = create(:post, user: user)
+      post = create(:post)
       update = { post: { title: 'testpost', rate: 3.5, content: 'testcontent' } }
       put "/api/v1/posts/#{post.id}", params: update
       json = JSON.parse(response.body)
@@ -47,7 +46,7 @@ RSpec.describe 'Api::V1::Posts', type: :request do
     end
 
     it '投稿を削除できること' do
-      post = create(:post, user: user)
+      post = create(:post)
       delete "/api/v1/posts/#{post.id}"
       expect(response).to have_http_status(:success)
     end

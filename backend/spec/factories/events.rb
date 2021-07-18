@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :event do
+    association :user
+    association :post
     title   { Faker::Book.title }
     content { Faker::Lorem.sentence }
     scheduled_date { Date.today + 7.day }
