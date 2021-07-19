@@ -138,6 +138,7 @@
                   <BarChart
                     :height="200"
                     :width="200"
+                    :tags="tagNameList"
                   />
                 </v-col>
                 <v-col>
@@ -270,7 +271,7 @@ export default {
         { name: '参加イベント' }
       ],
       loading: null,
-      chartData: []
+      tagNameList: []
     }
   },
   async fetch ({ $axios, params, store }) {

@@ -10,6 +10,7 @@
     </v-btn>
     <v-btn
       v-else-if="event.user.id!=$auth.user.id && !is_joined"
+      color="purple lighten-3 white--text"
       @click="joinEvent(event.id)"
     >
       <v-icon>

@@ -5,9 +5,8 @@ class User < ApplicationRecord
   VALID_PASSWORD_REGEX = /\A[\w\-]+\z/.freeze
   attr_accessor :current_password
 
-  has_one_attached :image
-
   # 他テーブルとのアソシエーション
+  has_one_attached :image
   has_many :posts, dependent: :destroy
   has_many :relationships, dependent: :destroy
   has_many :followings, through: :relationships, source: :follow
@@ -64,6 +63,25 @@ class User < ApplicationRecord
 
   def image_url
     image.attached? ? url_for(image) : nil
+  end
+
+  def tag_ranking
+    lists = self.posts.includes(:tags) + self.liked_posts.includes(:tags) + self.events.includes(:tags) + self.event_joiner.includes(:tags)
+    tags = []
+    tags_data = []
+
+    lists.each do |post|
+      if post.tags.length > 0
+        post.tags.each { |tag| tags.push(tag) }
+      end
+    end
+
+    tags.uniq.each do |tag|
+      event_count = EventTagMap.where('tag_id = ?', tag.id)
+      post_count =  PostTagMap.where('tag_id = ?', tag.id)
+      tags_data.push({ name: tag.name, count: (event_count + post_count).length })
+    end
+    puts tags_data
   end
 
   private

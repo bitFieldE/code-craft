@@ -3,14 +3,20 @@ import { Doughnut } from 'vue-chartjs'
 
 export default {
   extends: Doughnut,
+  props: {
+    tags: {
+      type: Array,
+      default: () => []
+    }
+  },
   data: () => ({
     chartdata: {
       datacollection: {
-        labels: ['January', 'February', 'March'],
+        labels: [],
         datasets: [
           {
             label: 'Data One',
-            backgroundColor: ['info', 'pink', 'yellow'],
+            backgroundColor: ['info', 'blue', 'yellow', 'purple'],
             data: [40, 20, 30]
           }
         ]
@@ -25,6 +31,7 @@ export default {
     }
   }),
   mounted () {
+    this.chartdata.datacollection.labels = this.tags
     this.renderChart(this.chartdata.datacollection, this.options)
   }
 }

@@ -221,7 +221,6 @@ export default {
         await this.$axios.$patch(`/api/v1/events/${this.event.id}`, formData)
           .then(
             (response) => {
-              console.log(response)
               this.$store.commit('events/updateEvent', response, { root: true })
               this.$refs.form.reset()
             },
