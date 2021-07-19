@@ -304,6 +304,7 @@ export default {
   mounted () {
     this.loading = true
     setTimeout(this.stopLoading, 3000)
+    console.log(this.user.tag_ranking)
   },
   methods: {
     stopLoading () {

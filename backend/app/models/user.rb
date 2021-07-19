@@ -76,12 +76,13 @@ class User < ApplicationRecord
       end
     end
 
+    # タグの重複をなくす
     tags.uniq.each do |tag|
       event_count = EventTagMap.where('tag_id = ?', tag.id)
       post_count =  PostTagMap.where('tag_id = ?', tag.id)
-      tags_data.push({ name: tag.name, count: (event_count + post_count).length })
+      tags_data.push({ name: tag.name, counter: (event_count + post_count).length })
     end
-    puts tags_data
+    tags_data.sort { |a, b|  b[:counter] <=> a[:counter] }
   end
 
   private

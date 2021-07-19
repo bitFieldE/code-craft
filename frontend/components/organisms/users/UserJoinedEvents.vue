@@ -49,6 +49,32 @@
             <span>開始時刻: </span>
             {{ $moment(joinedEvent.start_time).format('HH : mm') }}
           </v-card-subtitle>
+          <v-card-text
+            v-if="joinedEvent.tags.length > 0"
+            class="py-0"
+          >
+            <v-chip-group
+              class="w-100"
+              active-class="primary--text"
+              column
+            >
+              <v-chip
+                v-for="tag in joinedEvent.tags"
+                :key="tag.id"
+                color="info"
+                class="white--text ml-0"
+                small
+                outlined
+              >
+                <nuxt-link
+                  :to="{ path: `/tags/${tag.id}` }"
+                  style="color: inherit; text-decoration: none;"
+                >
+                  {{ tag.name }}
+                </nuxt-link>
+              </v-chip>
+            </v-chip-group>
+          </v-card-text>
           <v-card-text class="pt-0">
             <v-btn
               v-if="$auth.user.id==user.id"
