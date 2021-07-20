@@ -71,9 +71,7 @@ class User < ApplicationRecord
     tags_data = []
 
     lists.each do |post|
-      if post.tags.length > 0
-        post.tags.each { |tag| tags.push(tag) }
-      end
+      post.tags.each { |tag| tags.push(tag) } if post.tags.length.positive?
     end
 
     # タグの重複をなくす
@@ -82,7 +80,8 @@ class User < ApplicationRecord
       post_count =  PostTagMap.where('tag_id = ?', tag.id)
       tags_data.push({ name: tag.name, counter: (event_count + post_count).length })
     end
-    tags_data.sort { |a, b|  b[:counter] <=> a[:counter] }
+    tags_data.sort { |a, b| b[:counter] <=> a[:counter] }
+    tags_data.first(5)
   end
 
   private

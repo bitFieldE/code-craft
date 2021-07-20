@@ -12,13 +12,13 @@ module Api
         user = User.includes({ image_attachment: :blob },
                              { posts: [{ images_attachments: :blob }, { user: { image_attachment: :blob } }, :tags] },
                              { liked_posts: [:tags] }, { events: [{ post: [:tags] }, { user: { image_attachment: :blob } }, { join_users: { image_attachment: :blob } }, :tags] },
-                             { join_events: [ { event: [{ user: { image_attachment: :blob } }, { join_users: { image_attachment: :blob } }, :tags ] } ] },
+                             { join_events: [{ event: [{ user: { image_attachment: :blob } }, { join_users: { image_attachment: :blob } }, :tags] }] },
                              :followings, :followers, :tags).find(params[:id])
         render json: user.as_json(include: [{ posts: { include: [:tags], methods: :images_data } },
                                             { events: { include: [{ post: { include: [:tags] } }, { user: { methods: :image_url } }, { join_users: { methods: :image_url } }, :tags], methods: :image_url } },
                                             { liked_posts: { include: %i[tags liked_users] } },
                                             { join_events: { include: [{ event: { include: [{ user: { methods: :image_url } }, { join_users: { methods: :image_url } }, :tags], methods: :image_url } }] } },
-                                            :followings, :followers, :tags], methods: [:image_url, :tag_ranking])
+                                            :followings, :followers, :tags], methods: %i[image_url tag_ranking])
       end
 
       def create
