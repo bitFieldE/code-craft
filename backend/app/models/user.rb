@@ -68,19 +68,14 @@ class User < ApplicationRecord
   def tag_ranking
     lists = self.posts.includes(:tags) + self.liked_posts.includes(:tags) + self.events.includes(:tags) + self.event_joiner.includes(:tags)
     tags = []
-    tags_data = []
 
     lists.each do |post|
       post.tags.each { |tag| tags.push(tag) } if post.tags.length.positive?
     end
 
     # タグの重複をなくす
-    tags.uniq.each do |tag|
-      event_count = EventTagMap.where('tag_id = ?', tag.id)
-      post_count =  PostTagMap.where('tag_id = ?', tag.id)
-      tags_data.push({ name: tag.name, counter: (event_count + post_count).length })
-    end
-    tags_data.sort { |a, b| b[:counter] <=> a[:counter] }
+    tags_data = tags.group_by(&:itself).map{ |key, value| { name: key.name, counter: value.count } }
+    tags_data = tags_data.sort { |a, b| b[:counter] <=> a[:counter] }
     tags_data.first(5)
   end
 

@@ -132,16 +132,30 @@
                 あなたの嗜好
               </v-card-title>
               <v-divider />
-              <v-row justify="center" no-gutters>
-                <v-col class="my-4">
-                  <v-subheader>タグ</v-subheader>
-                  <BarChart
-                    :height="200"
-                    :width="200"
-                    :tags="user.tag_ranking"
-                  />
-                </v-col>
-              </v-row>
+              <template v-if="user.tag_ranking.length > 0">
+                <v-row justify="center" no-gutters>
+                  <v-col>
+                    <v-subheader>タグ</v-subheader>
+                    <BarChart
+                      class="my-4 mx-2"
+                      :height="200"
+                      :width="200"
+                      :tags="user.tag_ranking"
+                    />
+                  </v-col>
+                </v-row>
+              </template>
+              <template v-else>
+                <v-row justify="center" no-gutters>
+                  <v-col class="my-4 mx-2">
+                    <v-card>
+                      <v-card-text>
+                        タグをつけた投稿
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </template>
             </v-card>
           </v-container>
         </v-tab-item>
