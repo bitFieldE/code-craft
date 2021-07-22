@@ -4,11 +4,80 @@
       <v-container>
         <div>
           <v-card-title>
-            TECH COACHとは
+            CODE CRAFTとは
           </v-card-title>
           <v-divider />
           <v-card-text>
-            <p>最新の開発ツールやメディアアプリです</p>
+            <p>最新の技術や開発ツールをレビューし関連する勉強会やイベントを催すことで、エンジニア同士の交流を行うことのできるメディアアプリです</p>
+          </v-card-text>
+          <v-card-title>
+            機能
+          </v-card-title>
+          <v-divider />
+          <v-card-text>
+            <ul>
+              <li>ログイン/ゲストログイン</li>
+              <li>会員登録</li>
+              <li>管理者機能</li>
+              <li>ユーザー登録・編集・退会</li>
+              <li>ユーザー間のフォロー</li>
+              <li>レビュー記事投稿</li>
+              <li>投稿へのいいね/コメント</li>
+              <li>レビュー記事に関連するイベント・勉強会の作成/編集</li>
+              <li>イベント参加</li>
+              <li>イベント参加者限定の掲示板</li>
+              <li>ユーザー・投稿・イベントに紐付くタグ</li>
+              <li>ユーザー・投稿・イベント・タグの検索</li>
+            </ul>
+          </v-card-text>
+          <v-card-title>
+            使用方法
+          </v-card-title>
+          <v-divider />
+          <v-card-text>
+            <v-img
+              max-width="600"
+              src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/321060/3542f91a-208b-0d78-bcbe-ab5556496ab7.gif"
+            />
+          </v-card-text>
+          <v-card-text>
+            <p>ログインページに移遷して、ゲストログインボタンを押してください。</p>
+          </v-card-text>
+          <v-card-text>
+            <v-img
+              max-width="600"
+              src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/321060/98898f80-5e69-dcd3-17c3-ea011e9eaf09.gif"
+            />
+          </v-card-text>
+          <v-card-text>
+            <p>ログイン後、上右端にあるユーザーのアイコンを押すとユーザーの詳細ページに移遷されます。プロフィール詳細・レビュー記事投稿・お気に入り記事・主催イベント・参加イベントの一覧が表示されます。</p>
+          </v-card-text>
+          <v-card-text>
+            <v-img
+              max-width="600"
+              src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/321060/425d8571-d08f-5fbc-c852-5cfec1cb3164.gif"
+            />
+          </v-card-text>
+          <v-card-text>
+            <p>ログイン後、上右端にあるユーザーのアイコンを押すとユーザーの詳細ページに移遷されます。</p>
+          </v-card-text>
+          <v-card-text>
+            <v-img
+              max-width="600"
+              src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/321060/9ab16647-14fc-d923-0f16-27f4130e70e8.png"
+            />
+          </v-card-text>
+          <v-card-text>
+            <p>ログイン後、上右端にあるユーザーのアイコンを押すとユーザーの詳細ページに移遷されます。</p>
+          </v-card-text>
+          <v-card-text>
+            <v-img
+              max-width="600"
+              src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/321060/8078be79-16d7-6b0e-b1e2-7f8b03e46507.gif"
+            />
+          </v-card-text>
+          <v-card-text>
+            <p>ログイン後、上右端にあるユーザーのアイコンを押すとユーザーの詳細ページに移遷されます。</p>
           </v-card-text>
         </div>
       </v-container>

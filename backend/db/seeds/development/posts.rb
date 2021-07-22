@@ -34,11 +34,13 @@ contents = [
 
 1.upto(10) do |idx|
   user = User.find_by(id: idx)
-  post = Post.create(
-    user: user,
-    title: contents[idx % 4][:title],
-    rate: contents[idx % 4][:rate],
-    content: contents[idx % 4][:content]
-  )
-  post.save_tags(contents[idx % 4][:tags])
+  contents.each do |content|
+    post = Post.create(
+      user: user,
+      title: content.title,
+      rate: content.rate,
+      content: content.content
+    )
+    post.save_tags(content.tags)
+  end
 end

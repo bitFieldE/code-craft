@@ -65,6 +65,7 @@ class User < ApplicationRecord
     image.attached? ? url_for(image) : nil
   end
 
+  # 使用頻度の高いタグをランキング付ける
   def tag_ranking
     lists = self.posts.includes(:tags) + self.liked_posts.includes(:tags) + self.events.includes(:tags) + self.event_joiner.includes(:tags)
     tags = []
@@ -74,7 +75,7 @@ class User < ApplicationRecord
     end
 
     # タグの重複をなくす
-    tags_data = tags.group_by(&:itself).map{ |key, value| { name: key.name, counter: value.count } }
+    tags_data = tags.group_by(&:itself).map { |key, value| { name: key.name, counter: value.count } }
     tags_data = tags_data.sort { |a, b| b[:counter] <=> a[:counter] }
     tags_data.first(5)
   end
