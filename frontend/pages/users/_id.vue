@@ -28,15 +28,20 @@
                   <span class="pl-2">{{ user.name }}</span>
                   <FollowBtnGroup
                     :user="user"
+                    :followers="followers"
                   />
                 </v-card-actions>
               </v-list-item>
               <v-list-item>
                 <v-card-subtitle class="pa-0">
-                  フォロー {{ user.followings.length }}
+                  <FollowingsModal
+                    :followings="followings"
+                  />
                 </v-card-subtitle>
                 <v-card-subtitle>
-                  フォワー {{ user.followers.length }}
+                  <FollowersModal
+                    :followers="followers"
+                  />
                 </v-card-subtitle>
               </v-list-item>
             </v-list>
@@ -256,6 +261,8 @@
 import { mapGetters } from 'vuex'
 import FollowBtnGroup from '~/components/molecles/users/FollowBtnGroup'
 import BarChart from '~/components/organisms/users/BarChart'
+import FollowersModal from '~/components/organisms/users/FollowersModal'
+import FollowingsModal from '~/components/organisms/users/FollowingsModal'
 import UserEvents from '~/components/organisms/users/UserEvents'
 import UserJoinedEvents from '~/components/organisms/users/UserJoinedEvents'
 import UserLikedPosts from '~/components/organisms/users/UserLikedPosts'
@@ -265,6 +272,8 @@ export default {
   components: {
     FollowBtnGroup,
     BarChart,
+    FollowersModal,
+    FollowingsModal,
     UserEvents,
     UserJoinedEvents,
     UserLikedPosts,
@@ -289,6 +298,8 @@ export default {
     await $axios.get(`api/v1/users/${params.id}`)
       .then((response) => {
         store.commit('user/setUser', response.data, { root: true })
+        store.commit('user/setFollowings', response.data.followings, { root: true })
+        store.commit('user/setFollowers', response.data.followers, { root: true })
         store.commit('posts/setPosts', response.data.posts, { root: true })
         store.commit('posts/setLikedPosts', response.data.liked_posts, { root: true })
         store.commit('events/setEvents', response.data.events, { root: true })
@@ -307,6 +318,8 @@ export default {
   },
   computed: {
     ...mapGetters({ user: 'user/user' }),
+    ...mapGetters({ followings: 'user/followings' }),
+    ...mapGetters({ followers: 'user/followers' }),
     ...mapGetters({ posts: 'posts/posts' }),
     ...mapGetters({ likedPosts: 'posts/likedPosts' }),
     ...mapGetters({ events: 'events/events' }),
