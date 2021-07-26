@@ -177,7 +177,6 @@
               </v-card-text>
               <UserPosts
                 :posts="posts"
-                :loading="loading"
               />
             </template>
             <template v-else>
@@ -205,7 +204,6 @@
             <template v-if="likedPosts.length > 0">
               <UserLikedPosts
                 :posts="likedPosts"
-                :loading="loading"
               />
             </template>
             <template v-else>
@@ -222,7 +220,6 @@
             <template v-if="events.length > 0">
               <UserEvents
                 :events="events"
-                :loading="loading"
               />
             </template>
             <template v-else>
@@ -240,7 +237,6 @@
               <UserJoinedEvents
                 :events="joinedEvents"
                 :user="user"
-                :loading="loading"
               />
             </template>
             <template v-else>
@@ -286,11 +282,10 @@ export default {
       titles: [
         { name: 'プロフィール詳細' },
         { name: '投稿レビュー' },
-        { name: 'お気に入りツール' },
+        { name: 'お気に入りレビュー' },
         { name: 'イベント' },
         { name: '参加イベント' }
       ],
-      loading: null,
       tagNameList: []
     }
   },
@@ -324,15 +319,6 @@ export default {
     ...mapGetters({ likedPosts: 'posts/likedPosts' }),
     ...mapGetters({ events: 'events/events' }),
     ...mapGetters({ joinedEvents: 'events/joinedEvents' })
-  },
-  mounted () {
-    this.loading = true
-    setTimeout(this.stopLoading, 3000)
-  },
-  methods: {
-    stopLoading () {
-      this.loading = false
-    }
   }
 }
 </script>

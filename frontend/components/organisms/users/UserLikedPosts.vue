@@ -71,7 +71,7 @@
           </v-chip-group>
         </v-card-text>
         <v-card-text
-          v-if="$auth.loggedIn && $auth.user.id == post.user_id"
+          v-if="$auth.loggedIn && Number($route.params.id)==$auth.user.id"
           class="pt-0"
         >
           <LikeBtnGroup
@@ -103,17 +103,14 @@ export default {
     posts: {
       type: Array,
       default: () => []
-    },
-    loading: {
-      type: Boolean,
-      default: null
     }
   },
   data () {
     return {
       page: 1,
       length: 0,
-      pageSize: 5
+      pageSize: 5,
+      loading: false
     }
   },
   computed: {
@@ -125,9 +122,16 @@ export default {
       return Math.ceil(this.posts.length / this.pageSize)
     }
   },
+  mounted () {
+    this.loading = true
+    setTimeout(this.stopLoading, 500)
+  },
   methods: {
     pageChange (pageNumber) {
       this.displayLikedPosts.slice(this.pageSize * (pageNumber - 1), this.pageSize * (pageNumber))
+    },
+    stopLoading () {
+      this.loading = false
     }
   }
 }
