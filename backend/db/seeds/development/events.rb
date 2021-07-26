@@ -88,7 +88,7 @@ events = [
     scheduled_date: Date.today + rand(7..14).day,
     start_time: '21:00',
     end_time: '23:00',
-    tags: ['Rails', 'Ruby']
+    tags: ['Rails', 'Ruby', 'Docker']
   },
   {
     title: 'ポートフォリオのレビューを行います',

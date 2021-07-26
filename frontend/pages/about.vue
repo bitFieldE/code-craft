@@ -6,6 +6,9 @@
           <v-container>
             <div>
               <v-card-title>
+                <v-icon>
+                  mdi-guy-fawkes-mask
+                </v-icon>
                 CODE CRAFTとは
               </v-card-title>
               <v-divider />
@@ -59,7 +62,8 @@
                   メニューの[
                   <v-icon size="15">
                     mdi-magnify
-                  </v-icon>検索]を押してください。ユーザー・レビュー記事・イベント・タグの検索ができます。
+                  </v-icon>
+                  検索]を押してください。ユーザー・レビュー記事・イベント・タグの検索ができます。
                 </p>
                 <v-img
                   src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/321060/ec0bf6c4-3918-e3f7-16b9-9ceb94403a33.gif"
@@ -73,7 +77,8 @@
                   メニューの[
                   <v-icon size="15">
                     mdi-logout-variant
-                  </v-icon>プロフィール編集]を押してください。プロフィールの編集では、ユーザー情報の編集、パスワードの変更ができます。
+                  </v-icon>
+                  プロフィール編集]を押してください。プロフィールの編集では、ユーザー情報の編集、パスワードの変更ができます。
                 </p>
                 <v-img
                   src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/321060/ae86e2dd-d438-b527-adee-c0f64ff9bc8f.gif"
@@ -87,7 +92,8 @@
                   プロフィールアイコンを押してメニューの[
                   <v-icon size="15">
                     mdi-account
-                  </v-icon>プロフィール詳細]を押してください。プロフィールの詳細、レビュー投稿記事、主催イベント、参加イベントを閲覧することができます。
+                  </v-icon>
+                  プロフィール詳細]を押してください。プロフィールの詳細、レビュー投稿記事、主催イベント、参加イベントを閲覧することができます。
                 </p>
                 <v-img
                   src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/321060/99ed557d-2b27-4405-5658-89e5934339bd.gif"
