@@ -37,10 +37,10 @@ contents = [
   contents.each do |content|
     post = Post.create(
       user: user,
-      title: content.title,
-      rate: content.rate,
-      content: content.content
+      title: content[:title],
+      rate: content[:rate],
+      content: content[:content]
     )
-    post.save_tags(content.tags)
+    post.save_tags(content[:tags])
   end
 end

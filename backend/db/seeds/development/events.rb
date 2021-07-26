@@ -42,12 +42,13 @@ events = [
   },
   {
     title: 'Vue.js環境構築をしよう会',
-    content: '',
+    content: '本講座は、HTML/CSS、JavaScriptを勉強した方向けに、JavaScriptのライブラリである、Vue.jsの基礎を習得して
+      いただく講座です。',
     participant_number: Date.today + rand(7..14).day,
     place: 'Whereby',
     scheduled_date:  Date.today + rand(7..14).day,
-    start_time: '',
-    end_time: '',
+    start_time: '19:50',
+    end_time: '22:00',
     tags: ['Rails', 'Ruby']
   },
   {
@@ -62,7 +63,7 @@ events = [
   },
   {
     title: '駆け出しエンジニアと語ろう会',
-    content: '',
+    content: 'Webクリエイター(Webデザイナー・エンジニア・プログラマー・マーケターetc)で集まり、まったり交流しませんか?',
     participant_number: rand(1..15),
     place: '上野',
     scheduled_date: Date.today + rand(7..14).day,
@@ -72,7 +73,8 @@ events = [
   },
   {
     title: 'Nuxt.js x Rails環境構築をしよう会',
-    content: '',
+    content: 'Nuxt.js や Ruby on Rails で開発するための勉強会＆もくもく会です。
+    各々自分が作りたいものを作りましょう！',
     participant_number: rand(1..15),
     place: 'Zoom',
     scheduled_date: Date.today + rand(7..14).day,
@@ -82,7 +84,8 @@ events = [
   },
   {
     title: 'Rails x Docker環境構築をしよう会',
-    content: '',
+    content: 'Ruby や Ruby on Rails で開発するための勉強会＆もくもく会です。
+    各々自分が作りたいものを作りましょう！',
     participant_number: rand(1..15),
     place: 'Whereby',
     scheduled_date: Date.today + rand(7..14).day,
@@ -102,7 +105,22 @@ events = [
   }
 ]
 
-Event.create(
-  title:,
-  content:,
-)
+1.upto(10) do |idx|
+  user = User.find_by(id: idx)
+  post = Post.find_by(id: idx)
+  events.each do |event|
+    event_content =
+    Event.create(
+      user: user,
+      post: post,
+      title: event[:title],
+      content: event[:content],
+      participant_number: event[:participant_number],
+      place: event[:place],
+      scheduled_date: event[:scheduled_date],
+      start_time: event[:start_time],
+      end_time: event[:end_time]
+    )
+    event_content.save_tags(event[:tags])
+  end
+end

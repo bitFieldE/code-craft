@@ -120,7 +120,7 @@ export default {
   async fetch ({ $axios, params, store }) {
     await $axios.get(`api/v1/tags/${params.id}`)
       .then((response) => {
-        store.commit('tags/setTag', response.data.tag, { root: true })
+        store.commit('tags/setTag', response.data, { root: true })
         store.commit('tags/setPosts', response.data.posts, { root: true })
         store.commit('tags/setEvents', response.data.events, { root: true })
       })

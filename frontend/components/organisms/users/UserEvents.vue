@@ -63,7 +63,7 @@
           </v-card-subtitle>
           <v-card-text
             v-if="event.tags.length > 0"
-            class="py-0"
+            class="pt-0"
           >
             <v-chip-group
               class="w-100"
