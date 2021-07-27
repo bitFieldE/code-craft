@@ -5,10 +5,10 @@ module Api
 
       def show
         tag = Tag.includes({ users: { image_attachment: :blob } }, { posts: [{ user: { image_attachment: :blob } }, :liked_users, :tags] },
-                           { events: [{ user: { image_attachment: :blob } }, :tags, :join_users, { image_attachment: :blob }] }).find(params[:id])
+                           { events: [{ user: { image_attachment: :blob } }, :post, :tags, :join_users, { image_attachment: :blob }] }).find(params[:id])
         render json: tag.as_json(include: [{ users: { methods: :image_url } },
                                            { posts: { include: [{ user: { methods: :image_url } }, :liked_users, :tags] } },
-                                           { events: { include: [{ user: { methods: :image_url } }, :tags, :join_users], methods: :image_url } }])
+                                           { events: { include: [{ user: { methods: :image_url } }, :post, :tags, :join_users], methods: :image_url } }])
       end
 
       # タグのフォロー
