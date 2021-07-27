@@ -14,7 +14,7 @@ module Api
         posts = if params[:keyword].empty?
                   []
                 else
-                  Post.where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+                  Post.includes({ user: { image_attachment: :blob } }, :liked_users, :tags).where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
                 end
         render json: posts.as_json(include: [{ user: { methods: :image_url } }, :liked_users, :tags])
       end
@@ -23,9 +23,9 @@ module Api
         events = if params[:keyword].empty?
                    []
                  else
-                   Event.where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+                   Event.includes({ user: { image_attachment: :blob } }, :post, :tags, :join_users, { image_attachment: :blob }).where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
                  end
-        render json: events.as_json(include: [{ user: { methods: :image_url } }, :tags, :join_users], methods: :image_url)
+        render json: events.as_json(include: [{ user: { methods: :image_url } }, :post, :tags, :join_users], methods: :image_url)
       end
 
       def tags

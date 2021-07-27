@@ -44,3 +44,9 @@ contents = [
     post.save_tags(content[:tags])
   end
 end
+
+1.upto(14) do |idx|
+  user = User.find_by(id: idx)
+  user.likes.create(post_id: rand(1..50))
+  user.likes.create(post_id: rand(51..100))
+end

@@ -70,11 +70,30 @@
             </v-chip>
           </v-chip-group>
         </v-card-text>
-        <v-card-text
-          v-if="$auth.loggedIn && Number($route.params.id)==$auth.user.id"
-          class="pt-0"
-        >
+        <v-card-text>
+          <nuxt-link
+            :to="{ path: `/users/${post.user.id}` }"
+            style="color: inherit; text-decoration: none;"
+          >
+            <v-avatar
+              v-if="post.user.image_url"
+              size="20"
+            >
+              <v-img
+                :src="post.user.image_url"
+              />
+            </v-avatar>
+            <v-icon
+              v-else
+              size="20"
+            >
+              mdi-account-circle
+            </v-icon>
+            {{ post.user.name }}
+          </nuxt-link>
           <LikeBtnGroup
+            v-if="$auth.loggedIn && Number($route.params.id)==$auth.user.id"
+            class="float-right"
             :post="post"
           />
         </v-card-text>

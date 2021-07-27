@@ -43,8 +43,8 @@
                           v-if="user.image_url"
                           v-bind="attrs"
                           size="32"
-                          v-on="on"
                           style="margin-top: 3px;margin-left: 5px;"
+                          v-on="on"
                         >
                           <v-img
                             :src="user.image_url"
@@ -160,7 +160,7 @@ export default {
                 'flash/showMessage',
                 {
                   message: response.message,
-                  color: 'primary',
+                  color: 'pink lighten-2',
                   status: true
                 },
                 { root: true }

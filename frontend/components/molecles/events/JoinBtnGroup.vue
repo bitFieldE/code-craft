@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>{{ `参加人数: ${join_users_count}/${event.participant_number}` }}</h3>
+    <h4>{{ `参加人数: ${join_users_count}/${event.participant_number}` }}</h4>
     <v-btn
       v-if="event.user.id == $auth.user.id || is_joined"
       :to="{ path: `/events/${event.id}` }"
@@ -55,6 +55,15 @@ export default {
           (response) => {
             this.is_joined = true
             this.join_users_count++
+            this.$store.dispatch(
+              'flash/showMessage',
+              {
+                message: 'イベントに参加しました',
+                color: 'purple lighten-3',
+                status: true
+              },
+              { root: true }
+            )
           },
           (error) => {
             return error

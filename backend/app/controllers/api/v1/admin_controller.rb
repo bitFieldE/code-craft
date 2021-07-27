@@ -27,7 +27,7 @@ module Api
                  else
                    Event.where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
                  end
-        render json: events.as_json(include: [{ user: { methods: :image_url } }, :tags, :join_users], methods: :image_url)
+        render json: events.as_json(include: [{ user: { methods: :image_url } }, { post: [:tags] }, :tags, :join_users], methods: :image_url)
       end
 
       def tags

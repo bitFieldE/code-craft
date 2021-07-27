@@ -42,6 +42,42 @@
         >
           <v-timeline-item
             color="lime accent-4"
+            icon="mdi-card-text-outline"
+            fill-dot
+          >
+            <span>関連記事</span>
+            <v-card-text class="shadow px-0">
+              <nuxt-link
+                :to="{ path: `/posts/${event.post.id}` }"
+                style="color: inherit; text-decoration: none;"
+              >
+                <v-card>
+                  <v-card-text class="pb-0">
+                    {{ $moment(event.post.created_at).format('YYYY/MM/DD HH:MM') }}
+                  </v-card-text>
+                  <v-card-title class="pb-0" style="font-size: 15px;">
+                    {{ event.post.title }}
+                  </v-card-title>
+                  <v-card-actions class="ml-2">
+                    <v-rating
+                      :value="event.post.rate"
+                      color="yellow darken-3"
+                      background-color="grey darken-1"
+                      readonly
+                      half-increments
+                      dense
+                      small
+                    />
+                    <span class="rate pl-1">
+                      ( {{ event.post.rate }} )
+                    </span>
+                  </v-card-actions>
+                </v-card>
+              </nuxt-link>
+            </v-card-text>
+          </v-timeline-item>
+          <v-timeline-item
+            color="lime accent-4"
             icon="mdi-pin"
             fill-dot
           >
@@ -71,14 +107,6 @@
                 {{ $moment(event.start_time).format('HH : mm') }}
               </div>
             </div>
-            <template #append>
-              <v-btn
-                class="mx-0"
-                depressed
-              >
-                Post
-              </v-btn>
-            </template>
           </v-timeline-item>
 
           <v-timeline-item color="purple lighten-4" small>
