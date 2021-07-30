@@ -16,7 +16,7 @@ RSpec.describe 'Api::V1::Posts', type: :request do
 
   describe 'GET /update' do
     let!(:user) { create(:user) }
-    let!(:params) { { auth: { email: user.email, password: user.password } } }
+    let!(:params) { { auth: { email: user.email, password: "password" } } }
 
     # ログイン処理
     before do
@@ -38,7 +38,7 @@ RSpec.describe 'Api::V1::Posts', type: :request do
 
   describe 'GET /destroy' do
     let!(:user) { create(:user) }
-    let!(:params) { { auth: { email: user.email, password: user.password } } }
+    let!(:params) { { auth: { email: user.email, password: "password" } } }
 
     # ログイン処理
     before do

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Passwords', type: :request do
   describe 'GET /update' do
     let!(:user) { create(:user) }
-    let!(:params) { { auth: { email: user.email, password: user.password } } }
+    let!(:params) { { auth: { email: user.email, password: "password" } } }
     let!(:change_password) { { user: { current_password: user.password, password: "testpassword", password_confirmation: "testpassword" } } }
 
     before do
