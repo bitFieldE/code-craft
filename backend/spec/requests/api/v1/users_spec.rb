@@ -16,7 +16,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
   describe 'PUT /update' do
     let!(:user) { create(:user) }
     let!(:params) { { auth: { email: user.email, password: user.password } } }
-    let!(:update) { { user: { name: 'testuser1', email: 'testuser1@example.com', description: 'よろしくお願いします' } } }
+    let!(:update) { { user: { name: "testuser1", email: "testuser1@example.com", description: "よろしくお願いします" } } }
 
     before do
       post '/api/v1/user_token', params: params
