@@ -105,7 +105,16 @@ events = [
   }
 ]
 
-1.upto(10) do |idx|
+# イベント掲示板への書き込み
+events_comments = [
+  'よろしくお願いします！',
+  'Rubiistです!よろしくお願いします。',
+  '皆さん、こんにちは。よろしくお願いします。',
+  '初めまして!本日から参加させて頂きます。よろしくお願いします',
+  '今後ともよろしくお願いいたします。'
+]
+
+1.upto(14) do |idx|
   user = User.find_by(id: idx)
   post = Post.find_by(id: idx)
   events.each do |event|
@@ -123,4 +132,10 @@ events = [
     )
     event_content.save_tags(event[:tags])
   end
+  event_id = rand(1..events.length)
+  user.join_events.create(event_id: event_id)
+  user.event_comments.create(
+    event_id: event_id,
+    content: events_comments[rand(0..events_comments.length - 1)]
+  )
 end

@@ -47,7 +47,7 @@
             </span>
           </v-card-actions>
         </nuxt-link>
-        <v-card-text class="py-0">
+        <v-card-text class="pt-0">
           <v-chip-group
             v-if="post.tags.length > 0"
             class="w-100"

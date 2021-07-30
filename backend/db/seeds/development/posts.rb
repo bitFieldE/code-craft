@@ -32,6 +32,31 @@ contents = [
   }
 ]
 
+# レビュー記事へのコメント
+comments = [
+  '参考になります！',
+  '私も同じところでつまづいてました',
+  '先人切ってプログラミングしてくれた方々に感謝でしかない',
+  'プログラムを書く前にフローチャートを書くことの大切さが分かったw',
+  '面白かったです。参考になりました。',
+  'すごい！',
+  'プログラミングの入門書の最初の方によくあるやつw',
+  'オブジェクト指向ですね',
+  'とても勉強になりました。
+  ありがとうございました。',
+  'テストは必須かと思いました・・・',
+  '凄いです！勇気をもらいました！！',
+  '実際の案件とその背景を現役エンジニアから話を聞けるのは貴重ですね！',
+  '初心者向けということもあるので、しょうがない部分だとは思いますが圧倒的に大事なのはDB設計。これが本当に大事なんです。',
+  'すんごく良いですね',
+  'ためになり過ぎた。',
+  '初心者の場合は環境構築が最大の難関。',
+  'これは本当に役に立ちました！ありがとうございます！',
+  'これがプロフェッショナル・・・めちゃ参考になりました',
+  '本当に尊敬します。
+  弟子にして下さい'
+]
+
 1.upto(10) do |idx|
   user = User.find_by(id: idx)
   contents.each do |content|
@@ -49,4 +74,20 @@ end
   user = User.find_by(id: idx)
   user.likes.create(post_id: rand(1..50))
   user.likes.create(post_id: rand(51..100))
+  user.comments.create(
+    post_id: rand(1..50),
+    content: comments[rand(0..comments.length - 1)]
+  )
+  user.comments.create(
+    post_id: rand(1..50),
+    content: comments[rand(0..comments.length - 1)]
+  )
+  user.comments.create(
+    post_id: rand(51..100),
+    content: comments[rand(0..comments.length - 1)]
+  )
+  user.comments.create(
+    post_id: rand(51..100),
+    content: comments[rand(0..comments.length - 1)]
+  )
 end

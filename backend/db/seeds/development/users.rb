@@ -40,7 +40,7 @@ tags=[
   user.save_tags(tags[idx])
 end
 
-user = User.create(
+guestuser = User.create(
   name: "guestuser",
   email: "guestuser@example.com",
   description: "ゲストユーザー",
@@ -48,7 +48,7 @@ user = User.create(
   password_confirmation: "guestuser",
   admin: false
 )
-user.save_tags(tags[3])
+guestuser.save_tags(tags[3])
 
 admin_user = User.create(
   name: "Ryuhei",
@@ -59,3 +59,11 @@ admin_user = User.create(
   admin: true
 )
 admin_user.save_tags(["Ruby", "Rails", "nuxt.js", "AWS", "CircleCI"])
+
+users = User.all
+
+users.each do |user|
+  other_user = User.where('id <> ?', user.id).shuffle.first
+  user.follow(other_user)
+  other_user.follow(user)
+end

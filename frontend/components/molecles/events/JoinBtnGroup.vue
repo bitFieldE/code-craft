@@ -9,7 +9,7 @@
       参加者専用ルーム
     </v-btn>
     <v-btn
-      v-else-if="event.user.id!=$auth.user.id && !is_joined"
+      v-else-if="(event.user.id!=$auth.user.id && !is_joined) && (event.participant_number > 0 && event.participant_number==event.join_users.length)"
       color="purple lighten-3 white--text"
       @click="joinEvent(event.id)"
     >
@@ -19,7 +19,7 @@
       参加する
     </v-btn>
     <v-btn
-      v-else-if="event.participant_number > 0 && event.participant_number==event.join_users.length"
+      v-else
       disabled
     >
       上限人数に達しました

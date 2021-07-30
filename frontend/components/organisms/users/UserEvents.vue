@@ -50,14 +50,20 @@
               </v-col>
             </v-row>
           </v-img>
-          <v-card-title class="text-h5">
+          <v-card-title class="text-h6">
             {{ event.title }}
           </v-card-title>
-          <v-card-subtitle>
+          <v-card-subtitle class="pt-2">
+            <v-icon>
+              mdi-calendar
+            </v-icon>
             <span>開催日: </span>
             {{ $moment(event.scheduled_date).format('YYYY/MM/DD') }}
           </v-card-subtitle>
           <v-card-subtitle class="pt-0">
+            <v-icon>
+              mdi-alarm-check
+            </v-icon>
             <span>開始時刻: </span>
             {{ $moment(event.start_time).format('HH : mm') }}
           </v-card-subtitle>
