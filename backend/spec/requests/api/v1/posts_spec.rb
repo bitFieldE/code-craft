@@ -15,15 +15,11 @@ RSpec.describe 'Api::V1::Posts', type: :request do
   end
 
   describe 'GET /update' do
-    let!(:user) { create(:user) }
-    let!(:params) { { auth: { email: user.email, password: user.password } } }
-
-    # ログイン処理
-    before do
-      post '/api/v1/user_token', params: params
-    end
+    let(:user) { create(:user) }
+    let(:params) { { auth: { email: user.email, password: user.password } } }
 
     it '投稿の情報を更新できること' do
+      post '/api/v1/user_token', params: params
       post = create(:post, user: user)
       update = { post: { title: 'testpost', rate: 3.5, content: 'testcontent' } }
       put "/api/v1/posts/#{post.id}", params: update
@@ -37,15 +33,11 @@ RSpec.describe 'Api::V1::Posts', type: :request do
   end
 
   describe 'GET /destroy' do
-    let!(:user) { create(:user) }
-    let!(:params) { { auth: { email: user.email, password: user.password } } }
-
-    # ログイン処理
-    before do
-      post '/api/v1/user_token', params: params
-    end
+    let(:user) { create(:user) }
+    let(:params) { { auth: { email: user.email, password: user.password } } }
 
     it '投稿を削除できること' do
+      post '/api/v1/user_token', params: params
       post = create(:post, user: user)
       delete "/api/v1/posts/#{post.id}"
       expect(response).to have_http_status(:success)
