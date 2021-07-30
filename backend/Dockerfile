@@ -13,7 +13,14 @@ RUN echo ${HOME}
 
 WORKDIR ${HOME}
 
-COPY Gemfile* ./
+# COPY Gemfile* ./
+
+# 作業ディレクトリに移動
+WORKDIR ${HOME}
+
+# ホスト（自分のパソコンにあるファイル）から必要ファイルをDocker上にコピー
+ADD Gemfile ${HOME}/Gemfile
+ADD Gemfile.lock ${HOME}/Gemfile.lock
 
 RUN apk update && \
     apk upgrade && \
