@@ -1,9 +1,4 @@
 version: 2.1
-# orbs:
-#  aws-ecr: circleci/aws-ecr@6.15.3
-#  aws-ecs: circleci/aws-ecs@1.2.0
-#  aws-cli: circleci/aws-cli@0.1.16
-# 実行するjob
 jobs:
   # buildするjob
   build:
@@ -24,7 +19,7 @@ jobs:
           name: docker-compose up -d
           command: docker-compose up -d
       - run: sleep 10
-      # バックエンド側テスト
+      # バックエンド側のテスト
       - run:
           name: docker-compose run backend --rm rails db:create RAILS_ENV=test
           command: docker-compose run backend --rm rails db:create RAILS_ENV=test
@@ -40,7 +35,7 @@ jobs:
       - run:
           name: docker-compose run frontend --rm yarn install
           command: docker-compose run frontend --rm yarn install
-      # フロントエンド側テスト
+      # フロントエンド側のテスト
       - run:
           name: docker-compose run frontend --rm yarn run test
           command: docker-compose run front yarn test
