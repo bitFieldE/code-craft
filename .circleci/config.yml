@@ -21,23 +21,23 @@ jobs:
       - run: sleep 10
       # バックエンド側のテスト
       - run:
-          name: docker-compose run backend --rm rails db:create RAILS_ENV=test
-          command: docker-compose run backend --rm rails db:create RAILS_ENV=test
+          name: docker-compose run backend rails db:create RAILS_ENV=test
+          command: docker-compose run backend rails db:create RAILS_ENV=test
       - run:
-          name: docker-compose run backend --rm rails db:migrate RAILS_ENV=test
-          command: docker-compose run backend --rm rails db:migrate RAILS_ENV=test
+          name: docker-compose run backend rails db:migrate RAILS_ENV=test
+          command: docker-compose run backend rails db:migrate RAILS_ENV=test
       - run:
-          name: docker-compose run backend --rm bundle exec rspec spec
-          command: docker-compose run backend --rm bundle exec rspec spec
+          name: docker-compose run backend bundle exec rspec spec
+          command: docker-compose run backend bundle exec rspec spec
       - run:
           name: Rubocop
-          command:  docker-compose run backend --rm bundle exec rubocop
+          command:  docker-compose run backend bundle exec rubocop
       - run:
-          name: docker-compose run frontend --rm yarn install
-          command: docker-compose run frontend --rm yarn install
+          name: docker-compose run frontend yarn install
+          command: docker-compose run frontend yarn install
       # フロントエンド側のテスト
       - run:
-          name: docker-compose run frontend --rm yarn run test
+          name: docker-compose run frontend yarn run test
           command: docker-compose run front yarn test
       - run:
           name: docker-compose down
