@@ -20,10 +20,10 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
     before do
       post '/api/v1/user_token', params: params
-      put "/api/v1/users/#{user.id}", params: update
     end
 
     it 'ユーザーの情報を更新' do
+      put "/api/v1/users/#{user.id}", params: update
       json = JSON.parse(response.body)
       # responseの可否判定
       expect(json['name']).to eq(update[:user][:name])

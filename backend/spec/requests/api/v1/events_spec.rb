@@ -24,7 +24,7 @@ RSpec.describe 'Api::V1::Events', type: :request do
     it 'イベントの情報を更新できること' do
       post = create(:post, user: user)
       event = create(:event, user: user, post: post)
-      update = { event: { title: "testpost", participant_number: 10, content: "testcontent", place: "testplace" } }
+      update = { event: { title: 'testpost', participant_number: 10, content: 'testcontent', place: 'testplace' } }
       put "/api/v1/events/#{event.id}", params: update
       json = JSON.parse(response.body)
       # responseの可否判定
