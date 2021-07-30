@@ -89,7 +89,9 @@ export default {
         .then(
           (response) => {
             this.is_followed = false
-            this.$store.commit('user/setFollowers', response.user.followers, { root: true })
+            if (Number(this.$route.params.id) === response.user.id) {
+              this.$store.commit('user/setFollowers', response.user.followers, { root: true })
+            }
             this.$store.dispatch(
               'flash/showMessage',
               {
