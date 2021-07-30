@@ -13,10 +13,7 @@ RUN echo ${HOME}
 
 WORKDIR ${HOME}
 
-# COPY Gemfile* ./
-# ホスト（自分のパソコンにあるファイル）から必要ファイルをDocker上にコピー
-ADD Gemfile ${HOME}/Gemfile
-ADD Gemfile.lock ${HOME}/Gemfile.lock
+COPY Gemfile* ./
 
 RUN apk update && \
     apk upgrade && \
@@ -28,9 +25,4 @@ RUN apk update && \
 
 COPY . .
 
-EXPOSE ${CONTAINER_PORT}
-
-# コマンドを実行
-CMD ["bundle", "exec", "rails", "s", "puma", "-b", "0.0.0.0", "-p", "3000", "-e", "development"]
-
-# CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["rails", "server", "-b", "0.0.0.0"]

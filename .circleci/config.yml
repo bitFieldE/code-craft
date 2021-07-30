@@ -18,7 +18,7 @@ jobs:
       - run:
           name: docker-compose up -d
           command: docker-compose up -d
-      - run: sleep 10
+      #- run: sleep 10
       # バックエンド側のテスト
       - run:
           name: docker-compose run backend --rm rails db:create RAILS_ENV=test
