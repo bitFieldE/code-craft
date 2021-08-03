@@ -1,0 +1,42 @@
+[
+  {
+    "name": "frontend-container",
+    "image": "031741671403.dkr.ecr.ap-northeast-1.amazonaws.com/code-craft-frontend",
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "ap-northeast-1",
+        "awslogs-stream-prefix": "frontend",
+        "awslogs-group": "/ecs/frontend"
+      }
+    },
+    "portMappings": [
+      {
+        "protocol": "tcp",
+        "containerPort": 80
+      }
+    ],
+    "command": [
+      "yarn", "start"
+    ],
+    "environment": [
+      {
+        "name": "NODE_ENV",
+        "value": "production"
+      },
+      {
+        "name": "WORKDIR",
+        "value": "app"
+      },
+      {
+        "name": "CONTAINER_PORT",
+        "value": "80"
+      },
+      {
+        "name": "PORT",
+        "value": "80"
+      }
+    ]
+  }
+]

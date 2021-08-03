@@ -7,7 +7,7 @@ ARG BACKEND_URL
 ENV HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo \
-    HOST=0.0.0.0 \ 
+    HOST=0.0.0.0 \
     BACKEND_URL=${BACKEND_URL}
 
 RUN echo ${HOME}
@@ -16,10 +16,16 @@ RUN echo ${BACKEND_URL}
 
 WORKDIR ${HOME}
 
+COPY package.json .
+COPY . .
+
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache make gcc g++ python && \
     yarn install && \
+    yarn run build && \
     rm -rf /var/cache/apk/*
 
 EXPOSE ${CONTAINER_PORT}
+
+CMD ["yarn", "start"]

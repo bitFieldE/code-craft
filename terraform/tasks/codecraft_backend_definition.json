@@ -1,0 +1,58 @@
+[
+  {
+    "name": "backend-container",
+    "image": "031741671403.dkr.ecr.ap-northeast-1.amazonaws.com/code-craft-backend",
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "ap-northeast-1",
+        "awslogs-stream-prefix": "backend",
+        "awslogs-group": "/ecs/backend"
+      }
+    },
+    "portMappings": [
+      {
+        "protocol": "tcp",
+        "containerPort": 3000,
+        "hostPort": 3000
+      }
+    ],
+    "environment": [
+      {
+        "name": "API_DOMAIN",
+        "value": "https://codecraft.com"
+      },
+      {
+        "name": "WORKDIR",
+        "value": "app"
+      },
+      {
+        "name": "CONTAINER_PORT",
+        "value": "3000"
+      },
+      {
+        "name": "RAILS_ENV",
+        "value": "production"
+      }
+    ],
+    "secrets": [
+      {
+        "name": "AWS_ACCESS_KEY_ID",
+        "valueFrom": "access_key_id"
+      },
+      {
+        "name": "AWS_SECRET_ACCESS_KEY",
+        "valueFrom": "secret_access_key"
+      },
+      {
+        "name": "DATABASE_URL",
+        "valueFrom": "konbist_database_url"
+      },
+      {
+        "name": "RAILS_MASTER_KEY",
+        "valueFrom": "codecraft_rails_master_key"
+      }
+    ]
+  }
+]

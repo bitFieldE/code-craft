@@ -28,6 +28,4 @@ COPY . .
 EXPOSE ${CONTAINER_PORT}
 
 # コマンドを実行
-CMD ["bundle", "exec", "rails", "s", "puma", "-b", "0.0.0.0", "-p", "3000", "-e", "development"]
-
-# CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["bundle", "exec", "rails", "s", "puma", "-b", "0.0.0.0", "-p", "3000", "-e", "production"]
