@@ -1,13 +1,13 @@
 /* フロント側SSL証明書 */
 resource "aws_acm_certificate" "codecraft-frontend-acm" {
   domain_name               = aws_route53_record.codecraft-zone-record.name
-  subject_alternative_names = ["*.codecraft.com",]
+  subject_alternative_names = ["*.codecraftapp.com",]
   validation_method         = "DNS"
   lifecycle {
     create_before_destroy = true
   }
   tags = {
-    "Name" = "codecraft.com"
+    "Name" = "codecraftapp.com"
   }
 }
 /* SSL証明書定義 */

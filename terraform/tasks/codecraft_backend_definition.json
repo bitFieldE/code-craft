@@ -21,7 +21,7 @@
     "environment": [
       {
         "name": "API_DOMAIN",
-        "value": "https://codecraft.com"
+        "value": "https://codecraftapp.com"
       },
       {
         "name": "WORKDIR",
@@ -47,7 +47,7 @@
       },
       {
         "name": "DATABASE_URL",
-        "valueFrom": "konbist_database_url"
+        "valueFrom": "codecraft_database_url"
       },
       {
         "name": "RAILS_MASTER_KEY",
