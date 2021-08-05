@@ -50,20 +50,26 @@
               </v-col>
             </v-row>
           </v-img>
-          <v-card-title class="text-h5">
+          <v-card-title class="text-h6">
             {{ event.title }}
           </v-card-title>
-          <v-card-subtitle>
+          <v-card-subtitle class="pt-2">
+            <v-icon>
+              mdi-calendar
+            </v-icon>
             <span>開催日: </span>
             {{ $moment(event.scheduled_date).format('YYYY/MM/DD') }}
           </v-card-subtitle>
           <v-card-subtitle class="pt-0">
+            <v-icon>
+              mdi-alarm-check
+            </v-icon>
             <span>開始時刻: </span>
             {{ $moment(event.start_time).format('HH : mm') }}
           </v-card-subtitle>
           <v-card-text
             v-if="event.tags.length > 0"
-            class="py-0"
+            class="pt-0"
           >
             <v-chip-group
               class="w-100"
@@ -128,17 +134,14 @@ export default {
     events: {
       type: Array,
       default: () => []
-    },
-    loading: {
-      type: Boolean,
-      default: null
     }
   },
   data () {
     return {
       page: 1,
       length: 0,
-      pageSize: 6
+      pageSize: 6,
+      loading: false
     }
   },
   computed: {
@@ -148,6 +151,10 @@ export default {
     EventsLength () {
       return Math.ceil(this.events.length / this.pageSize)
     }
+  },
+  mounted () {
+    this.loading = true
+    setTimeout(this.stopLoading, 500)
   },
   methods: {
     pageChange (pageNumber) {
@@ -184,6 +191,9 @@ export default {
             }
           )
       }
+    },
+    stopLoading () {
+      this.loading = false
     }
   }
 }

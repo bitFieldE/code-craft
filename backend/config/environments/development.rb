@@ -9,7 +9,7 @@ Rails.application.configure do
   config.cache_classes = false
 
   # Do not eager load code on boot.
-  config.eager_load = false
+  config.eager_load = true
 
   # Show full error reports.
   config.consider_all_requests_local = true
@@ -50,6 +50,7 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  config.active_storage.service = :amazon
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
@@ -66,5 +67,4 @@ Rails.application.configure do
 
   Rails.application.routes.default_url_options[:host] = 'localhost'
   Rails.application.routes.default_url_options[:port] = 3000
-
 end

@@ -28,15 +28,20 @@
                   <span class="pl-2">{{ user.name }}</span>
                   <FollowBtnGroup
                     :user="user"
+                    :followers="followers"
                   />
                 </v-card-actions>
               </v-list-item>
               <v-list-item>
                 <v-card-subtitle class="pa-0">
-                  フォロー {{ user.followings.length }}
+                  <FollowingsModal
+                    :followings="followings"
+                  />
                 </v-card-subtitle>
                 <v-card-subtitle>
-                  フォワー {{ user.followers.length }}
+                  <FollowersModal
+                    :followers="followers"
+                  />
                 </v-card-subtitle>
               </v-list-item>
             </v-list>
@@ -129,21 +134,33 @@
                 登録したタグはありません
               </v-card-text>
               <v-card-title>
-                あなたの嗜好
+                ユーザーのトレンド
               </v-card-title>
               <v-divider />
-              <v-row justify="center" no-gutters>
-                <v-col>
-                  <v-subheader>チャート</v-subheader>
-                  <BarChart
-                    :height="200"
-                    :width="200"
-                  />
-                </v-col>
-                <v-col>
-                  {{ posts.liked_users }}
-                </v-col>
-              </v-row>
+              <template v-if="user.tag_ranking.length > 0">
+                <v-row justify="center" no-gutters>
+                  <v-col>
+                    <v-subheader>タグ</v-subheader>
+                    <BarChart
+                      class="my-4 mx-2"
+                      :height="200"
+                      :width="200"
+                      :tags="user.tag_ranking"
+                    />
+                  </v-col>
+                </v-row>
+              </template>
+              <template v-else>
+                <v-row justify="center" no-gutters>
+                  <v-col class="my-4 mx-2">
+                    <v-card>
+                      <v-card-text>
+                        タグをつけた投稿
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </template>
             </v-card>
           </v-container>
         </v-tab-item>
@@ -160,7 +177,6 @@
               </v-card-text>
               <UserPosts
                 :posts="posts"
-                :loading="loading"
               />
             </template>
             <template v-else>
@@ -188,7 +204,6 @@
             <template v-if="likedPosts.length > 0">
               <UserLikedPosts
                 :posts="likedPosts"
-                :loading="loading"
               />
             </template>
             <template v-else>
@@ -205,7 +220,6 @@
             <template v-if="events.length > 0">
               <UserEvents
                 :events="events"
-                :loading="loading"
               />
             </template>
             <template v-else>
@@ -223,7 +237,6 @@
               <UserJoinedEvents
                 :events="joinedEvents"
                 :user="user"
-                :loading="loading"
               />
             </template>
             <template v-else>
@@ -244,6 +257,8 @@
 import { mapGetters } from 'vuex'
 import FollowBtnGroup from '~/components/molecles/users/FollowBtnGroup'
 import BarChart from '~/components/organisms/users/BarChart'
+import FollowersModal from '~/components/organisms/users/FollowersModal'
+import FollowingsModal from '~/components/organisms/users/FollowingsModal'
 import UserEvents from '~/components/organisms/users/UserEvents'
 import UserJoinedEvents from '~/components/organisms/users/UserJoinedEvents'
 import UserLikedPosts from '~/components/organisms/users/UserLikedPosts'
@@ -253,6 +268,8 @@ export default {
   components: {
     FollowBtnGroup,
     BarChart,
+    FollowersModal,
+    FollowingsModal,
     UserEvents,
     UserJoinedEvents,
     UserLikedPosts,
@@ -265,18 +282,19 @@ export default {
       titles: [
         { name: 'プロフィール詳細' },
         { name: '投稿レビュー' },
-        { name: 'お気に入りツール' },
+        { name: 'お気に入りレビュー' },
         { name: 'イベント' },
         { name: '参加イベント' }
       ],
-      loading: null,
-      chartData: []
+      tagNameList: []
     }
   },
   async fetch ({ $axios, params, store }) {
     await $axios.get(`api/v1/users/${params.id}`)
       .then((response) => {
         store.commit('user/setUser', response.data, { root: true })
+        store.commit('user/setFollowings', response.data.followings, { root: true })
+        store.commit('user/setFollowers', response.data.followers, { root: true })
         store.commit('posts/setPosts', response.data.posts, { root: true })
         store.commit('posts/setLikedPosts', response.data.liked_posts, { root: true })
         store.commit('events/setEvents', response.data.events, { root: true })
@@ -295,19 +313,12 @@ export default {
   },
   computed: {
     ...mapGetters({ user: 'user/user' }),
+    ...mapGetters({ followings: 'user/followings' }),
+    ...mapGetters({ followers: 'user/followers' }),
     ...mapGetters({ posts: 'posts/posts' }),
     ...mapGetters({ likedPosts: 'posts/likedPosts' }),
     ...mapGetters({ events: 'events/events' }),
     ...mapGetters({ joinedEvents: 'events/joinedEvents' })
-  },
-  mounted () {
-    this.loading = true
-    setTimeout(this.stopLoading, 3000)
-  },
-  methods: {
-    stopLoading () {
-      this.loading = false
-    }
   }
 }
 </script>

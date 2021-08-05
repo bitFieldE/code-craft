@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>{{ `参加人数: ${join_users_count}/${event.participant_number}` }}</h3>
+    <h4>{{ `参加人数: ${join_users_count}/${event.participant_number}` }}</h4>
     <v-btn
       v-if="event.user.id == $auth.user.id || is_joined"
       :to="{ path: `/events/${event.id}` }"
@@ -9,19 +9,20 @@
       参加者専用ルーム
     </v-btn>
     <v-btn
+      v-else-if="event.participant_number > 0 && event.participant_number<=event.join_users.length"
+      disabled
+    >
+      上限人数に達しました
+    </v-btn>
+    <v-btn
       v-else-if="event.user.id!=$auth.user.id && !is_joined"
+      color="purple lighten-3 white--text"
       @click="joinEvent(event.id)"
     >
       <v-icon>
         mdi-account-arrow-right
       </v-icon>
       参加する
-    </v-btn>
-    <v-btn
-      v-else-if="event.participant_number > 0 && event.participant_number==event.join_users.length"
-      disabled
-    >
-      上限人数に達しました
     </v-btn>
   </div>
 </template>
@@ -54,6 +55,15 @@ export default {
           (response) => {
             this.is_joined = true
             this.join_users_count++
+            this.$store.dispatch(
+              'flash/showMessage',
+              {
+                message: 'イベントに参加しました',
+                color: 'purple lighten-3',
+                status: true
+              },
+              { root: true }
+            )
           },
           (error) => {
             return error

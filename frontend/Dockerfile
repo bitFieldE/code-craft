@@ -9,7 +9,7 @@ ENV HOME=/${WORKDIR} \
     TZ=Asia/Tokyo \
     HOST=0.0.0.0 \ 
     BACKEND_URL=${BACKEND_URL}
-    
+
 RUN echo ${HOME}
 RUN echo ${CONTAINER_PORT}
 RUN echo ${BACKEND_URL}

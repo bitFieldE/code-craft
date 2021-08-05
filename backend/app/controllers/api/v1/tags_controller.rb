@@ -1,14 +1,14 @@
 module Api
   module V1
     class TagsController < ApplicationController
-      before_action :set_tag, only: %i[show create destroy]
+      before_action :set_tag, only: %i[create destroy]
 
       def show
-        render json: {
-          tag: @tag.as_json(include: %i[users posts events]),
-          posts: @tag.posts.as_json(include: [{ user: { methods: :image_url } }, :liked_users, :tags]),
-          events: @tag.events.as_json(include: [{ user: { methods: :image_url } }, :tags, :join_users], methods: :image_url)
-        }
+        tag = Tag.includes({ users: { image_attachment: :blob } }, { posts: [{ user: { image_attachment: :blob } }, :liked_users, :tags] },
+                           { events: [{ user: { image_attachment: :blob } }, :post, :tags, :join_users, { image_attachment: :blob }] }).find(params[:id])
+        render json: tag.as_json(include: [{ users: { methods: :image_url } },
+                                           { posts: { include: [{ user: { methods: :image_url } }, :liked_users, :tags] } },
+                                           { events: { include: [{ user: { methods: :image_url } }, :post, :tags, :join_users], methods: :image_url } }])
       end
 
       # タグのフォロー

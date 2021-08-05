@@ -39,16 +39,49 @@
               </v-col>
             </v-row>
           </v-img>
-          <v-card-title class="text-h5">
+          <v-card-title class="text-h6">
             {{ joinedEvent.title }}
           </v-card-title>
-          <v-card-subtitle>
+          <v-card-subtitle class="pt-2">
+            <v-icon>
+              mdi-calendar
+            </v-icon>
+            <span>開催日: </span>
             {{ $moment(joinedEvent.scheduled_date).format('YYYY/MM/DD') }}
           </v-card-subtitle>
           <v-card-subtitle class="pt-0">
+            <v-icon>
+              mdi-alarm-check
+            </v-icon>
             <span>開始時刻: </span>
             {{ $moment(joinedEvent.start_time).format('HH : mm') }}
           </v-card-subtitle>
+          <v-card-text
+            v-if="joinedEvent.tags.length > 0"
+            class="py-0"
+          >
+            <v-chip-group
+              class="w-100"
+              active-class="primary--text"
+              column
+            >
+              <v-chip
+                v-for="tag in joinedEvent.tags"
+                :key="tag.id"
+                color="info"
+                class="white--text ml-0"
+                small
+                outlined
+              >
+                <nuxt-link
+                  :to="{ path: `/tags/${tag.id}` }"
+                  style="color: inherit; text-decoration: none;"
+                >
+                  {{ tag.name }}
+                </nuxt-link>
+              </v-chip>
+            </v-chip-group>
+          </v-card-text>
           <v-card-text class="pt-0">
             <v-btn
               v-if="$auth.user.id==user.id"
@@ -92,17 +125,14 @@ export default {
     events: {
       type: Array,
       default: () => []
-    },
-    loading: {
-      type: Boolean,
-      default: null
     }
   },
   data () {
     return {
       page: 1,
       length: 0,
-      pageSize: 6
+      pageSize: 6,
+      loading: false
     }
   },
   computed: {
@@ -112,6 +142,10 @@ export default {
     joinedEventsLength () {
       return Math.ceil(this.events.length / this.pageSize)
     }
+  },
+  mounted () {
+    this.loading = true
+    setTimeout(this.stopLoading, 500)
   },
   methods: {
     pageChange (pageNumber) {
@@ -147,6 +181,9 @@ export default {
             }
           )
       }
+    },
+    stopLoading () {
+      this.loading = false
     }
   }
 }

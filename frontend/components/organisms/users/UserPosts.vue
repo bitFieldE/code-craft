@@ -47,7 +47,7 @@
             </span>
           </v-card-actions>
         </nuxt-link>
-        <v-card-text class="py-0">
+        <v-card-text class="pt-0">
           <v-chip-group
             v-if="post.tags.length > 0"
             class="w-100"
@@ -114,17 +114,14 @@ export default {
     posts: {
       type: Array,
       default: () => []
-    },
-    loading: {
-      type: Boolean,
-      default: null
     }
   },
   data () {
     return {
       page: 1,
       length: 0,
-      pageSize: 5
+      pageSize: 5,
+      loading: false
     }
   },
   computed: {
@@ -135,6 +132,10 @@ export default {
     PostsLength () {
       return Math.ceil(this.posts.length / this.pageSize)
     }
+  },
+  mounted () {
+    this.loading = true
+    setTimeout(this.stopLoading, 500)
   },
   methods: {
     async deletePost (postId) {
@@ -172,6 +173,9 @@ export default {
     },
     pageChange (pageNumber) {
       this.displayPosts.slice(this.pageSize * (pageNumber - 1), this.pageSize * (pageNumber))
+    },
+    stopLoading () {
+      this.loading = false
     }
   }
 }

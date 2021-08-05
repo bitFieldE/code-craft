@@ -8,6 +8,9 @@
       small
       @click="unFollowUser"
     >
+      <v-icon left>
+        mdi-minus
+      </v-icon>
       アンフォロー
     </v-btn>
     <v-btn
@@ -18,6 +21,9 @@
       small
       @click="followUser"
     >
+      <v-icon left>
+        mdi-plus
+      </v-icon>
       フォロー
     </v-btn>
   </div>
@@ -29,6 +35,10 @@ export default {
     user: {
       type: Object,
       default: () => {}
+    },
+    followers: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
@@ -37,7 +47,7 @@ export default {
     }
   },
   mounted () {
-    if (this.user.followers.find(v => v.id === this.$auth.user.id)) { this.is_followed = true }
+    if (this.followers.find(v => v.id === this.$auth.user.id)) { this.is_followed = true }
   },
   methods: {
     async followUser () {
@@ -47,12 +57,14 @@ export default {
         .then(
           (response) => {
             this.is_followed = true
-            this.$store.commit('user/setUser', response.user, { root: true })
+            if (Number(this.$route.params.id) === response.user.id) {
+              this.$store.commit('user/setFollowers', response.user.followers, { root: true })
+            }
             this.$store.dispatch(
               'flash/showMessage',
               {
                 message: response.message,
-                color: 'success',
+                color: 'warning',
                 status: true
               },
               { root: true }
@@ -77,12 +89,14 @@ export default {
         .then(
           (response) => {
             this.is_followed = false
-            this.$store.commit('user/setUser', response.user, { root: true })
+            if (Number(this.$route.params.id) === response.user.id) {
+              this.$store.commit('user/setFollowers', response.user.followers, { root: true })
+            }
             this.$store.dispatch(
               'flash/showMessage',
               {
                 message: response.message,
-                color: 'success',
+                color: 'info',
                 status: true
               },
               { root: true }

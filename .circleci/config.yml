@@ -24,26 +24,26 @@ jobs:
           name: docker-compose up -d
           command: docker-compose up -d
       - run: sleep 10
-      # バックエンド側テスト
+      # バックエンド側のテスト
       - run:
-          name: docker-compose run backend --rm rails db:create RAILS_ENV=test
-          command: docker-compose run backend --rm rails db:create RAILS_ENV=test
+          name: docker-compose run backend rails db:create RAILS_ENV=test
+          command: docker-compose run backend rails db:create RAILS_ENV=test
       - run:
-          name: docker-compose run backend --rm rails db:migrate RAILS_ENV=test
-          command: docker-compose run backend --rm rails db:migrate RAILS_ENV=test
+          name: docker-compose run backend rails db:migrate RAILS_ENV=test
+          command: docker-compose run backend rails db:migrate RAILS_ENV=test
       - run:
-          name: docker-compose run backend --rm bundle exec rspec spec
-          command: docker-compose run backend --rm bundle exec rspec spec
+          name: docker-compose run backend bundle exec rspec spec
+          command: docker-compose run backend bundle exec rspec spec
       - run:
           name: Rubocop
-          command:  docker-compose run backend --rm bundle exec rubocop
+          command:  docker-compose run backend bundle exec rubocop
       - run:
-          name: docker-compose run frontend --rm yarn install
-          command: docker-compose run frontend --rm yarn install
-      # フロントエンド側テスト
+          name: docker-compose run frontend yarn install
+          command: docker-compose run frontend yarn install
+      # フロントエンド側のテスト
       - run:
-          name: docker-compose run frontend --rm yarn run test
-          command: docker-compose run front yarn test
+          name: docker-compose run frontend yarn run test
+          command: docker-compose run frontend yarn test
       - run:
           name: docker-compose down
           command: docker-compose down
@@ -57,7 +57,7 @@ workflows:
           requires:
             - build
       - aws-ecr/build-and-push-image:
-          name: 'build-and-push-back'
+          name: 'build-and-push-backend'
           account-url: AWS_ECR_ACCOUNT_URL
           region: AWS_REGION
           repo: ${REPO_NAME_BACK}
@@ -69,9 +69,9 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - master
       - aws-ecr/build-and-push-image:
-          name: 'build-and-push-front'
+          name: 'build-and-push-frontend'
           account-url: AWS_ECR_ACCOUNT_URL
           region: AWS_REGION
           repo: ${REPO_NAME_FRONT}
@@ -83,16 +83,16 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - master
       - aws-ecs/update-task-definition:
           family: ${FAMILY_NAME_MIGRATE} # rails db:migrate用タスク定義名
-          container-image-name-updates: 'container=back-container,tag=${CIRCLE_SHA1}'
+          container-image-name-updates: 'container=backend-container,tag=${CIRCLE_SHA1}'
           aws-region: '${AWS_REGION}'
           requires:
-            - build-and-push-back
+            - build-and-push-backend
           filters:
             branches:
-              only: main
+              only: master
       - aws-ecs/run-task:
           cluster: ${CLUSTER_NAME}
           task-definition: ${TASK_MIGRATE}
@@ -103,26 +103,26 @@ workflows:
             - aws-ecs/update-task-definition
           filters:
             branches:
-              only: main
+              only: master
       - aws-ecs/deploy-service-update:
             family: ${FAMILY_NAME_BACK}
             service-name: ${SERVICE_NAME_BACK}
             cluster-name: ${CLUSTER_NAME}
-            container-image-name-updates: 'container=back-container,tag=${CIRCLE_SHA1}'
+            container-image-name-updates: 'container=backend-container,tag=${CIRCLE_SHA1}'
             requires:
               - aws-ecs/run-task
             filters:
               branches:
                 only:
-                  - main
+                  - master
       - aws-ecs/deploy-service-update:
             family: ${FAMILY_NAME_FRONT}
             service-name: ${SERVICE_NAME_FRONT}
             cluster-name: ${CLUSTER_NAME}
             container-image-name-updates: 'container=front-container,tag=${CIRCLE_SHA1}'
             requires:
-              - build-and-push-front
+              - build-and-push-frontend
             filters:
               branches:
                 only:
-                  - main
+                  - master

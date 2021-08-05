@@ -5,9 +5,8 @@ class User < ApplicationRecord
   VALID_PASSWORD_REGEX = /\A[\w\-]+\z/.freeze
   attr_accessor :current_password
 
-  has_one_attached :image
-
   # 他テーブルとのアソシエーション
+  has_one_attached :image
   has_many :posts, dependent: :destroy
   has_many :relationships, dependent: :destroy
   has_many :followings, through: :relationships, source: :follow
@@ -64,6 +63,21 @@ class User < ApplicationRecord
 
   def image_url
     image.attached? ? url_for(image) : nil
+  end
+
+  # 使用頻度の高いタグをランキング付ける
+  def tag_ranking
+    lists = self.posts.includes(:tags) + self.liked_posts.includes(:tags) + self.events.includes(:tags) + self.event_joiner.includes(:tags)
+    tags = []
+
+    lists.each do |post|
+      post.tags.each { |tag| tags.push(tag) } if post.tags.length.positive?
+    end
+
+    # タグの重複をなくす
+    tags_data = tags.group_by(&:itself).map { |key, value| { name: key.name, counter: value.count } }
+    tags_data = tags_data.sort { |a, b| b[:counter] <=> a[:counter] }
+    tags_data.first(5)
   end
 
   private
