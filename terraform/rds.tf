@@ -1,10 +1,9 @@
 resource "aws_db_instance" "codecraft-db" {
-  allocated_storage       = 95
+  allocated_storage       = 20
   instance_class          = "db.t3.micro"
-  engine                  = "PostgreSQL"
+  engine                  = "postgres"
   engine_version          = "13.2"
   storage_type            = "gp2"
-  name = "production"
   username                = var.aws_db_user
   password                = var.aws_db_password
   backup_retention_period = 7

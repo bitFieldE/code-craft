@@ -1,6 +1,7 @@
+#　バックエンド用
 resource "aws_route53_zone" "codecraft-host-zone" {
-  name    = "codecraftapp.work"
-  comment = "codecraftapp.work host zone"
+  name    = "codecraftapp.net"
+  comment = "codecraftapp.net host zone"
 }
 
 resource "aws_route53_record" "codecraft-host-zone-record" {
@@ -16,13 +17,14 @@ resource "aws_route53_record" "codecraft-host-zone-record" {
 }
 
 
-# フロント用
+# フロントエンド用
 resource "aws_route53_zone" "codecraft-zone" {
   name = "codecraftapp.com"
   tags = {
     "codecraft" = "codecraftapp.com" 
   }
 }
+
 resource "aws_route53_record" "codecraft-zone-record" {
   zone_id = aws_route53_zone.codecraft-zone.id
   name = aws_route53_zone.codecraft-zone.name

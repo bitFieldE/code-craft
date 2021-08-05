@@ -88,7 +88,7 @@ resource "aws_lb_listener" "codecraft-backend-https-listener" {
   load_balancer_arn = aws_lb.codecraft-backend-alb.arn
   port              = "443"
   protocol          = "HTTPS"
-  certificate_arn   = aws_acm_certificate.codecraft-acm.arn
+  certificate_arn   = aws_acm_certificate.codecraft-backend-acm.arn
 
   default_action {
     target_group_arn = aws_lb_target_group.codecraft-alb-backend-tg.arn
