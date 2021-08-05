@@ -60,9 +60,9 @@ workflows:
           name: 'build-and-push-backend'
           account-url: AWS_ECR_ACCOUNT_URL
           region: AWS_REGION
-          repo: ${REPO_NAME_BACK}
+          repo: ${REPO_NAME_BACKEND}
           tag: "${CIRCLE_SHA1}"
-          path: './back'
+          path: './backend'
           dockerfile: Dockerfile.prd
           requires:
             - test
@@ -74,9 +74,9 @@ workflows:
           name: 'build-and-push-frontend'
           account-url: AWS_ECR_ACCOUNT_URL
           region: AWS_REGION
-          repo: ${REPO_NAME_FRONT}
+          repo: ${REPO_NAME_FRONTEND}
           tag: "${CIRCLE_SHA1}"
-          path: './front'
+          path: './frontend'
           dockerfile: Dockerfile.prd
           requires:
             - test
@@ -105,8 +105,8 @@ workflows:
             branches:
               only: master
       - aws-ecs/deploy-service-update:
-            family: ${FAMILY_NAME_BACK}
-            service-name: ${SERVICE_NAME_BACK}
+            family: ${FAMILY_NAME_BACKEND}
+            service-name: ${SERVICE_NAME_BACKEND}
             cluster-name: ${CLUSTER_NAME}
             container-image-name-updates: 'container=backend-container,tag=${CIRCLE_SHA1}'
             requires:
@@ -116,8 +116,8 @@ workflows:
                 only:
                   - master
       - aws-ecs/deploy-service-update:
-            family: ${FAMILY_NAME_FRONT}
-            service-name: ${SERVICE_NAME_FRONT}
+            family: ${FAMILY_NAME_FRONTEND}
+            service-name: ${SERVICE_NAME_FRONTEND}
             cluster-name: ${CLUSTER_NAME}
             container-image-name-updates: 'container=front-container,tag=${CIRCLE_SHA1}'
             requires:

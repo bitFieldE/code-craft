@@ -88,7 +88,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.BACKEND_URL || "http://localhost:3000",
+    baseURL: process.env.BACKEND_URL || "https://codecraftapp.com",
     credentials: true
   },
 

@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     twitterUrl () {
-      return `http://twitter.com/share?url=http://localhost:8080${this.$route.path}&text=${this.post.title}`
+      return `http://twitter.com/share?url=https://codecraftapp.com${this.$route.path}&text=${this.post.title}`
     }
   }
 }

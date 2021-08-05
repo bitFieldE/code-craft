@@ -20,7 +20,7 @@
     ],
     "environment": [
       {
-        "name": "API_DOMAIN",
+        "name": "BACKEND_DOMAIN",
         "value": "https://codecraftapp.com"
       },
       {
