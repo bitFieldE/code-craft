@@ -1,8 +1,8 @@
 version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.15.3
-  aws-ecs: circleci/aws-ecs@1.2.0
-  aws-cli: circleci/aws-cli@0.1.16
+  aws-ecs: circleci/aws-ecs@1.53.1
+  aws-cli: circleci/aws-cli@2.2.25
 # 実行するjob
 jobs:
   # buildするjob
@@ -60,7 +60,7 @@ workflows:
           name: 'build-and-push-backend'
           account-url: AWS_ECR_ACCOUNT_URL
           region: AWS_REGION
-          repo: ${REPO_NAME_BACKEND}
+          repo: 'code-craft-frontend'
           tag: "${CIRCLE_SHA1}"
           path: './backend'
           dockerfile: Dockerfile.prd
@@ -74,7 +74,7 @@ workflows:
           name: 'build-and-push-frontend'
           account-url: AWS_ECR_ACCOUNT_URL
           region: AWS_REGION
-          repo: ${REPO_NAME_FRONTEND}
+          repo: 'code-craft-backend'
           tag: "${CIRCLE_SHA1}"
           path: './frontend'
           dockerfile: Dockerfile.prd
@@ -119,7 +119,7 @@ workflows:
             family: ${FAMILY_NAME_FRONTEND}
             service-name: ${SERVICE_NAME_FRONTEND}
             cluster-name: ${CLUSTER_NAME}
-            container-image-name-updates: 'container=front-container,tag=${CIRCLE_SHA1}'
+            container-image-name-updates: 'container=frontend-container,tag=${CIRCLE_SHA1}'
             requires:
               - build-and-push-frontend
             filters:
