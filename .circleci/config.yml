@@ -60,7 +60,7 @@ workflows:
           name: 'build-and-push-backend'
           account-url: AWS_ECR_ACCOUNT_URL
           region: AWS_REGION
-          repo: 'code-craft-frontend'
+          repo: 'code-craft-backend'
           tag: "${CIRCLE_SHA1}"
           path: './backend'
           dockerfile: Dockerfile.prd
@@ -74,7 +74,7 @@ workflows:
           name: 'build-and-push-frontend'
           account-url: AWS_ECR_ACCOUNT_URL
           region: AWS_REGION
-          repo: 'code-craft-backend'
+          repo: 'code-craft-frontend'
           tag: "${CIRCLE_SHA1}"
           path: './frontend'
           dockerfile: Dockerfile.prd
