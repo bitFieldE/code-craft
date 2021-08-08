@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       resources :relationships, param: 'follow_id', only: %i[create destroy]
       resources :posts, except: [:new]
       resources :events, only: %i[show create update destroy]
+      resources :health_check, only: [:index]
       resources :event_comments, only: %i[create destroy]
       resources :tags, only: %i[show create destroy] do
         delete :delete_tag

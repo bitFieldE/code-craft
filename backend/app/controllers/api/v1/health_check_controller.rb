@@ -1,6 +1,6 @@
 module Api
   module V1
-    class HealthcheckController < ApplicationController
+    class HealthCheckController < ApplicationController
       def index
         head 200
       end

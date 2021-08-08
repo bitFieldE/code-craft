@@ -1,12 +1,17 @@
 FROM ruby:2.7.2-alpine
 
 ARG WORKDIR
+ARG CONTAINER_PORT
+ARG FRONTEND_DOMAIN
+ARG DATABASE_URL
 
 ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc libc-dev nodejs tzdata postgresql-dev postgresql git" \
     DEV_PACKAGES="build-base curl-dev" \
     HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
-    TZ=Asia/Tokyo
+    TZ=Asia/Tokyo \
+    FRONTEND_DOMAIN=${FRONTEND_DOMAIN} \
+    DATABASE_URL=${DATABASE_URL}
 
 # ENV test（このRUN命令は確認のためなので無くても良い）
 RUN echo ${HOME}

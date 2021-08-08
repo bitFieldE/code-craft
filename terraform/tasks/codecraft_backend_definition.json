@@ -20,7 +20,7 @@
     ],
     "environment": [
       {
-        "name": "API_DOMAIN",
+        "name": "FRONTEND_DOMAIN",
         "value": "https://codecraftapp.com"
       },
       {
@@ -30,6 +30,10 @@
       {
         "name": "CONTAINER_PORT",
         "value": "3000"
+      },
+      {
+        "name": "HOST",
+        "value": "0.0.0.0"
       },
       {
         "name": "RAILS_ENV",

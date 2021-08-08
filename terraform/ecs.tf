@@ -87,10 +87,32 @@ resource "aws_ecs_service" "codecraft-backend-ecs-service" {
   }
 }
 
+/* データベース作成用タスク */
+resource "aws_ecs_task_definition" "db-create" {
+  family                   = "codecraft-db-create"
+  container_definitions    = file("./tasks/codecraft_db_create_definition.json")
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = "256"
+  memory                   = "512"
+  execution_role_arn       = module.ecs_task_execution_role.iam_role_arn
+}
+
 /* マイグレーション用タスク */
 resource "aws_ecs_task_definition" "db-migrate" {
   family                   = "codecraft-db-migrate"
   container_definitions    = file("./tasks/codecraft_db_migrate_definition.json")
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = "256"
+  memory                   = "512"
+  execution_role_arn       = module.ecs_task_execution_role.iam_role_arn
+}
+
+/* シードデータ作成用タスク */
+resource "aws_ecs_task_definition" "db-seed" {
+  family                   = "codecraft-db-seed"
+  container_definitions    = file("./tasks/codecraft_db_seed_definition.json")
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = "256"
