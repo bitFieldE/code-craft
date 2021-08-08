@@ -19,6 +19,5 @@ production:
   database: <%= ENV['DB_NAME'] %> 
   adapter: postgresql
   encoding: utf8
-  host: <%= ENV['DB_HOST'] %> 
   username: <%= ENV['DB_USERNAME'] %> 
   password: <%= ENV['DB_PASSWORD'] %> 
