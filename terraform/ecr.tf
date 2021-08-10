@@ -1,4 +1,4 @@
-resource "aws_ecr_repository" "codecraft-frontend" {
+resource "aws_ecr_repository" "code-craft-frontend" {
   name                 = "code-craft-frontend"
   image_tag_mutability = "MUTABLE"
 
@@ -6,7 +6,7 @@ resource "aws_ecr_repository" "codecraft-frontend" {
     scan_on_push = true
   }
 }
-resource "aws_ecr_repository" "codecraft-backend" {
+resource "aws_ecr_repository" "code-craft-backend" {
   name                 = "code-craft-backend"
   image_tag_mutability = "MUTABLE"
 
