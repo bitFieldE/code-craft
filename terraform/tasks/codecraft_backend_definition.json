@@ -18,9 +18,6 @@
         "hostPort": 3000
       }
     ],
-    "command": [
-      "bundle", "exec", "rails", "s", "-b", "0.0.0.0"
-    ],
     "environment": [
       {
         "name": "FRONTEND_DOMAIN",
