@@ -18,6 +18,6 @@ production:
   <<: *default
   encoding: utf8
   database: <%= ENV['DB_NAME'] %>
-  host: <%= ENV['DB_HOST'] %>
+  url: <%= ENV['DB_HOST'] %>
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
