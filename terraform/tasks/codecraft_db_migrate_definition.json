@@ -18,7 +18,7 @@
         "hostPort": 3000
       }
     ],
-    "command": ["bundle", "exec", "rails", "db:create"],
+    "command": ["bundle", "exec", "rails", "db:create", "-e", "production"],
     "environment": [
       {
         "name": "FRONTEND_DOMAIN",
