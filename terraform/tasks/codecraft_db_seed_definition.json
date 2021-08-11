@@ -47,10 +47,6 @@
         "valueFrom": "secret_access_key"
       },
       {
-        "name": "DATABASE_URL",
-        "valueFrom": "codecraft_database_url"
-      },
-      {
         "name": "RAILS_MASTER_KEY",
         "valueFrom": "codecraft_rails_master_key"
       },
