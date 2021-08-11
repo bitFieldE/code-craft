@@ -2,8 +2,8 @@
 resource "aws_security_group_rule" "codecraft-rds-sg-rule1" {
   description       = "codecraft-rds-sg-rule1"
   type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
+  from_port         = 5432
+  to_port           = 5432
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0", "0.0.0.0/16"]
   security_group_id = aws_security_group.codecraft-rds-sg.id
