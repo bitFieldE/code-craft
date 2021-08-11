@@ -16,7 +16,8 @@ test:
 
 production:
   <<: *default
+  encoding: utf8
   database: <%= ENV['DB_NAME'] %>
-  host: <%= ENV['DB_HOST'] %>
+  host: 'terraform-20210810001240587000000006.cbuxsmsdvzow.ap-northeast-1.rds.amazonaws.com'
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
