@@ -18,6 +18,7 @@ production:
   <<: *default
   encoding: utf8
   database: <%= ENV['DATABASE_NAME'] %>
+  port: 5432
   host: <%= ENV['DATABASE_HOST'] %>
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
