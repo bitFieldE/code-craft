@@ -51,19 +51,23 @@
         "valueFrom": "codecraft_rails_master_key"
       },
       {
-        "name": "DB_HOST",
+        "name": "DATABASE_HOST",
         "valueFrom": "db-host"
       },
       {
-        "name": "DB_NAME",
+        "name": "DATABASE_URL",
+        "valueFrom": "db-url"
+      },
+      {
+        "name": "DATABASE_NAME",
         "valueFrom": "db-name"
       },
       {
-        "name": "DB_USERNAME",
+        "name": "DATABASE_USERNAME",
         "valueFrom": "db-username"
       },
       {
-        "name": "DB_PASSWORD",
+        "name": "DATABASE_PASSWORD",
         "valueFrom": "db-password"
       }
     ]
