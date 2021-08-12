@@ -1,6 +1,7 @@
 resource "aws_db_instance" "codecraft-db" {
   allocated_storage       = 20
   instance_class          = "db.t3.micro"
+  identifier              = "codecraftapp-db-instance"
   engine                  = "postgres"
   engine_version          = "13.3"
   storage_type            = "gp2"
