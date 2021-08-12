@@ -96,9 +96,9 @@ workflows:
       - aws-ecs/run-task:
           cluster: ${CLUSTER_NAME}
           task-definition: ${TASK_MIGRATE}
-          subnet-ids: '${SUBNET_PUBLIC_1A},${SUBNET_PUBLIC_1C}'
+          subnet-ids: "${SUBNET_PUBLIC_1A},${SUBNET_PUBLIC_1C}"
           assign-public-ip: ENABLED
-          security-group-ids: '${MIGRATION_SECURITY_GROUP_ID}'
+          security-group-ids: "${MIGRATION_SECURITY_GROUP_ID}"
           requires:
             - aws-ecs/update-task-definition
           filters:
