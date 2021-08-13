@@ -17,7 +17,7 @@ ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc libc-dev nodejs tzdata 
     DATABASE_URL=${DATABASE_URL} \
     DATABASE_HOST=${DATABASE_HOST} \
     DATABASE_USERNAME=${DATABASE_USERNAME} \
-    DATABASE_PASSWORD=${DATABASE_PASSWORD}}
+    DATABASE_PASSWORD=${DATABASE_PASSWORD}
 
 # ENV test（このRUN命令は確認のためなので無くても良い）
 RUN echo ${HOME}
