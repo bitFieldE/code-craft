@@ -39,6 +39,9 @@
             <v-card-text class="text-h6 font-weight-light">
               人気レビュー記事
             </v-card-text>
+            <v-card-text>
+              {{ hello }}
+            </v-card-text>
             <FamousPosts
               :posts="famousPosts"
               :loading="loading"
@@ -79,7 +82,8 @@ export default {
     return {
       loading: false,
       model: [],
-      imgHeight: 250
+      imgHeight: 250,
+      hello: ''
     }
   },
   computed: {
@@ -92,6 +96,13 @@ export default {
       .then((response) => {
         this.$store.commit('posts/setFamousPosts', response.data.posts, { root: true })
         this.$store.commit('events/setComingSoonEvents', response.data.events, { root: true })
+      })
+      .catch((error) => {
+        return error
+      })
+    await this.$axios.get('api/v1/health_check')
+      .then((response) => {
+        this.hello = response
       })
       .catch((error) => {
         return error
