@@ -18,7 +18,7 @@
         "hostPort": 3000
       }
     ],
-    "command": ["bundle", "exec", "rails", "db:reset"],
+    "command": ["bundle", "exec", "rails", "db:seed", "a=b"],
     "environment": [
       {
         "name": "FRONTEND_DOMAIN",
