@@ -26,15 +26,6 @@ resource "aws_security_group_rule" "codecraft-rds-sg-rule3" {
   ipv6_cidr_blocks  = ["::/0"]
   security_group_id = aws_security_group.codecraft-rds-sg.id
 }
-resource "aws_security_group_rule" "codecraft-rds-sg-rule4" {
-  description       = "codecraft-rds-sg-rule4"
-  type                     = "ingress"
-  from_port                = 3306
-  to_port                  = 3306
-  protocol                 = "tcp"
-  source_security_group_id = aws_security_group.codecraft-alb-sg.id
-  security_group_id        = aws_security_group.codecraft-rds-sg.id
-}
 
 /* security group for ALB*/
 resource "aws_security_group_rule" "codecraft-alb-sg-rule1" {

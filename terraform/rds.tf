@@ -11,6 +11,7 @@ resource "aws_db_instance" "codecraft-db" {
   copy_tags_to_snapshot   = true
   max_allocated_storage   = 200
   skip_final_snapshot     = true
+  port                    = 5432
   vpc_security_group_ids  = [aws_security_group.codecraft-rds-sg.id]
   db_subnet_group_name    = aws_db_subnet_group.codecraft-rds-subnet-group.name
 
