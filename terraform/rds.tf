@@ -4,6 +4,7 @@ resource "aws_db_instance" "codecraft-db" {
   engine                  = "postgres"
   engine_version          = "13.3"
   storage_type            = "gp2"
+  name                    = var.aws_db_name
   username                = var.aws_db_user
   password                = var.aws_db_password
   backup_retention_period = 7
@@ -19,5 +20,6 @@ resource "aws_db_instance" "codecraft-db" {
 
 }
 
+variable "aws_db_name" {}
 variable "aws_db_user" {}
 variable "aws_db_password" {}
