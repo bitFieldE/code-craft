@@ -55,10 +55,6 @@
         "valueFrom": "db-host"
       },
       {
-        "name": "DATABASE_URL",
-        "valueFrom": "codecraft_database_url"
-      },
-      {
         "name": "DATABASE_NAME",
         "valueFrom": "db-name"
       },
