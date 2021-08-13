@@ -4,6 +4,7 @@ ARG WORKDIR
 ARG CONTAINER_PORT
 ARG FRONTEND_DOMAIN
 ARG DATABASE_URL
+ARG DATABASE_HOST
 
 ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc libc-dev nodejs tzdata postgresql-dev postgresql git" \
     DEV_PACKAGES="build-base curl-dev" \
@@ -11,7 +12,8 @@ ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc libc-dev nodejs tzdata 
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo \
     FRONTEND_DOMAIN=${FRONTEND_DOMAIN} \
-    DATABASE_URL=${DATABASE_URL}
+    DATABASE_URL=${DATABASE_URL} \
+    DATABASE_HOST=${DATABASE_HOST}
 
 # ENV test（このRUN命令は確認のためなので無くても良い）
 RUN echo ${HOME}

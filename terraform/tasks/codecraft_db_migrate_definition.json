@@ -51,23 +51,23 @@
         "valueFrom": "codecraft_rails_master_key"
       },
       {
-        "name": "POSTGRES_HOST",
+        "name": "DATABASE_HOST",
         "valueFrom": "db-host"
       },
       {
-        "name": "POSTGRES_URL",
+        "name": "DATABASE_URL",
         "valueFrom": "codecraft_database_url"
       },
       {
-        "name": "POSTGRES_NAME",
+        "name": "DATABASE_NAME",
         "valueFrom": "db-name"
       },
       {
-        "name": "POSTGRES_USERNAME",
+        "name": "DATABASE_USERNAME",
         "valueFrom": "db-username"
       },
       {
-        "name": "POSTGRES_PASSWORD",
+        "name": "DATABASE_PASSWORD",
         "valueFrom": "db-password"
       }
     ]
