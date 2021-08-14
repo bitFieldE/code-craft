@@ -16,7 +16,7 @@ test:
 production:
   <<: *default
   encoding: utf8
-  database: <%= Rails.application.credentials.dig(:rds, :database) %>
+  database: <%= Rails.application.credentials.dig(:rds, :name) %>
   host: <%= Rails.application.credentials.dig(:rds, :host) %>
   username: <%= Rails.application.credentials.dig(:rds, :username) %>
   password: <%= Rails.application.credentials.dig(:rds, :password) %>
