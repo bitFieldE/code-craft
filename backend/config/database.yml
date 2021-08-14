@@ -16,7 +16,4 @@ test:
 production:
   <<: *default
   encoding: utf8
-  database: codecraft
-  host: <%= Rails.application.credentials.dig(:rds, :host) %>
-  username: <%= Rails.application.credentials.dig(:rds, :username) %>
-  password: <%= Rails.application.credentials.dig(:rds, :password) %>
+  database: <%= ENV['DATABASE_NAME'] %>
