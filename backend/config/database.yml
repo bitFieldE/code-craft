@@ -1,7 +1,6 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  port: 5432
   host: <%= ENV['DATABASE_HOST'] %>
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
@@ -17,7 +16,7 @@ test:
 production:
   <<: *default
   encoding: utf8
-  database: <%= ENV['DATABASE_NAME'] %>
-  host: <%= ENV['DATABASE_HOST'] %>
-  username: <%= ENV['DATABASE_USERNAME'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
+  database: <%= Rails.application.credentials.dig(:rds, :database) %>
+  host: <%= Rails.application.credentials.dig(:rds, :host) %>
+  username: <%= Rails.application.credentials.dig(:rds, :username) %>
+  password: <%= Rails.application.credentials.dig(:rds, :password) %>
