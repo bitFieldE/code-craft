@@ -28,6 +28,6 @@ module Backend
     config.i18n.default_locale = :ja
     config.middleware.use ActionDispatch::Cookies
     config.add_autoload_paths_to_load_path = false
-    config.api_only = false
+    config.api_only = true
   end
 end
