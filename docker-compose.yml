@@ -20,7 +20,8 @@ services:
       DATABASE_HOST: $DATABASE_HOST
       DATABASE_USERNAME: $DATABASE_USERNAME
       DATABASE_PASSWORD: $DATABASE_PASSWORD
-      FRONTEND_DOMAIN: "localhost:$FRONTEND_PORT"   
+      FRONTEND_DOMAIN: "localhost:$FRONTEND_PORT"
+      BACKEND_URL: "http://localhost:$BACKEND_PORT"   
     volumes:
       - ./backend:/$WORKDIR
     depends_on:
