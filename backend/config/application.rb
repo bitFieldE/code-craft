@@ -26,8 +26,10 @@ module Backend
     # config.eager_load_paths << Rails.root.join("extras")
     config.autoload_paths += %W(#{config.root}/lib/validator)
     config.i18n.default_locale = :ja
-    config.middleware.use ActionDispatch::Cookies
     config.add_autoload_paths_to_load_path = false
     config.api_only = true
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+    config.middleware.use ActionDispatch::ContentSecurityPolicy::Middleware
   end
 end
