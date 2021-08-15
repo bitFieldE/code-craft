@@ -50,12 +50,24 @@
         "valueFrom": "secret_access_key"
       },
       {
-        "name": "DATABASE_URL",
-        "valueFrom": "codecraft_database_url"
-      },
-      {
         "name": "RAILS_MASTER_KEY",
         "valueFrom": "codecraft_rails_master_key"
+      },
+      {
+        "name": "DATABASE_HOST",
+        "valueFrom": "db-host"
+      },
+      {
+        "name": "DATABASE_NAME",
+        "valueFrom": "db-name"
+      },
+      {
+        "name": "DATABASE_USERNAME",
+        "valueFrom": "db-username"
+      },
+      {
+        "name": "DATABASE_PASSWORD",
+        "valueFrom": "db-password"
       }
     ]
   }
