@@ -24,6 +24,10 @@
         "value": "https://codecraftapp.com"
       },
       {
+        "name": "BACKEND_URL",
+        "value": "https://codecraftapp.net"
+      },
+      {
         "name": "WORKDIR",
         "value": "app"
       },
