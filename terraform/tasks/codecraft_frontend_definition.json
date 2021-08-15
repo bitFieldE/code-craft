@@ -41,6 +41,12 @@
         "name": "PORT",
         "value": "80"
       }
+    ],
+    "secrets": [
+      {
+        "name": "CRYPTO_KEY",
+        "valueFrom": "crypto_key"
+      }
     ]
   }
 ]
