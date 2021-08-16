@@ -58,10 +58,6 @@
         "valueFrom": "codecraft_rails_master_key"
       },
       {
-        "name": "SECRET_KEY_BASE",
-        "valueFrom": "secret_key_base"
-      },
-      {
         "name": "DATABASE_HOST",
         "valueFrom": "db-host"
       },
