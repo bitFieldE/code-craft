@@ -7,7 +7,8 @@ module Api
 
       # 　ログイン
       def create
-        cookies[token_access_key] = cookie_token
+        # cookies[token_access_key] = cookie_token
+        session[:user_id] = entity.id
         render json: {
           exp: auth.payload[:exp],
           user: entity.as_json(include: %i[posts tags followers followings], methods: [:image_url])
