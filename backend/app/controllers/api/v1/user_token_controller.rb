@@ -51,7 +51,7 @@ module Api
         {
           value: auth.token,
           expires: Time.at(auth.payload[:exp]),
-          secure: Rails.env.production?,
+          secure: false,
           http_only: true
         }
       end
