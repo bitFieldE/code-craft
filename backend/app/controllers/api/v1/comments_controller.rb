@@ -20,7 +20,7 @@ module Api
       private
 
       def set_user
-        @user = User.find(params[:user_id])
+        @user = User.find(comment_params[:user_id])
       end
 
       def comment_params
