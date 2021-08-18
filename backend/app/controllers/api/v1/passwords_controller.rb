@@ -1,7 +1,7 @@
 module Api
   module V1
     class PasswordsController < ApplicationController
-      before_action :authenticate_user
+      # before_action :authenticate_user
 
       def update
         current_password = user_params[:current_password]

@@ -1,7 +1,7 @@
 module Api
   module V1
     class AdminController < ApplicationController
-      before_action :authenticate_user
+      # before_action :authenticate_user
 
       def users
         users = if params[:keyword].nil?

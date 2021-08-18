@@ -153,7 +153,7 @@ export default {
     },
     async cancelEvent (joinedEventId) {
       if (window.confirm('キャンセルしてもよろしいですか？')) {
-        await this.$axios.$delete(`/api/v1/join_events/${joinedEventId}`)
+        await this.$axios.$delete(`/api/v1/join_events/${joinedEventId}`, { data: { user_id: this.$auth.user.id } })
           .then(
             (response) => {
               this.$store.commit('events/deleteJoinedEvent', joinedEventId, { root: true })

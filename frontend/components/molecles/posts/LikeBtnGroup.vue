@@ -40,6 +40,7 @@ export default {
   methods: {
     async likePost () {
       const formData = new FormData()
+      formData.append('like[user_id]', this.$auth.user.id)
       formData.append('like[post_id]', this.post.id)
       await this.$axios.$post('/api/v1/likes', formData)
         .then(
@@ -53,7 +54,7 @@ export default {
         )
     },
     async unlikePost () {
-      await this.$axios.$delete(`/api/v1/likes/${this.post.id}`)
+      await this.$axios.$delete(`/api/v1/likes/${this.post.id}`, { data: { user_id: this.$auth.user.id } })
         .then(
           (response) => {
             this.$store.commit('posts/deleteLikedPost', this.post.id, { root: true })

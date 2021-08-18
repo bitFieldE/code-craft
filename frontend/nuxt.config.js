@@ -32,7 +32,7 @@ export default {
     'plugins/auth',
     'plugins/axios',
     'plugins/vee-validate',
-    'plugins/nuxtClientInit',
+    'plugins/localStorage',
     'plugins/vue-mavon-editor'
   ],
 

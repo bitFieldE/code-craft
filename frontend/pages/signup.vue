@@ -84,8 +84,6 @@ export default {
         formData.append('user[name]', this.name)
         formData.append('user[email]', this.email)
         formData.append('user[password]', this.password)
-        authData.append('auth[email]', this.email)
-        authData.append('auth[password]', this.password)
 
         await this.$axios.$post('/api/v1/users', formData)
           .then(
