@@ -159,7 +159,7 @@
           </v-col>
           <v-col cols="12">
             <v-card-text
-              v-if="$auth.isAuthenticated()"
+              v-if="$auth.loggedIn"
               class="px-0"
             >
               <CommentArea
