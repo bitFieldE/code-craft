@@ -95,6 +95,7 @@ export default {
       this.loading = true
 
       if (isValid) {
+        formData.append('user[user_id]', this.$auth.user.id)
         formData.append('user[current_password]', this.current_password)
         formData.append('user[password]', this.password)
         formData.append('user[password_confirmation]', this.password_confirmation)

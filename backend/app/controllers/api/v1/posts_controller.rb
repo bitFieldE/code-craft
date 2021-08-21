@@ -1,7 +1,8 @@
 module Api
   module V1
     class PostsController < ApplicationController
-      before_action :authenticate_user, except: [:show]
+      # before_action :authenticate_user, except: [:show]
+      before_action :set_user, only: :create
       before_action :set_post, except: %i[index create]
 
       def show
@@ -13,7 +14,7 @@ module Api
 
       def create
         post = Post.new(post_params)
-        post.user = current_user
+        post.user = @user
         # 投稿した画像の保存
         params[:images].each { |image| post.images.attach(image) } if params[:images].present?
 
@@ -55,12 +56,16 @@ module Api
 
       private
 
+      def set_user
+        @user = User.find(post_params[:user_id])
+      end
+
       def set_post
         @post = Post.find(params[:id])
       end
 
       def post_params
-        params.require(:post).permit(:title, :content, :rate, images: [])
+        params.require(:post).permit(:user_id, :title, :content, :rate, images: [])
       end
 
       def ids_params

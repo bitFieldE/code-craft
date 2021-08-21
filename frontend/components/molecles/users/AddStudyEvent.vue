@@ -195,7 +195,6 @@ export default {
       const formData = new FormData()
       this.loading = true
       if (isValid) {
-        console.log(this.post.id)
         formData.append('event[user_id]', this.$auth.user.id)
         formData.append('event[post_id]', this.post.id)
         if (this.image) { formData.append('event[image]', this.image) }

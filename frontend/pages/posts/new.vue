@@ -90,6 +90,7 @@ export default {
       this.loading = true
 
       if (isValid) {
+        formData.append('post[user_id]', this.$auth.user.id)
         formData.append('post[title]', this.title)
         formData.append('post[rate]', this.rate)
         formData.append('post[content]', this.content)

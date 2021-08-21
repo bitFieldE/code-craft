@@ -140,7 +140,7 @@ export default {
   methods: {
     async deletePost (postId) {
       if (window.confirm('投稿を削除してもよろしいですか？(※関連する勉強会も削除されます)')) {
-        await this.$axios.$delete(`/api/v1/posts/${postId}`)
+        await this.$axios.$delete(`/api/v1/posts/${postId}`, { data: { user_id: this.$auth.user.id } })
           .then(
             (response) => {
               this.$store.commit('posts/deletePost', postId, { root: true })

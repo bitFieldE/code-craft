@@ -27,8 +27,8 @@ module Backend
     config.autoload_paths += %W(#{config.root}/lib/validator)
     config.i18n.default_locale = :ja
     config.add_autoload_paths_to_load_path = false
-    config.api_only = false
-    # config.middleware.use ActionDispatch::Cookies
-    # config.middleware.use ActionDispatch::Session::CookieStore
+    config.api_only = true
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
   end
 end

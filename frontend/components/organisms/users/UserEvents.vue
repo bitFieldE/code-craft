@@ -162,7 +162,7 @@ export default {
     },
     async deleteEvent (eventId) {
       if (window.confirm('削除してもよろしいですか？')) {
-        await this.$axios.$delete(`/api/v1/events/${eventId}`)
+        await this.$axios.$delete(`/api/v1/events/${eventId}`, { data: { user_id: this.$auth.user.id } })
           .then(
             (response) => {
               this.$store.commit('events/deleteEvent', eventId, { root: true })
