@@ -10,8 +10,8 @@
         icon
         v-on="on"
       >
-        <v-avatar v-if="$auth.user.image_url" color="white" size="34">
-          <v-img :src="$auth.user.image_url" />
+        <v-avatar v-if="$auth.user.image.url" color="white" size="34">
+          <v-img :src="$auth.user.image.url" />
         </v-avatar>
         <v-icon v-else size="34">
           mdi-account-circle

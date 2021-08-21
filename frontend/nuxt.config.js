@@ -32,7 +32,7 @@ export default {
     'plugins/auth',
     'plugins/axios',
     'plugins/vee-validate',
-    'plugins/nuxtClientInit',
+    'plugins/localStorage',
     'plugins/vue-mavon-editor'
   ],
 
@@ -57,7 +57,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/markdownit',
-    'nuxt-i18n'
+    'nuxt-i18n',
+    'nuxt-client-init-module'
   ],
 
   markdownit: {
@@ -134,13 +135,14 @@ export default {
   },
 
   // Doc: https://nuxtjs.org/guide/runtime-config/
-  publicRuntimeConfig: {
-    appName: process.env.APP_NAME,
-    cryptoKey: process.env.CRYPTO_KEY
-  },
+  publicRuntimeConfig: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    filenames: {
+      app: ({ isDev }) => isDev ? '[name].[hash].js' : '[chunkhash].js',
+      chunk: ({ isDev }) => isDev ? '[name].[hash].js' : '[chunkhash].js'
+    },
     transpile: [
       'vee-validate/dist/rules'
     ]

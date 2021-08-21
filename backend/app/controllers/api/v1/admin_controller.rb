@@ -1,33 +1,31 @@
 module Api
   module V1
     class AdminController < ApplicationController
-      before_action :authenticate_user
-
       def users
         users = if params[:keyword].nil?
-                  User.includes({ image_attachment: :blob }, :followings, :followers, :tags).all
+                  User.includes(:followings, :followers, :tags).all
                 else
-                  User.includes({ image_attachment: :blob }, :followings, :followers, :tags).where('name Like ? OR description Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+                  User.includes(:followings, :followers, :tags).where('name Like ? OR description Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
                 end
-        render json: users.as_json(include: %i[followings followers tags], methods: :image_url)
+        render json: users.as_json(include: %i[followings followers tags])
       end
 
       def posts
         posts = if params[:keyword].nil?
-                  Post.includes({ images_attachments: :blob }, { user: { image_attachment: :blob } }, :liked_users, :tags).all
+                  Post.includes(:user, :liked_users, :tags).all
                 else
-                  Post.includes({ images_attachments: :blob }, { user: { image_attachment: :blob } }, :liked_users, :tags).where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+                  Post.includes(:user, :liked_users, :tags).where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
                 end
-        render json: posts.as_json(include: [{ user: { methods: :image_url } }, :liked_users, :tags])
+        render json: posts.as_json(include: %i[user liked_users tags])
       end
 
       def events
         events = if params[:keyword].nil?
-                   Event.includes({ image_attachment: :blob }, { user: { image_attachment: :blob } }, :post, :tags, :join_users).all
+                   Event.includes(:user, :post, :tags, :join_users).all
                  else
-                   Event.includes({ image_attachment: :blob }, { user: { image_attachment: :blob } }, :post, :tags, :join_users).where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
+                   Event.includes(:user, :post, :tags, :join_users).where('title Like ? OR content Like ?', "%#{params[:keyword]}%", "%#{params[:keyword]}%")
                  end
-        render json: events.as_json(include: [{ user: { methods: :image_url } }, :post, :tags, :join_users], methods: :image_url)
+        render json: events.as_json(include: %i[user post tags join_users])
       end
 
       def tags
@@ -41,20 +39,20 @@ module Api
 
       def comments
         comments = if params[:keyword].nil?
-                     Comment.includes({ user: { image_attachment: :blob } }).all
+                     Comment.includes(:user).all
                    else
-                     Comment.includes({ user: { image_attachment: :blob } }).where('content Like ?', "%#{params[:keyword]}%")
+                     Comment.includes(:user).where('content Like ?', "%#{params[:keyword]}%")
                    end
-        render json: comments.as_json(include: [{ user: { methods: :image_url } }])
+        render json: comments.as_json(include: [:user])
       end
 
       def event_comments
         event_comments = if params[:keyword].nil?
-                           EventComment.includes({ user: { image_attachment: :blob } }).all
+                           EventComment.includes(:user).all
                          else
-                           EventComment.includes({ user: { image_attachment: :blob } }).where('content Like ?', "%#{params[:keyword]}%")
+                           EventComment.includes(:user).where('content Like ?', "%#{params[:keyword]}%")
                          end
-        render json: event_comments.as_json(include: [{ user: { methods: :image_url } }])
+        render json: event_comments.as_json(include: [:user])
       end
     end
   end

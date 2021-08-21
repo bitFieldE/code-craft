@@ -1,15 +1,15 @@
 module Api
   module V1
     class LikesController < ApplicationController
-      before_action :authenticate_user, only: %i[update destroy]
+      before_action :set_user
 
       def create
-        like = current_user.likes.create(post_id: like_params[:post_id])
+        like = @user.likes.create(post_id: like_params[:post_id])
         render json: like.as_json(include: [:post]), status: :created
       end
 
       def destroy
-        like = Like.find_by(post_id: params[:id], user_id: current_user.id)
+        like = Like.find_by(post_id: params[:id], user_id: @user.id)
         if like.destroy
           render json: like, status: :ok
         else
@@ -18,6 +18,10 @@ module Api
       end
 
       private
+
+      def set_user
+        @user = User.find(like_params[:user_id])
+      end
 
       def like_params
         params.require(:like).permit(:user_id, :post_id)

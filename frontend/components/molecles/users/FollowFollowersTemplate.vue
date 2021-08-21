@@ -27,12 +27,12 @@
             style="color: inherit; text-decoration: none;"
           >
             <v-avatar
-              v-if="user.image_url"
+              v-if="user.image.url"
               color="white"
               size="35"
             >
               <v-img
-                :src="user.image_url"
+                :src="user.image.url"
               />
             </v-avatar>
             <v-icon

@@ -25,7 +25,7 @@
       >
         <v-card class="mb-8">
           <v-img
-            :src="event.image_url ? event.image_url : '/images/no_img.png'"
+            :src="event.image.url ? event.image.url : '/images/no_img.png'"
             min-height="150"
             max-height="150"
           >
@@ -88,11 +88,11 @@
           >
             <v-card-text>
               <v-avatar
-                v-if="event.user.image_url"
+                v-if="event.user.image.url"
                 size="25"
               >
                 <v-img
-                  :src="event.user.image_url"
+                  :src="event.user.image.url"
                 />
               </v-avatar>
               <v-icon

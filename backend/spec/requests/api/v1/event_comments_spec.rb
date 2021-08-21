@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::EventComments', type: :request do
   describe 'GET /destroy' do
     let!(:user) { create(:user) }
-    let!(:params) { { auth: { email: user.email, password: user.password } } }
+    let!(:params) { { email: user.email, password: user.password } }
 
     # ログイン処理
     before do
-      post '/api/v1/user_token', params: params
+      post '/api/v1/auth', params: params
     end
 
     it 'イベントの掲示板のコメントが削除されること' do

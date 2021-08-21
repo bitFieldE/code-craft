@@ -3,6 +3,7 @@ class CreateEvents < ActiveRecord::Migration[6.1]
     create_table :events do |t|
       t.references :user, null: false, foreign_key: true
       t.references :post, null: false, foreign_key: true
+      t.string :image, :string
       t.string :title, null: false, :limit => 50
       t.string :place, null: false
       t.text :content, null: false, :limit => 1000

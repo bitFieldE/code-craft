@@ -95,16 +95,22 @@ export default {
       this.loading = true
 
       if (isValid) {
-        formData.append('user[current_password]', this.current_password)
-        formData.append('user[password]', this.password)
-        formData.append('user[password_confirmation]', this.password_confirmation)
-        await this.$axios.$patch('/api/v1/passwords', formData)
+        formData.append('password', this.password)
+        formData.append('password_confirmation', this.password_confirmation)
+        await this.$axios
+          .$patch('/api/v1/auth/password', formData, {
+            headers: {
+              'access-token': localStorage.getItem('access-token'),
+              uid: localStorage.getItem('uid'),
+              client: localStorage.getItem('client')
+            }
+          })
           .then(
             (response) => {
               this.$store.dispatch(
                 'flash/showMessage',
                 {
-                  message: response.message,
+                  message: 'パスワードを変更しました',
                   color: 'success',
                   status: true
                 },

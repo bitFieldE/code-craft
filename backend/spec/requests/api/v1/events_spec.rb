@@ -18,7 +18,7 @@ RSpec.describe 'Api::V1::Events', type: :request do
 
     # ログイン処理
     before do
-      post '/api/v1/user_token', params: params
+      post '/api/v1/auth', params: params
     end
 
     it 'イベントの情報を更新できること' do
@@ -41,7 +41,7 @@ RSpec.describe 'Api::V1::Events', type: :request do
 
     # ログイン処理
     before do
-      post '/api/v1/user_token', params: params
+      post '/api/v1/auth', params: params
     end
 
     it 'イベントが削除されること' do

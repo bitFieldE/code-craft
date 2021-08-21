@@ -76,11 +76,11 @@
             style="color: inherit; text-decoration: none;"
           >
             <v-avatar
-              v-if="post.user.image_url"
+              v-if="post.user.image.url"
               size="20"
             >
               <v-img
-                :src="post.user.image_url"
+                :src="post.user.image.url"
               />
             </v-avatar>
             <v-icon

@@ -32,7 +32,7 @@
         {{ event.title }}
       </v-card-title>
       <v-img
-        :src="event.image_url ? event.image_url : '/images/no_img.png'"
+        :src="event.image.url ? event.image.url : '/images/no_img.png'"
         max-height="300"
       />
       <v-card-text>
@@ -134,8 +134,8 @@
             <template #icon>
               <v-avatar size="40">
                 <v-img
-                  v-if="event.user.image_url"
-                  :src="event.user.image_url"
+                  v-if="event.user.image.url"
+                  :src="event.user.image.url"
                 />
                 <v-icon
                   v-else

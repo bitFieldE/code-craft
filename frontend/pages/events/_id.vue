@@ -9,7 +9,7 @@
         </v-card-title>
         <v-card>
           <v-img
-            :src="event.image_url ? event.image_url : '/images/no_img.png'"
+            :src="event.image.url ? event.image.url : '/images/no_img.png'"
             max-height="400"
           />
         </v-card>
@@ -40,14 +40,14 @@
                         style="color: inherit; text-decoration: none;"
                       >
                         <v-avatar
-                          v-if="user.image_url"
+                          v-if="user.image.url"
                           v-bind="attrs"
                           size="32"
                           style="margin-top: 3px;margin-left: 5px;"
                           v-on="on"
                         >
                           <v-img
-                            :src="user.image_url"
+                            :src="user.image.url"
                           />
                         </v-avatar>
                         <v-icon

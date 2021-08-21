@@ -31,7 +31,7 @@ export default {
       type: null,
       default: ''
     },
-    event_image: {
+    image: {
       type: null,
       default: ''
     }
@@ -52,8 +52,8 @@ export default {
     }
   },
   mounted () {
-    if (this.event_image) {
-      this.eventImageURL = this.event_image
+    if (this.image) {
+      this.eventImageURL = this.image
     }
   },
   methods: {

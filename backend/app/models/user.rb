@@ -1,12 +1,12 @@
-class User < ApplicationRecord
-  include UserAuth::Tokenizable
-  before_validation :downcase_email
-  has_secure_password
-  VALID_PASSWORD_REGEX = /\A[\w\-]+\z/.freeze
-  attr_accessor :current_password
+# frozen_string_literal: true
+
+class User < ActiveRecord::Base
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+  include DeviseTokenAuth::Concerns::User
 
   # 他テーブルとのアソシエーション
-  has_one_attached :image
+  mount_uploader :image, ImageUploader
   has_many :posts, dependent: :destroy
   has_many :relationships, dependent: :destroy
   has_many :followings, through: :relationships, source: :follow
@@ -28,9 +28,6 @@ class User < ApplicationRecord
   validates :description, length: { maximum: 1000, allow_blank: true }
   validates :password, presence: true,
                        length: { minimum: 8 },
-                       format: {
-                         with: VALID_PASSWORD_REGEX
-                       },
                        allow_nil: true
 
   def save_tags(tags)
@@ -61,10 +58,6 @@ class User < ApplicationRecord
     relationship&.destroy
   end
 
-  def image_url
-    image.attached? ? url_for(image) : nil
-  end
-
   # 使用頻度の高いタグをランキング付ける
   def tag_ranking
     lists = self.posts.includes(:tags) + self.liked_posts.includes(:tags) + self.events.includes(:tags) + self.event_joiner.includes(:tags)
@@ -78,12 +71,5 @@ class User < ApplicationRecord
     tags_data = tags.group_by(&:itself).map { |key, value| { name: key.name, counter: value.count } }
     tags_data = tags_data.sort { |a, b| b[:counter] <=> a[:counter] }
     tags_data.first(5)
-  end
-
-  private
-
-  # email小文字化
-  def downcase_email
-    self.email.downcase! if email
   end
 end

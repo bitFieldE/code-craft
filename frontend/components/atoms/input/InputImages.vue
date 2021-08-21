@@ -10,15 +10,15 @@
       </v-col>
       <template v-if="images.length > 0">
         <v-col
-          v-for="image in images"
-          :key="image.id"
+          v-for="postImage in postImages"
+          :key="postImage.id"
           class="text-center"
           style="min-width:100px;"
           cols="2"
         >
           <v-sheet>
             <v-img
-              :src="image.url"
+              :src="postImage.url"
               :height="100"
               cols="12"
             />
@@ -26,7 +26,7 @@
           <v-card-text>
             <v-btn
               color="error"
-              @click="delExistingImage(image.id)"
+              @click="delExistingImage(postImage.id)"
               x-small
             >
               削除
@@ -88,7 +88,7 @@ export default {
       type: Array,
       default: () => []
     },
-    images_url: {
+    images: {
       type: Array,
       default: () => []
     }
@@ -96,7 +96,7 @@ export default {
   data () {
     return {
       isEnter: false,
-      images: [],
+      postImages: [],
       showImages: []
     }
   },
@@ -111,8 +111,8 @@ export default {
     }
   },
   mounted () {
-    if (this.images_url.length > 0) {
-      this.images_url.forEach(url => this.images.push(url))
+    if (this.images.length > 0) {
+      this.images.forEach(image => this.postImages.push(image.url))
     }
   },
   methods: {
@@ -158,7 +158,7 @@ export default {
       this.inputValue.splice(index, 1)
     },
     delExistingImage (id) {
-      this.images = this.images.filter(image => image.id !== id)
+      this.postImages = this.images.filter(postImage => postImage.id !== id)
       this.$emit('deletelIds', id)
     }
   }

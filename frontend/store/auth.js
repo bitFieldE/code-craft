@@ -1,18 +1,12 @@
-export const state = () => ({
-  current: {
-    user: null
-  }
-})
-
 export const actions = {
   getCurrentUser ({ commit }, user) {
     commit('setCurrentUser', user)
   },
   async login ({ dispatch }, params) {
-    await this.$axios.$post('/api/v1/user_token', params)
+    await this.$axios.$post('/api/v1/auth/sign_in', params)
       .then(
         (response) => {
-          dispatch('authSuccessful', response)
+          dispatch('authSuccessful', response.data)
           this.$router.push('/')
         },
         (error) => {

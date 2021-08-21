@@ -7,13 +7,13 @@
           style="color: inherit; text-decoration: none;"
         >
           <v-avatar
-            v-if="comment.user.image_url"
+            v-if="comment.user.image.url"
             color="black"
             size="40"
             class="m-0"
           >
             <v-img
-              :src="comment.user.image_url"
+              :src="comment.user.image.url"
             />
           </v-avatar>
           <v-icon

@@ -17,7 +17,7 @@
             {{ post.title }}
           </v-card-title>
           <v-carousel
-            v-if="post.images_data.length > 0"
+            v-if="post.images_url.length > 0"
             :continuous="false"
             :cycle="cycle"
             :show-arrows="false"
@@ -26,7 +26,7 @@
             height="300"
           >
             <v-carousel-item
-              v-for="(image, i) in post.images_data"
+              v-for="(image, i) in post.images_url"
               :key="i"
               :src="image.url"
             />
@@ -97,13 +97,13 @@
           <v-container>
             <v-card-actions>
               <v-avatar
-                v-if="post.user.image_url"
+                v-if="post.user.image.url"
                 color="black"
                 size="40"
                 class="mr-1"
               >
                 <v-img
-                  :src="post.user.image_url"
+                  :src="post.user.image.url"
                 />
               </v-avatar>
               <v-icon
@@ -159,7 +159,7 @@
           </v-col>
           <v-col cols="12">
             <v-card-text
-              v-if="$auth.isAuthenticated()"
+              v-if="$auth.loggedIn"
               class="px-0"
             >
               <CommentArea

@@ -96,15 +96,20 @@ export default {
       this.loading = true
 
       if (isValid) {
-        if (this.image) { formData.append('user[image]', this.image) }
-        formData.append('user[name]', this.name)
-        formData.append('user[email]', this.email)
-        formData.append('user[description]', this.description)
+        if (this.image) { formData.append('image', this.image) }
+        formData.append('name', this.name)
+        formData.append('email', this.email)
+        formData.append('description', this.description)
         this.loading = true
-        await this.$axios.$patch(`/api/v1/users/${this.$auth.user.id}`, formData)
+        await this.$axios
+          .$patch('/api/v1/auth', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
           .then(
             (response) => {
-              this.$store.dispatch('getCurrentUser', response)
+              this.$store.dispatch('getCurrentUser', response.data)
               this.$store.dispatch(
                 'flash/showMessage',
                 {

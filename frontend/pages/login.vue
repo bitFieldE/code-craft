@@ -66,10 +66,8 @@ export default {
       email: '',
       password: '',
       guest: {
-        auth: {
-          email: 'guestuser@example.com',
-          password: 'guestuser'
-        }
+        email: 'guestuser@example.com',
+        password: 'guestuser'
       }
     }
   },
@@ -82,8 +80,8 @@ export default {
       const formData = new FormData()
       this.loading = true
 
-      formData.append('auth[email]', this.email)
-      formData.append('auth[password]', this.password)
+      formData.append('email', this.email)
+      formData.append('password', this.password)
 
       if (isValid) {
         this.userLogin(formData)

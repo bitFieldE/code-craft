@@ -49,6 +49,7 @@ export default {
   methods: {
     async joinEvent (eventId) {
       const formData = new FormData()
+      formData.append('join_event[user_id]', this.$auth.user.id)
       formData.append('join_event[event_id]', eventId)
       await this.$axios.$post('/api/v1/join_events', formData)
         .then(

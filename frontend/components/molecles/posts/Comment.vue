@@ -3,13 +3,13 @@
     <v-container>
       <v-card-actions>
         <v-avatar
-          v-if="comment.user.image_url"
+          v-if="comment.user.image.url"
           color="black"
           size="40"
           class="mr-1"
         >
           <v-img
-            :src="comment.user.image_url"
+            :src="comment.user.image.url"
           />
         </v-avatar>
         <v-icon

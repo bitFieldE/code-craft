@@ -28,6 +28,17 @@
             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="show = !show"
           />
+          <TextFieldWithValidation
+            v-model="password_confirmation"
+            label="パスワード確認"
+            autocomplete="on"
+            vid="password_confirmation"
+            rules="required|alpha_dash|min:8|max:72"
+            :type="show ? 'text' : 'password'"
+            outlined
+            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="show = !show"
+          />
           <v-card-text class="px-0">
             <v-btn
               :disabled="invalid || loading"
@@ -69,6 +80,7 @@ export default {
       name: '',
       email: '',
       password: '',
+      password_confirmation: '',
       loading: false,
       pageTitle: this.$t(`pages.${$route.name}`)
     }
@@ -77,17 +89,19 @@ export default {
     async signup () {
       const isValid = await this.$refs.form.validate()
       const formData = new FormData()
-      const authData = new FormData()
       this.loading = true
 
       if (isValid) {
-        formData.append('user[name]', this.name)
-        formData.append('user[email]', this.email)
-        formData.append('user[password]', this.password)
-        authData.append('auth[email]', this.email)
-        authData.append('auth[password]', this.password)
+        formData.append('name', this.name)
+        formData.append('email', this.email)
+        formData.append('password', this.password)
+        formData.append('password_confirmation', this.password_confirmation)
 
-        await this.$axios.$post('/api/v1/users', formData)
+        await this.$axios.$post('/api/v1/auth', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
           .then(
             (response) => {
               this.$store.dispatch(
@@ -99,14 +113,9 @@ export default {
                 },
                 { root: true }
               )
-              this.$axios.$post('/api/v1/user_token', authData)
-                .then(
-                  (response) => {
-                    this.$auth.login(response)
-                  }
-                )
+              console.log(response.data)
+              this.$auth.login(response.data)
               this.$router.push('/')
-              return response
             },
             (error) => {
               this.$store.dispatch(
@@ -128,7 +137,7 @@ export default {
       this.loading = false
     },
     formReset () {
-      this.params = { user: { name: '', email: '', password: '' } }
+      this.params = { name: '', email: '', password: '', password_confirmation: '' }
       this.$refs.form.reset()
     }
   }

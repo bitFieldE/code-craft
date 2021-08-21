@@ -20,7 +20,7 @@
           @click="changeAvator"
         >
           <v-img v-if="userImageURL" :src="userImageURL" />
-          <v-img v-else-if="$auth.user.image_url" :src="$auth.user.image_url" />
+          <v-img v-else-if="$auth.user.image.url" :src="$auth.user.image.url" />
           <v-icon v-else size="95">
             mdi-account-circle
           </v-icon>

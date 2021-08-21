@@ -24,7 +24,7 @@
                 />
                 <InputImages
                   v-model="images"
-                  :images_url="post.images_data"
+                  :images="post.images_url"
                   @deletelIds="deletelIdList"
                 />
                 <InputContent
@@ -45,7 +45,7 @@
                     block
                     @click="createPost"
                   >
-                    作成する
+                    更新する
                   </v-btn>
                 </v-card-text>
               </v-container>

@@ -8,8 +8,3 @@
     {{ $t('pages.signup') }}
   </v-btn>
 </template>
-
-<script>
-export default {
-}
-</script>
