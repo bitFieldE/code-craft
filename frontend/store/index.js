@@ -15,6 +15,15 @@ export const mutations = {
 }
 
 export const actions = {
+  nuxtClientInit ({ commit }) {
+    if (localStorage.getItem('vuex')) {
+      const data = JSON.parse(localStorage.getItem('vuex')) || []
+      console.log(data.current.user)
+      if (data.current.user != null) {
+        commit('setCurrentUser', data.current.user)
+      }
+    }
+  },
   login ({ commit }) {
     commit('setLoggedIn', true)
   },

@@ -24,6 +24,7 @@
     "markdown-it-mark": "^3.0.1",
     "mavon-editor": "^2.9.1",
     "nuxt": "^2.15.3",
+    "nuxt-client-init-module": "^0.3.0",
     "nuxt-i18n": "^6.22.3",
     "vee-validate": "^3.4.5",
     "vue-chartjs": "3.4.2",

@@ -56,13 +56,14 @@ class Authentication {
 
   // 有効期限内、かつユーザーが存在する場合にtrueを返す
   get loggedIn () {
-    return this.isAuthenticated() && this.isUserPresent()
+    return this.isUserPresent() && this.isAuthenticated()
   }
 
   // ログイン処理
   login ({ exp, user }) {
     this.setStorage(exp)
     this.store.dispatch('getCurrentUser', user)
+    this.store.dispatch('login')
   }
 
   // ログアウト処理
@@ -70,6 +71,7 @@ class Authentication {
     this.$axios.$delete('/api/v1/user_token')
     this.removeStorage()
     this.store.dispatch('getCurrentUser', null)
+    this.store.dispatch('logout')
   }
 }
 
