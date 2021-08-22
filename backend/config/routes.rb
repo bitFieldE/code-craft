@@ -29,7 +29,7 @@ Rails.application.routes.draw do
         get :events, on: :collection
         get :tags, on: :collection
       end
-      # ログイン・ログアウト処理
+      # ログイン/ログアウト処理
       resources :user_token, only: [:create] do
         delete :destroy, on: :collection
       end
