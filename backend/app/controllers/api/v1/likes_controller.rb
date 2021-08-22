@@ -1,7 +1,6 @@
 module Api
   module V1
     class LikesController < ApplicationController
-      # before_action :authenticate_user, only: %i[update destroy]
       before_action :set_user, only: :create
 
       def create

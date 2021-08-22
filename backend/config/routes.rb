@@ -22,9 +22,7 @@ Rails.application.routes.draw do
       resources :join_events, only: %i[create destroy]
       resources :likes, only: %i[create destroy]
       resources :comments, only: %i[create destroy]
-      resources :users, except: [:edit] do
-        get :current_user, action: :login_user, on: :collection
-      end
+      resources :users, except: :edit
       resources :search do
         get :users, on: :collection
         get :posts, on: :collection

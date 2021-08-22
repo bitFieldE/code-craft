@@ -97,6 +97,8 @@ export default {
                 },
                 { root: true }
               )
+              authData.append('auth[email]', this.email)
+              authData.append('auth[password]', this.password)
               this.$axios.$post('/api/v1/user_token', authData)
                 .then(
                   (response) => {
@@ -126,7 +128,6 @@ export default {
       this.loading = false
     },
     formReset () {
-      this.params = { user: { name: '', email: '', password: '' } }
       this.$refs.form.reset()
     }
   }
