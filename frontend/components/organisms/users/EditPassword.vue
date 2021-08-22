@@ -50,7 +50,7 @@
             class="white--text"
             @click="updatePassword"
           >
-            ゲストユーザーなので変更できまっせん
+            ゲストユーザーなので変更できません
           </v-btn>
           <v-btn
             v-else
