@@ -69,7 +69,7 @@ export default {
         )
     },
     async unFollowTag () {
-      await this.$axios.$delete(`/api/v1/tags/${this.tag.id}`)
+      await this.$axios.$delete(`/api/v1/tags/${this.tag.id}`, { data: { user_id: this.$auth.user.id } })
         .then(
           (response) => {
             this.is_followed = false
