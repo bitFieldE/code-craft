@@ -1,7 +1,6 @@
 module Api
   module V1
     class PostsController < ApplicationController
-      # before_action :authenticate_user, except: [:show]
       before_action :set_user, only: :create
       before_action :set_post, except: %i[index create]
 

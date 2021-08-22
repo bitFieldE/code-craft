@@ -1,13 +1,6 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      # before_action :authenticate_user, only: %i[update destroy]
-
-      def login_user
-        render json: current_user.as_json(include: [{ posts: { methods: :images_data } }, :tags, :followings, :followers], methods: [:image_url]),
-               status: :ok
-      end
-
       def show
         user = User.includes({ image_attachment: :blob },
                              { posts: [{ images_attachments: :blob }, { user: { image_attachment: :blob } }, :tags] },
