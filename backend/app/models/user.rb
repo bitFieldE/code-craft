@@ -20,7 +20,7 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_posts, through: :likes, source: :post
   has_many :join_events, dependent: :destroy
-  has_many :event_joiner, through: :join_events, source: :event
+  has_many :event_joins, through: :join_events, source: :event
 
   # カラムのバリデーション
   validates :name, presence: true, uniqueness: true,
@@ -67,7 +67,7 @@ class User < ApplicationRecord
 
   # 使用頻度の高いタグをランキング付ける
   def tag_ranking
-    lists = self.posts.includes(:tags) + self.liked_posts.includes(:tags) + self.events.includes(:tags) + self.event_joiner.includes(:tags)
+    lists = self.posts.includes(:tags) + self.liked_posts.includes(:tags) + self.events.includes(:tags) + self.event_joins.includes(:tags)
     tags = []
 
     lists.each do |post|
