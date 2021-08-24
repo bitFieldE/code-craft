@@ -97,13 +97,9 @@ export default {
                 },
                 { root: true }
               )
-              const requestOptions = {
-                withCredentials: true,
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-              }
               authData.append('auth[email]', this.email)
               authData.append('auth[password]', this.password)
-              this.$axios.$post('/api/v1/user_token', authData, requestOptions)
+              this.$axios.$post('/api/v1/user_token', authData)
                 .then(
                   (response) => {
                     this.$auth.login(response)

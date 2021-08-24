@@ -9,11 +9,7 @@ export const actions = {
     commit('setCurrentUser', user)
   },
   async login ({ dispatch }, params) {
-    const requestOptions = {
-      withCredentials: true,
-      headers: { 'X-Requested-With': 'XMLHttpRequest' }
-    }
-    await this.$axios.$post('/api/v1/user_token', params, requestOptions)
+    await this.$axios.$post('/api/v1/user_token', params)
       .then(
         (response) => {
           dispatch('authSuccessful', response)
