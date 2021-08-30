@@ -3,7 +3,9 @@
 最新の技術や開発ツールをレビューし関連する勉強会やイベントを催すことで、同じような技術を用いるエンジニア同士の交流を行うことを目的としたメディアアプリです。
 
 https://codecraftapp.com/
+<br>
 今回のアプリで2作品目となります。
+<br>
 [前作リポジトリ](https://github.com/RkAirforce/aic_tech)
 
 ## 技術
@@ -23,6 +25,19 @@ https://codecraftapp.com/
 |PostgreSQL13.3|データベース|
 |Rspec|テスト|
 |Rubocop|コード解析|
+
+#### インフラ周り
+
+|使用技術|詳細|
+|-|-|
+|ECS(Fargate)|APIサーバー|
+|RDS|本番環境（PostgreSQL13.3）|
+|S3|画像データを管理|
+|Route53|オリジナルドメインを登録する目的|
+|ACM(AWS Certificate Manager)|お名前.comからドメインを取得して、Route53で作成されたNSレコードをお名前.comのDNSサーバーに登録|
+|SSM(AWS System Manager)|本番環境の環境変数を管理|
+|Docker/docker-compose|docker-composeではローカルの開発環境を構築して、DockerはDockerfileを開発/本番環境それぞれ分けて作成|
+|Terraform|インフラ環境をコードで管理|
 
 #### ER図
 ![erd.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/321060/2061b851-441f-24ea-105a-45e8dcd71e0f.png)
