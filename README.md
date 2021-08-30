@@ -1,7 +1,5 @@
 # CodeCraft
----
-技術
----
+## 技術
 今回のアプリで2作品目となります。
 [前作リポジトリ](https://github.com/RkAirforce/aic_tech)
 
