@@ -15,7 +15,7 @@ https://codecraftapp.com/
 |-|-|
 |Nuxt.js 2.15.3(SPA mode)|フロントエンドフレームワーク|
 |Vuetify|UIコンポーネント|
-|Jest|テスト|
+|Jest|テスト(Vuexに値が保存されているかを確認するテスト)|
 
 #### バックエンド
 
@@ -23,16 +23,17 @@ https://codecraftapp.com/
 |-|-|
 |Rails6.1.3(API)|APIサーバー|
 |PostgreSQL13.3|データベース|
-|Rspec|テスト|
-|Rubocop|コード解析|
+|Rspec|request/model テスト|
+|Rubocop|コードを解析して、自動でリファクタリング|
+
 
 #### インフラ周り
 
 |使用技術|詳細|
 |-|-|
-|ECS(Fargate)|APIサーバー|
-|RDS|本番環境（PostgreSQL13.3）|
-|S3|画像データを管理|
+|ECS(Fargate)|Dockerコンテナ環境を構築|
+|RDS|本番環境（PostgreSQL13.3）/画像以外のデータを保存|
+|S3|ActiveStorageを用いて画像データをS3バケットに保存|
 |Route53|オリジナルドメインを登録する目的|
 |ACM(AWS Certificate Manager)|お名前.comからドメインを取得して、Route53で作成されたNSレコードをお名前.comのDNSサーバーに登録|
 |SSM(AWS System Manager)|本番環境の環境変数を管理|
