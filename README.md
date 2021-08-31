@@ -2,9 +2,15 @@
 ## アプリの詳細
 最新の技術や開発ツールをレビューし関連する勉強会やイベントを催すことで、同じような技術を用いるエンジニア同士の交流を行うことを目的としたメディアアプリです。
 
+## 詳細記事
+https://qiita.com/bitFieldE/items/31e0c5ee2a092326f014
+<br>
+<br>
 https://codecraftapp.com/
 <br>
+<br>
 今回のアプリで2作品目となります。
+<br>
 <br>
 [前作リポジトリ](https://github.com/RkAirforce/aic_tech)
 
