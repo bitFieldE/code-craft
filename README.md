@@ -4,16 +4,14 @@
 
 **詳細記事**
 <br>
-<br>
 https://qiita.com/bitFieldE/items/31e0c5ee2a092326f014
 <br>
-<br>
 **ポートフォリオ**
+<br>
 https://codecraftapp.com/
 <br>
 <br>
 今回のアプリで2作品目となります。
-<br>
 <br>
 [前作リポジトリ](https://github.com/RkAirforce/aic_tech)
 
