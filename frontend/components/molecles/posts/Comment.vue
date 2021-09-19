@@ -2,25 +2,30 @@
   <v-card>
     <v-container>
       <v-card-actions>
-        <v-avatar
-          v-if="comment.user.image_url"
-          color="black"
-          size="40"
-          class="mr-1"
+        <nuxt-link
+          :to="{ path: `/users/${comment.user.id}` }"
+          style="color: inherit; text-decoration: none;"
         >
-          <v-img
-            :src="comment.user.image_url"
-          />
-        </v-avatar>
-        <v-icon
-          v-else
-          size="40"
-        >
-          mdi-account-circle
-        </v-icon>
-        <span class="pl-2">
-          {{ comment.user.name }}
-        </span>
+          <v-avatar
+            v-if="comment.user.image_url"
+            color="black"
+            size="40"
+            class="mr-1"
+          >
+            <v-img
+              :src="comment.user.image_url"
+            />
+          </v-avatar>
+          <v-icon
+            v-else
+            size="40"
+          >
+            mdi-account-circle
+          </v-icon>
+          <span class="pl-2">
+            {{ comment.user.name }}
+          </span>
+        </nuxt-link>
       </v-card-actions>
       <v-card-text v-html="$md.render(comment.content)" />
       <v-card-subtitle class="pb-0">
