@@ -141,8 +141,6 @@
           <v-col
             v-if="comments.length > 0"
             cols="12"
-            sm="12"
-            lg="10"
           >
             <Comment
               v-for="comment in comments"

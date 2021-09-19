@@ -10,7 +10,7 @@ module Api
         cookies[token_access_key] = cookie_token
         render json: {
           exp: auth.payload[:exp],
-          user: entity.as_json(only: %i[id name email description], methods: [:image_url])
+          user: entity.as_json(only: %i[id name email description admin], methods: [:image_url])
         }
       end
 

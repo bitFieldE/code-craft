@@ -29,7 +29,7 @@ module Api
         user = User.find(params[:id])
 
         if user.update(user_params)
-          render json: user.as_json(only: %i[id name email description], methods: [:image_url]), status: :ok
+          render json: user.as_json(only: %i[id name email description admin], methods: [:image_url]), status: :ok
         else
           render json: user.errors, status: :unprocessable_entity
         end
