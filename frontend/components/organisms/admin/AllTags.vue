@@ -63,6 +63,7 @@
       </v-col>
     </v-row>
     <v-pagination
+      v-if="tags.length > 10"
       v-model="page"
       color="info"
       :length="TagsLength"

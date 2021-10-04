@@ -100,6 +100,7 @@
       </v-card>
     </template>
     <v-pagination
+      v-if="posts.length > 5"
       v-model="page"
       color="info"
       :length="LikedPostsLength"
@@ -135,7 +136,11 @@ export default {
   computed: {
     ...mapGetters({ user: 'user/user' }),
     displayLikedPosts () {
-      return this.posts.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      if (this.posts.length > 5) {
+        return this.posts.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      } else {
+        return this.posts
+      }
     },
     LikedPostsLength () {
       return Math.ceil(this.posts.length / this.pageSize)

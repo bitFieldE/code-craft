@@ -101,6 +101,7 @@
     </v-row>
     <v-card-text>
       <v-pagination
+        v-if="events.length > 6"
         v-model="page"
         color="info"
         :length="joinedEventsLength"
@@ -137,7 +138,11 @@ export default {
   },
   computed: {
     displayJoinedEvents () {
-      return this.events.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      if (this.events.length > 6) {
+        return this.events.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      } else {
+        return this.events
+      }
     },
     joinedEventsLength () {
       return Math.ceil(this.events.length / this.pageSize)

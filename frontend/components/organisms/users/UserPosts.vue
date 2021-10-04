@@ -94,6 +94,7 @@
       </v-card>
     </template>
     <v-pagination
+      v-if="posts.length > 5"
       v-model="page"
       color="info"
       :length="PostsLength"
@@ -127,7 +128,11 @@ export default {
   computed: {
     ...mapGetters({ user: 'user/user' }),
     displayPosts () {
-      return this.posts.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      if (this.posts.length > 5) {
+        return this.posts.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      } else {
+        return this.posts
+      }
     },
     PostsLength () {
       return Math.ceil(this.posts.length / this.pageSize)

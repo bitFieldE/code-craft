@@ -116,6 +116,7 @@
     </v-row>
     <v-card-text>
       <v-pagination
+        v-if="events.length > 6"
         v-model="page"
         color="info"
         :length="EventsLength"

@@ -59,6 +59,7 @@
         </v-col>
       </v-row>
       <v-pagination
+        v-if="users.length > 10"
         v-model="page"
         color="info"
         :length="UsersLength"
@@ -100,7 +101,11 @@ export default {
   },
   computed: {
     displayUsers () {
-      return this.users.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      if (this.users.length > 10) {
+        return this.users.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      } else {
+        return this.users
+      }
     },
     UsersLength () {
       return Math.ceil(this.users.length / this.pageSize)
