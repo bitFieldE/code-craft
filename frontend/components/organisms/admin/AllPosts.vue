@@ -91,6 +91,7 @@
       </v-card>
     </template>
     <v-pagination
+      v-if="posts.length > 5"
       v-model="page"
       color="info"
       :length="PostsLength"

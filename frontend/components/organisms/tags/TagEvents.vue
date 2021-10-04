@@ -106,7 +106,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-card-text>
+    <v-card-text v-if="events.length > 6">
       <v-pagination
         v-model="page"
         color="info"
@@ -143,7 +143,11 @@ export default {
   },
   computed: {
     displayEvents () {
-      return this.events.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      if (this.events.length > 6) {
+        return this.events.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      } else {
+        return this.events
+      }
     },
     EventsLength () {
       return Math.ceil(this.events.length / this.pageSize)

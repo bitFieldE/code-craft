@@ -18,7 +18,7 @@
     </template>
     <template v-else>
       <v-card
-        v-for="comment in comments"
+        v-for="comment in displayComments"
         :key="comment.id"
         class="mb-4"
       >
@@ -59,6 +59,13 @@
         </v-container>
       </v-card>
     </template>
+    <v-pagination
+      v-if="comments.length > 10"
+      v-model="page"
+      color="info"
+      :length="CommentsLength"
+      @input="pageChange"
+    />
   </div>
 </template>
 
@@ -71,7 +78,7 @@ export default {
     return {
       page: 1,
       length: 0,
-      pageSize: 5,
+      pageSize: 10,
       loading: false,
       comments: [],
       keyword: ''
@@ -87,6 +94,14 @@ export default {
         return error
       })
     this.loading = false
+  },
+  computed: {
+    displayComments () {
+      return this.comments.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+    },
+    CommentsLength () {
+      return Math.ceil(this.comments.length / this.pageSize)
+    }
   },
   methods: {
     async searchComments () {
@@ -114,6 +129,9 @@ export default {
           }
         )
     }
+  },
+  pageChange (pageNumber) {
+    this.displayComments.slice(this.pageSize * (pageNumber - 1), this.pageSize * (pageNumber))
   }
 }
 </script>

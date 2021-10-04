@@ -65,6 +65,7 @@
       </v-col>
     </v-row>
     <v-pagination
+      v-if="users.length > 10"
       v-model="page"
       color="info"
       :length="UsersLength"

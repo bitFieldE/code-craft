@@ -145,7 +145,11 @@ export default {
   },
   computed: {
     displayEvents () {
-      return this.events.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      if (this.events.length > 10) {
+        return this.events.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      } else {
+        return this.events
+      }
     },
     EventsLength () {
       return Math.ceil(this.events.length / this.pageSize)

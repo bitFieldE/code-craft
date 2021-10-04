@@ -54,6 +54,7 @@
       </v-col>
     </v-row>
     <v-pagination
+      v-if="tags.length > 10"
       v-model="page"
       color="info"
       :length="TagsLength"
@@ -88,7 +89,11 @@ export default {
   },
   computed: {
     displayTags () {
-      return this.tags.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      if (this.tags.length > 10) {
+        return this.tags.slice(this.pageSize * (this.page - 1), this.pageSize * (this.page))
+      } else {
+        return this.tags
+      }
     },
     TagsLength () {
       return Math.ceil(this.tags.length / this.pageSize)
