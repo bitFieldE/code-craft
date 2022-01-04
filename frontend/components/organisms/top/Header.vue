@@ -47,7 +47,7 @@
         {{ $t(`menus.${menu.title}`) }}
       </v-btn>
     </v-toolbar-items>
-    <template v-if="!$auth.isUserPresent()">
+    <template v-if="!$auth.loggedIn">
       <SignupBtn />
       <LoginBtn />
     </template>
