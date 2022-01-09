@@ -18,7 +18,6 @@ resource "aws_db_instance" "codecraft-db" {
   lifecycle {
     prevent_destroy = false
   }
-
 }
 
 variable "aws_db_name" {}
